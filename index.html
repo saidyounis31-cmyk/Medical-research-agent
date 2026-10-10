@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>منشئ طلب الوكيل الطبي والعلمي</title>
+<style>
+:root{--ink:#17313a;--muted:#5b7078;--line:#d6e1e4;--paper:#fff;--bg:#f3f7f7;--teal:#126b65;--teal2:#e8f5f2;--gold:#b88a3b;--warn:#fff6df;--shadow:0 12px 32px rgba(25,57,65,.08)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Tahoma,Arial,sans-serif;line-height:1.65}.wrap{max-width:1080px;margin:auto;padding:24px 16px 48px}.hero{background:linear-gradient(135deg,#113d45,#176e68);color:#fff;padding:28px;border-radius:22px;box-shadow:var(--shadow)}.eyebrow{font-size:.84rem;letter-spacing:.03em;opacity:.85}.hero h1{margin:.3rem 0 .6rem;font-size:clamp(1.6rem,4vw,2.4rem)}.hero p{margin:0;max-width:800px;color:#e4f2f0}.layout{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:18px;margin-top:18px}.panel{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:var(--shadow);min-width:0}.panel h2{font-size:1.2rem;margin:0 0 14px}.field{margin:16px 0}.field>label,.label{display:block;font-weight:700;margin-bottom:7px}.hint{font-size:.88rem;color:var(--muted);margin-top:4px}.choices{display:grid;grid-template-columns:1fr 1fr;gap:9px}.choice{display:flex;align-items:flex-start;gap:9px;border:1px solid var(--line);border-radius:12px;padding:11px;cursor:pointer;transition:.15s;background:#fff}.choice:has(input:checked){border-color:var(--teal);background:var(--teal2)}.choice input{margin-top:5px;accent-color:var(--teal);flex:0 0 auto}.choice strong{display:block;font-size:.94rem}.choice small{display:block;color:var(--muted);font-size:.8rem;line-height:1.45;margin-top:3px}select,textarea,input[type=text]{font:inherit;width:100%;padding:11px 12px;border:1px solid #bdcdd1;border-radius:10px;background:#fff;color:var(--ink)}textarea{min-height:94px;resize:vertical}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.btns{display:flex;flex-wrap:wrap;gap:9px;margin-top:14px}.btn{border:0;border-radius:11px;padding:11px 15px;font:inherit;font-weight:700;cursor:pointer}.primary{background:var(--teal);color:#fff}.secondary{background:#eaf0f1;color:var(--ink)}.gold{background:#f7eedc;color:#65491a}.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #83c9bd;outline-offset:2px}.preview{white-space:pre-wrap;overflow-wrap:anywhere;background:#f7faf9;border:1px solid var(--line);border-radius:12px;padding:14px;min-height:250px;font-size:.92rem}.status{display:inline-block;border-radius:999px;padding:4px 10px;background:var(--warn);color:#765313;font-size:.82rem;font-weight:700}.note{background:var(--warn);border:1px solid #ead8a7;border-radius:12px;padding:12px;font-size:.88rem;color:#614c1d;margin-top:14px}.smallhead{font-size:.98rem;margin:18px 0 8px}.checks{display:grid;grid-template-columns:1fr 1fr;gap:8px}.foot{color:var(--muted);font-size:.82rem;text-align:center;margin-top:20px}.counter{font-size:.85rem;color:var(--muted)}@media(max-width:760px){.layout{grid-template-columns:1fr}.wrap{padding:14px 10px 30px}.hero{padding:22px}.panel{padding:17px}.choices,.checks,.row{grid-template-columns:1fr}}
+@media print{body{background:#fff}.wrap{max-width:none;padding:0}.hero{background:#fff;color:#000;box-shadow:none;border:1px solid #aaa}.hero p{color:#222}.layout{display:block}.panel{box-shadow:none;margin-top:12px;break-inside:avoid}.form-panel,.btns,.foot{display:none!important}.preview{min-height:0}.status{border:1px solid #aaa;background:#fff;color:#000}}
+
+.module-nav{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.module-nav a{display:inline-block;padding:10px 13px;border:1px solid var(--line);border-radius:11px;background:#fff;color:var(--ink);text-decoration:none;font-weight:700}.module-nav a:hover{background:var(--teal2);border-color:var(--teal)}.module{margin-top:18px;scroll-margin-top:14px}.module-title{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.module-title h2{margin:2px 0 4px}.module-title p{margin:0 0 10px}.eyebrow.dark{color:var(--teal);opacity:1}.file-list{margin-top:8px;padding:9px 11px;background:#f7faf9;border:1px dashed var(--line);border-radius:10px;font-size:.86rem;white-space:pre-wrap;overflow-wrap:anywhere}.video-wrap{margin:12px 0;min-height:90px;border:1px dashed var(--line);border-radius:12px;padding:12px;background:#f7faf9}.video-wrap iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:8px}.module .preview{min-height:150px}.module input[type=file]{font:inherit;max-width:100%}.module .note{margin-bottom:0}@media(max-width:760px){.module-title{display:block}.module-title .status{margin:6px 0;display:inline-block}.module-nav a{flex:1;text-align:center;font-size:.88rem}}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+  <div class="eyebrow">الوكيل الطبي والعلمي • إصدار تجريبي 2.0</div>
+  <h1>منشئ طلب الوكيل الطبي والعلمي</h1>
+  <p>واجهة أولية متصلة بمحرك ذكاء اصطناعي عند تشغيل الخادم وضبط مفتاح API. لا تُدخل بيانات تعريفية أو معلومات مرضى حساسة؛ راجع المخرجات علميًا ولا تستخدمها بديلًا عن الطبيب المختص.</p>
+</header>
+<nav class="module-nav" aria-label="وحدات الوكيل">
+  <a href="#builder">منشئ الطلبات</a><a href="#clinical-lab">🧠 العصف الذهني الطبي</a><a href="#imaging-lab">🩻 مختبر التصوير</a><a href="#lecture-lab">▶ المحاضرات الطبية</a>
+</nav>
+<div class="layout" id="builder">
+<section class="panel form-panel">
+  <h2>١. إعداد الطلب</h2>
+  <div class="field">
+    <span class="label">القوالب — اختر واحداً أو أكثر</span>
+    <div class="choices" id="templates">
+      <label class="choice"><input type="checkbox" value="مونوغراف نبات طبي" checked><span><strong>مونوغراف نبات طبي</strong><small>الهوية النباتية والكيمياء والاستعمالات والسلامة.</small></span></label>
+      <label class="choice"><input type="checkbox" value="مراجعة الأدلة العلمية" checked><span><strong>مراجعة الأدلة العلمية</strong><small>الدراسات، قوة الدليل، النتائج والقيود.</small></span></label>
+      <label class="choice"><input type="checkbox" value="تحليل دراسة علمية"><span><strong>تحليل دراسة علمية</strong><small>التصميم والمنهجية والنتائج والانحياز.</small></span></label>
+      <label class="choice"><input type="checkbox" value="التداخلات والسلامة"><span><strong>التداخلات والسلامة</strong><small>التداخلات وموانع الاستعمال والفئات الخاصة.</small></span></label>
+      <label class="choice"><input type="checkbox" value="التركيب الكيميائي والآليات"><span><strong>التركيب الكيميائي والآليات</strong><small>المركبات وآليات التأثير ودرجة إثباتها.</small></span></label>
+      <label class="choice"><input type="checkbox" value="إنفوغرافيك طبي"><span><strong>إنفوغرافيك طبي</strong><small>خطة محتوى بصري مبنية على معلومات مدققة.</small></span></label>
+      <label class="choice"><input type="checkbox" value="جدول مقارنة"><span><strong>جدول مقارنة</strong><small>مقارنة منظمة بين الدراسات أو المستحضرات.</small></span></label>
+      <label class="choice"><input type="checkbox" value="ترجمة علمية مدققة"><span><strong>ترجمة علمية مدققة</strong><small>ترجمة أمينة ومراجعة لغوية واصطلاحية.</small></span></label>
+    </div>
+    <div class="hint">يمكن دمج القوالب في تقرير موحّد أو إخراج كل قالب في قسم مستقل.</div>
+  </div>
+  <div class="row">
+    <div class="field"><label for="language">لغة المخرجات</label><select id="language"><option selected>العربية الفصحى</option><option>الإنجليزية العلمية</option><option>العبرية</option><option>نسخة متعددة اللغات</option></select></div>
+    <div class="field"><label for="detail">مستوى التفصيل</label><select id="detail"><option>مختصر ومباشر</option><option selected>جامعي متقدم</option><option>بحثي متخصص وموسع</option></select></div>
+  </div>
+  <div class="field"><label for="citation">التوثيق</label><select id="citation"><option>المراجع الأساسية</option><option selected>موثق مع حالة التحقق</option><option>توثيق نقدي موسع مع تقييم جودة الأدلة</option></select><div class="hint">حالة المرجع يجب أن تصف ما تم فعلياً: لم يُتحقق، فُحصت بيانات الفهرسة، روجع المحتوى، أو تم التحقق من الادعاء في النص الكامل.</div></div>
+  <div class="field"><span class="label">صيغ الإخراج المطلوبة — يمكن اختيار عدة صيغ</span><div class="checks">
+    <label class="choice"><input type="checkbox" value="عرض داخل الواجهة" checked><span><strong>Screen</strong><small>عرض منظم على الشاشة</small></span></label>
+    <label class="choice"><input type="checkbox" value="Word"><span><strong>Word</strong><small>مستند قابل للتحرير</small></span></label>
+    <label class="choice"><input type="checkbox" value="PDF"><span><strong>PDF</strong><small>نسخة جاهزة للطباعة</small></span></label>
+    <label class="choice"><input type="checkbox" value="جدول قابل للتحرير"><span><strong>Table</strong><small>جدول قابل للتحرير</small></span></label>
+    <label class="choice"><input type="checkbox" value="صورة أو إنفوغرافيك"><span><strong>Image</strong><small>تصميم بصري أو إنفوغرافيك</small></span></label>
+  </div></div>
+  <div class="field"><label for="topic">موضوع النبات أو السؤال العلمي</label><input id="topic" type="text" placeholder="مثال: Nigella sativa — الحبة السوداء"></div>
+  <div class="field"><label for="question">السؤال أو التعليمات الإضافية (اختياري)</label><textarea id="question" placeholder="اكتب السؤال السريري أو نطاق المراجعة أو شروطاً إضافية..."></textarea></div>
+  <div class="field"><label for="signature">التوقيع على العمل الأصلي (اختياري)</label><input id="signature" type="text" value="إعداد وتصميم سعيد يونس — saidy4613@gmail.com"><div class="hint">لا يُضاف التوقيع إلى أعمال الآخرين بما يوحي بتأليفها.</div></div>
+  <div class="btns"><button class="btn primary" id="build">إنشاء نص الطلب</button><button class="btn secondary" id="reset">إعادة ضبط</button></div>
+</section>
+<section class="panel">
+  <h2>٢. نص الطلب الناتج</h2>
+  <span class="status" id="state">مسودة طلب — لم تُنشأ الملفات</span>
+  <p class="hint">انسخ النص الناتج إلى الوكيل العلمي أو احتفظ به كتعليمات للمهمة. اختيار صيغة لا يعني أن ملفها قد أُنشئ.</p>
+  <div id="preview" class="preview" aria-live="polite">اضغط «إنشاء نص الطلب» لتجميع اختياراتك في تعليمات موحدة.</div>
+  <div class="btns"><button class="btn primary" id="copy">نسخ نص الطلب</button><button class="btn secondary" id="download">تنزيل نص الطلب TXT</button><button class="btn secondary" id="print">طباعة / حفظ كـ PDF</button></div>
+  <h3 class="smallhead">٣. قائمة التحقق قبل التسليم</h3>
+  <div id="deliverables" class="preview">ستظهر هنا قائمة بالمخرجات المطلوبة وحالة إنجاز كل منها.</div>
+  <div class="note"><strong>ضمان النزاهة العلمية:</strong> لا تختلق مراجع أو DOI أو PMID أو نتائج أو جرعات. ميّز بين الأدلة البشرية والمخبرية والحيوانية والاستخدام التقليدي. وضّح ما لم يتم التحقق منه. لا تضع علامة «مكتمل» على ملف إلا بعد إنشائه فعلياً وفحصه.</div>
+</section>
+</div>
+
+<section class="module panel" id="clinical-lab">
+  <div class="module-title"><div><div class="eyebrow dark">الوحدة السريرية • نموذج أولي</div><h2>🧠 العصف الذهني الطبي والبحث العلاجي العميق</h2><p class="hint">استقبال منظم للحالة، وأسئلة تكيفية مبدئية، وتجميع معلومات لإعداد طلب تحليل سريري. هذه الواجهة لا تشخّص ولا تتصل بمحرك طبي خارجي.</p></div><span class="status">واجهة محلية</span></div>
+  <div class="row">
+    <div class="field"><label for="clinicalAge">الفئة العمرية</label><select id="clinicalAge"><option>بالغ</option><option>طفل أو مراهق</option><option>كبير السن</option><option>حمل أو رضاعة (إن كان ذا صلة)</option></select></div>
+    <div class="field"><label for="clinicalSetting">مكان الرعاية</label><select id="clinicalSetting"><option>عيادة خارجية</option><option>مستشفى</option><option>قسم الطوارئ</option><option>حالة تعليمية/بحثية</option></select></div>
+  </div>
+  <div class="field"><label for="chiefComplaint">الشكوى الرئيسية</label><input id="chiefComplaint" type="text" placeholder="مثال: تعب مستمر، ألم، دوخة..." /></div>
+  <div class="row">
+    <div class="field"><label for="symptomDuration">مدة الأعراض</label><select id="symptomDuration"><option>بداية مفاجئة / ساعات</option><option>أيام</option><option selected>أسابيع</option><option>أشهر أو سنوات</option><option>نوبات متكررة</option></select></div>
+    <div class="field"><label for="clinicalGoal">هدف التحليل</label><select id="clinicalGoal"><option>توسيع الاحتمالات التشخيصية</option><option>مراجعة تشخيص قائم</option><option>بحث خيارات علاجية</option><option>حالة لم تستجب للعلاج</option><option>مقارنة الطب السريري والتكميلي</option></select></div>
+  </div>
+  <div class="field"><label for="symptoms">الأعراض وتطورها والفحص السريري</label><textarea id="symptoms" placeholder="البداية، الشدة، الأعراض المصاحبة، ما يحسن أو يفاقم الأعراض، الفحص السريري..."></textarea></div>
+  <div class="field"><label for="historyMeds">التاريخ المرضي والأدوية والمكملات والحساسية</label><textarea id="historyMeds" placeholder="الأمراض السابقة، الأدوية والجرعات إن عُرفت، الأعشاب والمكملات، الحساسية، العلاجات السابقة..."></textarea></div>
+  <div class="field"><label for="labValues">نتائج المختبر (القيم والوحدات والتاريخ والمدى المرجعي)</label><textarea id="labValues" placeholder="أدخل النتائج نصيًا إن رغبت. لا تخمّن القيم أو الوحدات المفقودة."></textarea></div>
+  <div class="field"><label for="clinicalFiles">إرفاق تقارير أو نتائج ذات صلة (اختياري)</label><input id="clinicalFiles" type="file" multiple accept=".pdf,.png,.jpg,.jpeg,.txt,.csv,.doc,.docx,.xlsx" /><div class="hint">النموذج يعرض أسماء الملفات محليًا فقط؛ لا يرفعها ولا يحلل محتواها. أزل بيانات الهوية قبل مشاركة الملفات مع أي خدمة خارجية.</div><div id="clinicalFileList" class="file-list">لم تُحدّد ملفات.</div></div>
+  <div class="field"><span class="label">علامات تستوجب عدم تأخير الرعاية</span><div class="checks"><label class="choice"><input type="checkbox" class="redflag" value="ألم صدر شديد"><span>ألم صدر شديد</span></label><label class="choice"><input type="checkbox" class="redflag" value="صعوبة تنفس حادة"><span>صعوبة تنفس حادة</span></label><label class="choice"><input type="checkbox" class="redflag" value="ضعف مفاجئ أو اضطراب كلام"><span>ضعف مفاجئ أو اضطراب كلام</span></label><label class="choice"><input type="checkbox" class="redflag" value="اضطراب وعي أو إغماء"><span>اضطراب وعي أو إغماء</span></label></div><p class="hint">إذا كانت أي علامة موجودة فعليًا، اطلب التقييم العاجل المناسب ولا تنتظر إكمال النموذج أو البحث.</p></div>
+  <div class="btns"><button class="btn primary" id="buildClinical">إنشاء ملخص الحالة وطلب البحث</button><button class="btn secondary" id="clearClinical">مسح الحقول</button><button class="btn secondary" id="copyClinical">نسخ الملخص</button><button class="btn secondary" id="downloadClinical">تنزيل TXT</button></div>
+  <h3 class="smallhead">ملخص الحالة / الطلب المنظم</h3><div id="clinicalOutput" class="preview" aria-live="polite">أدخل المعلومات ثم اختر «إنشاء ملخص الحالة وطلب البحث».</div>
+</section>
+<section class="module panel" id="imaging-lab">
+  <div class="module-title"><div><div class="eyebrow dark">وحدة التصوير الطبي • نموذج أولي</div><h2>🩻 مختبر التصوير الطبي ومقارنة التقارير</h2><p class="hint">يُنظم ملفات الصور وتقرير اختصاصي الأشعة والملاحظات المساعدة في نموذج للمراجعة. لا تُجرى قراءة تصويرية آلية في هذه النسخة.</p></div><span class="status">لا يوجد تحليل صور آلي</span></div>
+  <div class="row"><div class="field"><label for="imagingType">نوع الفحص</label><select id="imagingType"><option>X-ray — أشعة سينية</option><option>MRI — رنين مغناطيسي</option><option>MRA — تصوير الأوعية بالرنين</option><option>CT — تصوير مقطعي</option><option>CTA — تصوير الأوعية المقطعي</option><option>Ultrasound — ألتراساوند</option><option>Doppler — دوبلر</option><option>فحص آخر</option></select></div><div class="field"><label for="imagingRegion">منطقة الجسم / الجهة</label><input id="imagingRegion" type="text" placeholder="مثال: الدماغ، الشريان السباتي الأيمن..." /></div></div>
+  <div class="row"><div class="field"><label for="imagingDate">تاريخ الفحص (إن عُرف)</label><input id="imagingDate" type="date" /></div><div class="field"><label for="imagingFormat">نوع المادة المرفقة</label><select id="imagingFormat"><option>صور منتقاة / لقطات</option><option>تقرير اختصاصي الأشعة</option><option>صور وتقرير معًا</option><option>دراسة DICOM عبر نظام متوافق</option></select></div></div>
+  <div class="field"><label for="imagingFiles">إرفاق صور أو تقرير تصوير</label><input id="imagingFiles" type="file" multiple accept="image/*,.pdf,.dcm,.dicom,.zip" /><div class="hint">تُعرض أسماء الملفات محليًا فقط. ملفات DICOM والدراسات متعددة المقاطع تحتاج قارئًا وخدمة متخصصة غير موصولين بهذه النسخة.</div><div id="imagingFileList" class="file-list">لم تُحدّد ملفات.</div></div>
+  <div class="field"><label for="radiologistReport">تقرير اختصاصي الأشعة الأصلي</label><textarea id="radiologistReport" placeholder="ألصق نص التقرير كما ورد، بما فيه النتائج والانطباع والتوصيات..."></textarea></div>
+  <div class="field"><label for="aiObservations">ملاحظات قراءة مساعدة / مخرجات نظام تصوير خارجي (إن وجدت)</label><textarea id="aiObservations" placeholder="أدخل مخرجات نظام موثوق أو ملاحظات تمت مراجعتها. لا تكتب أن الوكيل قرأ الصور إذا لم يحدث ذلك."></textarea></div>
+  <div class="field"><label for="clinicalContextImaging">السياق السريري والسؤال المطلوب مراجعته</label><textarea id="clinicalContextImaging" placeholder="الأعراض، سبب طلب الفحص، المقارنة بفحوصات سابقة، والسؤال المحدد..."></textarea></div>
+  <div class="btns"><button class="btn primary" id="buildImaging">إنشاء مسودة مقارنة</button><button class="btn secondary" id="copyImaging">نسخ المسودة</button><button class="btn secondary" id="downloadImaging">تنزيل TXT</button></div>
+  <div id="imagingOutput" class="preview" aria-live="polite">تُنشأ هنا مسودة مقارنة بين الملاحظات المدخلة وتقرير اختصاصي الأشعة.</div>
+  <div class="note"><strong>تنبيه:</strong> لا تعتبر هذه المسودة قراءة ثانية طبية أو تشخيصًا. أي اختلاف مهم أو احتمال نتيجة حرجة يتطلب مسار المراجعة السريرية المناسب؛ لا تؤخر الرعاية العاجلة لإكمال المقارنة.</div>
+</section>
+<section class="module panel" id="lecture-lab">
+  <div class="module-title"><div><div class="eyebrow dark">المعرفة المستمدة من المحاضرات</div><h2>▶ مراجعة المحاضرات الطبية والعلمية</h2><p class="hint">إدخال رابط محاضرة، وفتحها، ثم تجهيز طلب لتحليل نصها أو تفريغها. لا يتم استخراج نص YouTube تلقائيًا في هذه النسخة.</p></div><span class="status">تحليل النص يدويًا/بالتكامل</span></div>
+  <div class="field"><label for="lectureUrl">رابط المحاضرة</label><input id="lectureUrl" type="text" placeholder="https://www.youtube.com/watch?v=..." /></div>
+  <div class="btns"><button class="btn secondary" id="openLecture">فتح المحاضرة</button><button class="btn secondary" id="embedLecture">عرض مشغل إن أمكن</button></div><div id="lectureEmbed" class="video-wrap">أدخل رابط YouTube صالحًا لعرض المشغل إذا سمحت إعدادات الفيديو بالتضمين.</div>
+  <div class="field"><label for="lectureTranscript">نص المحاضرة / التفريغ النصي المتاح</label><textarea id="lectureTranscript" placeholder="ألصق النص أو التفريغ المتاح من المحاضرة..."></textarea></div>
+  <div class="field"><label for="lectureTasks">ماذا تريد من الوكيل؟</label><div class="checks"><label class="choice"><input type="checkbox" class="lectureTask" value="تلخيص علمي منظم" checked><span>تلخيص علمي</span></label><label class="choice"><input type="checkbox" class="lectureTask" value="التحقق من الادعاءات الطبية" checked><span>التحقق من الادعاءات</span></label><label class="choice"><input type="checkbox" class="lectureTask" value="استخراج المراجع والتحقق منها" checked><span>المراجع</span></label><label class="choice"><input type="checkbox" class="lectureTask" value="تقسيم المحاضرة إلى موضوعات وتوقيتات"><span>الموضوعات والتوقيتات</span></label></div></div>
+  <div class="btns"><button class="btn primary" id="buildLecture">إنشاء طلب تحليل المحاضرة</button><button class="btn secondary" id="copyLecture">نسخ الطلب</button><button class="btn secondary" id="downloadLecture">تنزيل TXT</button></div><div id="lectureOutput" class="preview" aria-live="polite">سيظهر طلب التحليل هنا.</div>
+</section>
+<div class="foot">نموذج محلي مستقل يعمل في المتصفح. لا يرسل البيانات إلى خادم ولا ينفّذ بحثاً علمياً آلياً. وظائف إنشاء Word وPDF وصورة نهائية تحتاج إلى مرحلة إنتاج واختبار منفصلة.</div>
+</div>
+<script>
+const $=s=>document.querySelector(s); const $$=s=>Array.from(document.querySelectorAll(s));
+function selected(group){return $$(group+' input[type="checkbox"]:checked').map(x=>x.value)}
+function makeRequest(){
+ const templates=selected('#templates'), formats=selected('.checks');
+ if(!templates.length){alert('اختر قالباً واحداً على الأقل.');return null}
+ if(!formats.length){alert('اختر صيغة إخراج واحدة على الأقل.');return null}
+ const topic=$('#topic').value.trim()||'يُحدَّد موضوع البحث قبل التنفيذ';
+ const question=$('#question').value.trim()||'لا توجد تعليمات إضافية.';
+ const signature=$('#signature').value.trim();
+ const lines=[
+ 'طلب إلى الوكيل الطبي والعلمي المتكامل',
+ 'الموضوع: '+topic,
+ 'القوالب المختارة: '+templates.join('؛ '),
+ 'لغة المخرجات: '+$('#language').value,
+ 'مستوى التفصيل: '+$('#detail').value,
+ 'التوثيق: '+$('#citation').value,
+ 'صيغ الإخراج المطلوبة: '+formats.join('؛ '),
+ '',
+ 'المهمة:',
+ 'أنجز القوالب المحددة بصورة منفردة أو مدمجة وفق طبيعة الموضوع. تجنب تكرار المعلومات المشتركة، واجعل كل قسم واضحاً. ابدأ بتحديد السؤال والنطاق، ثم ابحث عن المصادر المناسبة وتحقق من بياناتها ومحتواها قبل الاستشهاد بها.',
+ '',
+ 'متطلبات الدقة والتوثيق:',
+ '1. لا تختلق مراجع أو مؤلفين أو عناوين أو DOI/PMID أو أرقاماً أو جرعات أو روابط.',
+ '2. ميّز بين الاستخدام التقليدي والدليل المخبري والحيواني والبشري والإرشادات السريرية.',
+ '3. اربط الادعاءات العلمية المهمة بمراجع تدعمها فعلاً، وبيّن حالة التحقق لكل مرجع.',
+ '4. اذكر القيود والنتائج المتعارضة ومستوى عدم اليقين، ولا تحول الارتباط إلى سببية.',
+ '5. في مونوغراف النبات، اذكر الاسم العلمي والفصيلة والجزء المستخدم ونوع المستحضر والتركيب والاستخدامات والأدلة والجرعات المدروسة والسلامة والتداخلات والفئات الخاصة، بحسب توفر البيانات.',
+ '6. لا تعمم نتائج مستحضر على مستحضر آخر، ولا تحول النتائج قبل السريرية إلى توصية علاجية بشرية.',
+ '7. راجع اللغة العربية الفصحى والمصطلحات والأرقام والوحدات قبل التسليم.',
+ '8. صرّح بوضوح بأي مصدر لم يُفتح أو معلومة لم يتم التحقق منها.',
+ '',
+ 'تعليمات الإخراج:',
+ 'أنشئ قائمة مستقلة لكل صيغة مطلوبة. لا تدّعِ إنشاء Word أو PDF أو جدول أو صورة إلا بعد إنتاج الملف فعلياً والتحقق من وجوده وقابليته للفتح. إذا لم تتوفر أداة إنتاج إحدى الصيغ، فاذكر ذلك بوضوح وقدّم البديل النصي الممكن دون ادعاء الإنجاز.',
+ '',
+ 'السؤال أو التعليمات الإضافية:', question,
+ signature ? '\nالتوقيع المطلوب للعمل الأصلي فقط:\n'+signature : '',
+ '\nحالة التنفيذ عند إعداد هذا الطلب: طلب مُعدّ؛ لم تُنشأ ملفات الإخراج بعد.'
+ ].filter(Boolean);
+ return {text:lines.join('\n'),formats,templates};
+}
+function render(){const data=makeRequest();if(!data)return;$('#preview').textContent=data.text;$('#state').textContent='مسودة طلب — لم تُنشأ الملفات';$('#deliverables').textContent=data.formats.map(x=>'□ '+x+' — الحالة: مطلوب؛ لم يُنشأ بعد').join('\n')+'\n\n□ التحقق من المراجع — لم يبدأ في هذه الأداة\n□ مراجعة علمية ولغوية — تُجرى بعد إعداد المحتوى';}
+$('#build').addEventListener('click',render);
+$('#copy').addEventListener('click',async()=>{if($('#preview').textContent.startsWith('اضغط'))render();const t=$('#preview').textContent;try{await navigator.clipboard.writeText(t);$('#copy').textContent='تم النسخ';setTimeout(()=>$('#copy').textContent='نسخ نص الطلب',1500)}catch(e){const r=document.createElement('textarea');r.value=t;document.body.appendChild(r);r.select();const ok=document.execCommand('copy');r.remove();alert(ok?'تم نسخ النص.':'تعذر النسخ تلقائياً؛ حدد النص وانسخه يدوياً.')}});
+$('#download').addEventListener('click',()=>{if($('#preview').textContent.startsWith('اضغط'))render();const blob=new Blob(['\ufeff'+$('#preview').textContent],{type:'text/plain;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='medical_scientific_agent_request.txt';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url)});
+$('#print').addEventListener('click',()=>{if($('#preview').textContent.startsWith('اضغط'))render();window.print()});
+$('#reset').addEventListener('click',()=>{if(!confirm('هل تريد إعادة ضبط الاختيارات؟'))return;$$('#templates input').forEach((x,i)=>x.checked=i<2);$$('.checks input').forEach(x=>x.checked=x.value==='عرض داخل الواجهة');$('#language').value='العربية الفصحى';$('#detail').value='جامعي متقدم';$('#citation').value='موثق مع حالة التحقق';$('#topic').value='';$('#question').value='';$('#signature').value='إعداد وتصميم سعيد يونس — saidy4613@gmail.com';$('#preview').textContent='اضغط «إنشاء نص الطلب» لتجميع اختياراتك في تعليمات موحدة.';$('#deliverables').textContent='ستظهر هنا قائمة بالمخرجات المطلوبة وحالة إنجاز كل منها.';$('#state').textContent='مسودة طلب — لم تُنشأ الملفات'});
+
+function fileNames(inputId,outId){const input=document.getElementById(inputId),out=document.getElementById(outId);if(!input||!out)return;const files=Array.from(input.files||[]);out.textContent=files.length?files.map(f=>`• ${f.name} — ${(f.size/1024).toFixed(1)} KB`).join('\n'):'لم تُحدّد ملفات.'}
+['clinicalFiles','imagingFiles'].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener('change',()=>fileNames(id,id==='clinicalFiles'?'clinicalFileList':'imagingFileList'))});
+function makeClinicalText(){const flags=Array.from(document.querySelectorAll('.redflag:checked')).map(x=>x.value);const files=Array.from(document.getElementById('clinicalFiles').files||[]).map(f=>f.name);return [
+'طلب تحليل سريري منظم — الوكيل الطبي والعلمي','حالة: نموذج مساعدة في التفكير السريري، وليس تشخيصًا نهائيًا.','الفئة العمرية: '+document.getElementById('clinicalAge').value,'مكان الرعاية: '+document.getElementById('clinicalSetting').value,'الشكوى الرئيسية: '+(document.getElementById('chiefComplaint').value.trim()||'غير محددة'),'مدة الأعراض: '+document.getElementById('symptomDuration').value,'هدف التحليل: '+document.getElementById('clinicalGoal').value,'الأعراض والفحص: '+(document.getElementById('symptoms').value.trim()||'لم تُقدّم'),'التاريخ المرضي والأدوية والحساسية: '+(document.getElementById('historyMeds').value.trim()||'لم تُقدّم'),'النتائج المخبرية: '+(document.getElementById('labValues').value.trim()||'لم تُقدّم'),'الملفات المحددة (أسماء فقط؛ لم يُقرأ محتواها): '+(files.join('؛ ')||'لا توجد'),'علامات إنذار محددة في النموذج: '+(flags.join('؛ ')||'لم يحدد المستخدم علامات من القائمة؛ هذا لا ينفي وجودها.'),'','المطلوب من المحرك عند ربطه فعليًا:','1. ابدأ بفرز علامات الخطر ولا تؤخر الرعاية العاجلة.','2. حدّد المعلومات الناقصة الأكثر تأثيرًا واطرح أسئلة تكيفية قصيرة بخيارات واضحة و«أخرى/لا أعرف».','3. لا تستنتج تشخيصًا من نتائج منفردة؛ راعِ التاريخ والتوقيت والوحدات والمدى المرجعي.','4. اعرض الاحتمالات مع الأدلة المؤيدة والمعارضة وما قد يميّز بينها، دون اختلاق درجات احتمالية.','5. ابحث في إرشادات ومراجعات ودراسات مناسبة، واربط الادعاءات بمراجع قابلة للتحقق مع توضيح القيود.','6. راجع الأدوية والتداخلات والسلامة عند صلتها بالسؤال.','7. اذكر بوضوح ما لم يُقرأ أو لم يتم التحقق منه.','8. لا تدّعِ أن الملفات المرفقة قُرئت؛ الأسماء أعلاه لا تعني أن محتواها متاح للمحلل.'].join('\n')}
+function downloadText(text,filename){const blob=new Blob(['\ufeff'+text],{type:'text/plain;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+function copyText(text){if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(()=>alert('تم النسخ.')).catch(()=>fallbackCopy(text))}else fallbackCopy(text)}function fallbackCopy(text){const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();const ok=document.execCommand('copy');ta.remove();alert(ok?'تم النسخ.':'تعذر النسخ؛ حدد النص وانسخه يدويًا.')}
+document.getElementById('buildClinical').addEventListener('click',()=>{document.getElementById('clinicalOutput').textContent=makeClinicalText()});document.getElementById('copyClinical').addEventListener('click',()=>copyText(document.getElementById('clinicalOutput').textContent));document.getElementById('downloadClinical').addEventListener('click',()=>downloadText(document.getElementById('clinicalOutput').textContent,'clinical_brainstorm_request.txt'));document.getElementById('clearClinical').addEventListener('click',()=>{['chiefComplaint','symptoms','historyMeds','labValues'].forEach(id=>document.getElementById(id).value='');document.getElementById('clinicalFiles').value='';fileNames('clinicalFiles','clinicalFileList');document.querySelectorAll('.redflag').forEach(x=>x.checked=false);document.getElementById('clinicalOutput').textContent='أدخل المعلومات ثم اختر «إنشاء ملخص الحالة وطلب البحث».'});
+function makeImagingText(){const files=Array.from(document.getElementById('imagingFiles').files||[]).map(f=>f.name);return ['طلب مقارنة تصوير طبي — مسودة للمراجعة البشرية','نوع الفحص: '+document.getElementById('imagingType').value,'المنطقة/الجهة: '+(document.getElementById('imagingRegion').value.trim()||'غير محددة'),'تاريخ الفحص: '+(document.getElementById('imagingDate').value||'غير محدد'),'نوع المرفقات: '+document.getElementById('imagingFormat').value,'أسماء الملفات فقط (لم تُحلّل): '+(files.join('؛ ')||'لا توجد ملفات'),'السياق السريري: '+(document.getElementById('clinicalContextImaging').value.trim()||'لم يُقدّم'),'تقرير اختصاصي الأشعة الأصلي:\n'+(document.getElementById('radiologistReport').value.trim()||'لم يُقدّم'),'ملاحظات قراءة مساعدة مدخلة يدويًا/من أداة خارجية:\n'+(document.getElementById('aiObservations').value.trim()||'لم تُقدّم'),'','تعليمات المقارنة عند توفر خدمة تصوير متخصصة:','1. لا تدّعِ قراءة الصور إذا لم تتم معالجتها فعليًا بواسطة أداة مناسبة.','2. افصل القراءة المساعدة الأولية عن تقرير اختصاصي الأشعة متى أمكن لتقليل الانحياز.','3. قارن كل ملاحظة بمصدرها، وحدد الاتفاق والاختلاف والبيانات غير القابلة للمقارنة.','4. لا تصدر حكمًا تلقائيًا بأن أحد الطرفين مخطئ؛ اشرح القيود واطلب مراجعة اختصاصية عند الاختلاف المهم.','5. لا تؤخر الرعاية العاجلة إذا كان هناك احتمال نتيجة حرجة.','6. سجّل الأداة والإصدار وحدود الأداء والمراجع المستخدمة.','7. هذه المسودة ليست تشخيصًا ولا تقرير أشعة معتمدًا.'].join('\n')}
+document.getElementById('buildImaging').addEventListener('click',()=>document.getElementById('imagingOutput').textContent=makeImagingText());document.getElementById('copyImaging').addEventListener('click',()=>copyText(document.getElementById('imagingOutput').textContent));document.getElementById('downloadImaging').addEventListener('click',()=>downloadText(document.getElementById('imagingOutput').textContent,'imaging_comparison_request.txt'));
+function youtubeId(raw){try{const u=new URL(raw);if(u.hostname==='youtu.be')return u.pathname.slice(1).split('/')[0];if(u.hostname.endsWith('youtube.com')){if(u.pathname==='/watch')return u.searchParams.get('v');const m=u.pathname.match(/^\/(embed|shorts|live)\/([^/?]+)/);return m?m[2]:null}}catch(e){}return null}
+document.getElementById('openLecture').addEventListener('click',()=>{const raw=document.getElementById('lectureUrl').value.trim();const id=youtubeId(raw);if(!id){alert('أدخل رابط YouTube صالحًا.');return}window.open('https://www.youtube.com/watch?v='+encodeURIComponent(id),'_blank','noopener')});document.getElementById('embedLecture').addEventListener('click',()=>{const id=youtubeId(document.getElementById('lectureUrl').value.trim());const box=document.getElementById('lectureEmbed');if(!id){box.textContent='الرابط غير معروف أو غير صالح.';return}box.textContent='';const iframe=document.createElement('iframe');iframe.src='https://www.youtube-nocookie.com/embed/'+encodeURIComponent(id);iframe.title='مشغل محاضرة YouTube';iframe.loading='lazy';iframe.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';iframe.allowFullscreen=true;box.appendChild(iframe)});
+function makeLectureText(){const tasks=Array.from(document.querySelectorAll('.lectureTask:checked')).map(x=>x.value);return ['طلب تحليل محاضرة طبية/علمية','رابط المحاضرة: '+(document.getElementById('lectureUrl').value.trim()||'لم يُقدّم'),'المهام المطلوبة: '+(tasks.join('؛ ')||'لم تحدد'),'نص المحاضرة المتاح:',''+(document.getElementById('lectureTranscript').value.trim()||'لا يوجد نص مرفق؛ يجب الحصول على تفريغ قبل الادعاء بتحليل المحتوى.'),'','التعليمات:','1. افصل ما يقوله المحاضر عن التقييم العلمي المستقل.','2. لا تختلق نصًا أو توقيتات أو مراجع غير متاحة.','3. تحقق من الادعاءات الطبية المهمة عبر مصادر أصلية وإرشادات موثوقة.','4. ميّز بين الأدلة البشرية والقبل سريرية والرأي الشخصي.','5. سجّل الروابط وحالة التحقق من كل مرجع، واذكر ما تعذر التحقق منه.','6. لا تدّعِ أن نص الفيديو استُخرج آليًا؛ النص أعلاه هو فقط ما أُدخل في هذه الواجهة.'].join('\n')}
+document.getElementById('buildLecture').addEventListener('click',()=>document.getElementById('lectureOutput').textContent=makeLectureText());document.getElementById('copyLecture').addEventListener('click',()=>copyText(document.getElementById('lectureOutput').textContent));document.getElementById('downloadLecture').addEventListener('click',()=>downloadText(document.getElementById('lectureOutput').textContent,'lecture_analysis_request.txt'));
+
+</script>
+
+<script>
+// Backend bridge for the three specialist modules. The API key stays on the server.
+(function(){
+ const style = document.createElement('style');
+ style.textContent = '.engine-bar{margin:12px 0;padding:12px;border:1px solid #b9d9d3;border-radius:12px;background:#eef8f5}.engine-bar button{border:0;border-radius:9px;padding:10px 13px;background:#126b65;color:#fff;font:inherit;font-weight:700;cursor:pointer}.engine-bar .engine-status{display:block;margin-top:8px;font-size:.88rem;color:#425b60}.engine-bar button:disabled{opacity:.6;cursor:wait}';
+ document.head.appendChild(style);
+ const configs = [
+  {id:'clinical-lab', button:'تحليل الحالة بالمحرك', out:'clinicalOutput', endpoint:'/api/clinical'},
+  {id:'imaging-lab', button:'مقارنة النصوص بالمحرك', out:'imagingOutput', endpoint:'/api/imaging-compare'},
+  {id:'lecture-lab', button:'تحليل التفريغ بالمحرك', out:'lectureOutput', endpoint:'/api/lecture'}
+ ];
+ function add(c){
+  const section=document.getElementById(c.id), output=document.getElementById(c.out); if(!section||!output)return;
+  const bar=document.createElement('div');bar.className='engine-bar';
+  const btn=document.createElement('button');btn.type='button';btn.textContent=c.button;
+  const status=document.createElement('span');status.className='engine-status';status.textContent='يتطلب تشغيل الخادم المحلي وضبط مفتاح API. لا تُرسل ملفات؛ يُرسل النص الظاهر في مربع المخرجات فقط.';
+  bar.append(btn,status);output.parentNode.insertBefore(bar,output);
+  btn.addEventListener('click',async()=>{
+   const text=output.textContent.trim();
+   if(!text || text.startsWith('أدخل المعلومات') || text.startsWith('تُنشأ هنا')){status.textContent='أنشئ الملخص أولًا باستخدام الزر الأصلي، ثم أعد المحاولة.';return;}
+   btn.disabled=true;status.textContent='جارٍ إرسال النص إلى المحرك… لا تغلق الصفحة.';
+   try{
+    const res=await fetch(c.endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text})});
+    const data=await res.json();
+    if(!res.ok)throw new Error(data.detail||'تعذر تنفيذ الطلب.');
+    output.textContent=data.result||'لم يصل نص من المحرك.';
+    status.textContent='اكتمل رد النموذج ('+data.model+'). راجع المراجع والادعاءات طبيًا قبل الاعتماد.';
+   }catch(e){status.textContent='لم يكتمل الطلب: '+e.message+' — تأكد من تشغيل الخادم على http://127.0.0.1:8000 وضبط المفتاح.';}
+   finally{btn.disabled=false;}
+  });
+ }
+ configs.forEach(add);
+})();
+</script>
+
+</body>
+</html>
