@@ -89,7 +89,9 @@ def literature_search(
     query = q.strip()
     if not query:
         raise HTTPException(status_code=400, detail="أدخل موضوعًا أو كلمات للبحث.")
-    epmc_query = f"({query})"
+    from multilingual_search import normalize_query
+    query_info = normalize_query(query)
+    epmc_query = "(" + query_info["normalized"] + ")"
     if open_access_only:
         epmc_query += " AND OPEN_ACCESS:Y"
     params = urlencode({"query": epmc_query, "format": "json", "pageSize": page_size, "resultType": "core"})
@@ -134,6 +136,8 @@ def literature_search(
         "source": "Europe PMC",
         "source_url": "https://europepmc.org/",
         "query": query,
+        "effective_query": query_info["normalized"],
+        "query_rewritten": query_info["rewritten"],
         "hit_count": int(payload.get("hitCount", 0)),
         "returned": len(results),
         "results": results,
