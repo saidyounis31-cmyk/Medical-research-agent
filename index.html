@@ -288,7 +288,7 @@ const dictionary={"١. إعداد الطلب":["1. Configure request","1. הגד
 const languages=["en","he","de"];
 const selectors="h2,h3,label,.label,.choice strong,.checks .choice span,.btn,button";
 const targets=[...document.querySelectorAll(selectors)].filter(el=>!el.closest(".hakim-hero,.hakim-cards")&&!el.hasAttribute("data-i18n"));
-const entries=targets.map(el=>({el,original:el.textContent.trim()})).filter(x=>dictionary[x.original]);
+const entries=targets.filter(el=>!el.querySelector("input,select,textarea,button,a")).map(el=>({el,original:el.textContent.trim()})).filter(x=>dictionary[x.original]);
 function translate(lang){const ix=languages.indexOf(lang);entries.forEach(({el,original})=>{el.textContent=ix<0?original:dictionary[original][ix]});}
 const selector=document.getElementById("uiLanguage");if(!selector)return;selector.addEventListener("change",()=>translate(selector.value));translate(selector.value);
 })();
