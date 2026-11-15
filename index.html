@@ -289,14 +289,14 @@ document.getElementById('buildLecture').addEventListener('click',()=>document.ge
    }[lang];
    // Only extract explicit headings from the source abstract. No invented study claims.
    const definitions=[
-    /(?:^|\\n)\\s*(?:BACKGROUND\\s*(?:AND\\s*AIMS)?|OBJECTIVES?|AIMS?|PURPOSE)\\s*[:：.-]\\s*/ig,
-    /(?:^|\\n)\\s*(?:METHODS?|MATERIALS\\s+AND\\s+METHODS?|DESIGN)\\s*[:：.-]\\s*/ig,
-    /(?:^|\\n)\\s*(?:PARTICIPANTS?|PATIENTS?|SUBJECTS?|SAMPLE)\\s*[:：.-]\\s*/ig,
-    /(?:^|\\n)\\s*(?:RESULTS?|FINDINGS?)\\s*[:：.-]\\s*/ig,
-    /(?:^|\\n)\\s*(?:CONCLUSIONS?|INTERPRETATION)\\s*[:：.-]\\s*/ig,
-    /(?:^|\\n)\\s*(?:LIMITATIONS?)\\s*[:：.-]\\s*/ig
+    /(?:^|\n)\s*(?:BACKGROUND\s*(?:AND\s*AIMS)?|OBJECTIVES?|AIMS?|PURPOSE)\s*[:：.-]\s*/ig,
+    /(?:^|\n)\s*(?:METHODS?|MATERIALS\s+AND\s+METHODS?|DESIGN)\s*[:：.-]\s*/ig,
+    /(?:^|\n)\s*(?:PARTICIPANTS?|PATIENTS?|SUBJECTS?|SAMPLE)\s*[:：.-]\s*/ig,
+    /(?:^|\n)\s*(?:RESULTS?|FINDINGS?)\s*[:：.-]\s*/ig,
+    /(?:^|\n)\s*(?:CONCLUSIONS?|INTERPRETATION)\s*[:：.-]\s*/ig,
+    /(?:^|\n)\s*(?:LIMITATIONS?)\s*[:：.-]\s*/ig
    ];
-   const raw=item.abstract.replace(/\\r/g,'');
+   const raw=item.abstract.replace(/\r/g,'');
    const matches=[];
    definitions.forEach((re,kind)=>{for(const match of raw.matchAll(re))matches.push({kind,start:match.index,end:match.index+match[0].length});});
    matches.sort((a,b)=>a.start-b.start);
@@ -358,7 +358,7 @@ document.getElementById('buildLecture').addEventListener('click',()=>document.ge
    const data={hit_count:payload.hitCount||0,returned:records.length,notice:'بيانات فهرسة من Europe PMC؛ تحقق من النص الأصلي وتقييم جودة الدراسة.',results:records.map(item=>({
      title:item.title||'Untitled',authors:item.authorString||'',journal:item.journalTitle||item.journalInfo?.journal?.title||'',year:item.pubYear||'',
      pmid:item.pmid||'',pmcid:item.pmcid||'',doi:item.doi||'',is_open_access:item.isOpenAccess==='Y',
-     abstract:item.abstractText?item.abstractText.replace(/<\\/?(?:h\\d|p|div|br|section)[^>]*>/gi,'\\n').replace(/<[^>]*>/g,' ').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').trim():'',
+     abstract:item.abstractText?item.abstractText.replace(/<\/?(?:h\d|p|div|br|section)[^>]*>/gi,'\n').replace(/<[^>]*>/g,' ').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').trim():'',
      url:'https://europepmc.org/article/'+encodeURIComponent(item.source||'MED')+'/'+encodeURIComponent(item.id||item.pmid||'')
    }))};
    if(!data.results||!data.results.length){status.textContent='لم تُعثر على نتائج بهذه الصياغة. جرّب كلمات إنجليزية أو مرادفات أو اسم المرض والمركّب العلمي.';return;}
