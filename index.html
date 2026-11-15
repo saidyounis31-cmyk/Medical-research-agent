@@ -281,6 +281,41 @@ document.getElementById('buildLecture').addEventListener('click',()=>document.ge
    const body=el('p','hakim-summary-text',locale[3]);body.dir='auto';summary.appendChild(body);
    const note=el('p','hint',locale[5]);summary.appendChild(note);
    abstractSection.appendChild(summary);
+   const sectionLabels={
+    ar:['هدف الدراسة','المنهجية','المشاركون / العينة','النتائج','الاستنتاجات','القيود','غير مذكور صراحةً في الملخص المتاح'],
+    en:['Objective','Methods','Participants / sample','Results','Conclusions','Limitations','Not explicitly reported in the available abstract'],
+    he:['מטרת המחקר','שיטות','משתתפים / מדגם','תוצאות','מסקנות','מגבלות','לא דווח במפורש בתקציר הזמין'],
+    de:['Studienziel','Methoden','Teilnehmende / Stichprobe','Ergebnisse','Schlussfolgerungen','Limitationen','Im verfügbaren Abstract nicht ausdrücklich angegeben']
+   }[lang];
+   // Only extract explicit headings from the source abstract. No invented study claims.
+   const definitions=[
+    /(?:^|\\n)\\s*(?:BACKGROUND\\s*(?:AND\\s*AIMS)?|OBJECTIVES?|AIMS?|PURPOSE)\\s*[:：.-]\\s*/ig,
+    /(?:^|\\n)\\s*(?:METHODS?|MATERIALS\\s+AND\\s+METHODS?|DESIGN)\\s*[:：.-]\\s*/ig,
+    /(?:^|\\n)\\s*(?:PARTICIPANTS?|PATIENTS?|SUBJECTS?|SAMPLE)\\s*[:：.-]\\s*/ig,
+    /(?:^|\\n)\\s*(?:RESULTS?|FINDINGS?)\\s*[:：.-]\\s*/ig,
+    /(?:^|\\n)\\s*(?:CONCLUSIONS?|INTERPRETATION)\\s*[:：.-]\\s*/ig,
+    /(?:^|\\n)\\s*(?:LIMITATIONS?)\\s*[:：.-]\\s*/ig
+   ];
+   const raw=item.abstract.replace(/\\r/g,'');
+   const matches=[];
+   definitions.forEach((re,kind)=>{for(const match of raw.matchAll(re))matches.push({kind,start:match.index,end:match.index+match[0].length});});
+   matches.sort((a,b)=>a.start-b.start);
+   const extracted=new Map();
+   matches.forEach((m,j)=>{const value=raw.slice(m.end,j+1<matches.length?matches[j+1].start:raw.length).trim();if(value&&!extracted.has(m.kind))extracted.set(m.kind,value);});
+   const grid=el('div','hakim-evidence-grid');
+   for(let kind=0;kind<6;kind++){
+    const cell=el('div','hakim-evidence-cell');cell.appendChild(el('strong',null,sectionLabels[kind]));
+    const value=extracted.get(kind);
+    const p=el('p','hakim-evidence-value',value?value.slice(0,700):sectionLabels[6]);p.dir='auto';cell.appendChild(p);grid.appendChild(cell);
+   }
+   summary.appendChild(grid);
+   const evidenceNote={
+    ar:'استخراج حرفي من عناوين الملخص المنظم فقط؛ لا يستنتج HAKIM معلومات غير مذكورة. النصوص المستخرجة تبقى بلغة المصدر.',
+    en:'Verbatim extraction from explicitly headed abstract sections only. Missing details are not inferred. Extracts remain in the source language.',
+    he:'חילוץ מתוך סעיפים בעלי כותרות מפורשות בלבד; מידע חסר אינו מוסק. הקטעים נשארים בשפת המקור.',
+    de:'Wörtliche Extraktion nur aus ausdrücklich überschriebenen Abstract-Abschnitten. Fehlende Angaben werden nicht erschlossen; Auszüge bleiben in der Originalsprache.'
+   }[lang];
+   summary.appendChild(el('p','hint',evidenceNote));
    const clean=item.abstract.replace(/\s+/g,' ').trim();
    const chunks=clean.match(/[^.!?。؟]+[.!?。؟]?/g)||[clean];
    const extract=chunks.filter(x=>x.trim().length>30).slice(0,3).join(' ').slice(0,440).trim()||clean.slice(0,440);
@@ -323,7 +358,7 @@ document.getElementById('buildLecture').addEventListener('click',()=>document.ge
    const data={hit_count:payload.hitCount||0,returned:records.length,notice:'بيانات فهرسة من Europe PMC؛ تحقق من النص الأصلي وتقييم جودة الدراسة.',results:records.map(item=>({
      title:item.title||'Untitled',authors:item.authorString||'',journal:item.journalTitle||item.journalInfo?.journal?.title||'',year:item.pubYear||'',
      pmid:item.pmid||'',pmcid:item.pmcid||'',doi:item.doi||'',is_open_access:item.isOpenAccess==='Y',
-     abstract:item.abstractText?item.abstractText.replace(/<[^>]*>/g,' ').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').trim():'',
+     abstract:item.abstractText?item.abstractText.replace(/<\\/?(?:h\\d|p|div|br|section)[^>]*>/gi,'\\n').replace(/<[^>]*>/g,' ').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').trim():'',
      url:'https://europepmc.org/article/'+encodeURIComponent(item.source||'MED')+'/'+encodeURIComponent(item.id||item.pmid||'')
    }))};
    if(!data.results||!data.results.length){status.textContent='لم تُعثر على نتائج بهذه الصياغة. جرّب كلمات إنجليزية أو مرادفات أو اسم المرض والمركّب العلمي.';return;}
@@ -445,5 +480,6 @@ target.after(note);const sel=document.getElementById('uiLanguage');function rend
 </script>
 <style id="hakim-abstract-style">.hakim-abstract-section{margin:12px 0;padding:12px;border:1px solid #d9e6e2;border-radius:10px;background:#f8fcfb}.hakim-abstract-original{white-space:pre-line;line-height:1.75;overflow-wrap:anywhere}.hakim-abstract-section a{display:inline-block;margin-top:8px}.hakim-abstract-section .hint{font-size:.83rem;margin-top:7px}</style>
 <style id="hakim-inline-summary-style">.hakim-inline-summary{margin-top:14px;padding:12px;background:#eaf5f2;border-radius:9px;border-inline-start:3px solid #287c73}.hakim-summary-text{line-height:1.8;white-space:pre-line;overflow-wrap:anywhere}.hakim-inline-summary .hint{font-size:.82rem}</style>
+<style id="hakim-evidence-style">.hakim-evidence-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:9px;margin-top:12px}.hakim-evidence-cell{padding:10px;background:#fff;border:1px solid #d5e3df;border-radius:8px;min-width:0}.hakim-evidence-cell strong{font-size:.92rem}.hakim-evidence-value{font-size:.88rem;line-height:1.6;overflow-wrap:anywhere;margin:6px 0 0}</style>
 </body>
 </html>
