@@ -259,5 +259,30 @@ document.getElementById('buildLecture').addEventListener('click',()=>document.ge
 })();
 </script>
 
+
+<section id="youtube-ai-lab" dir="rtl" style="max-width:1050px;margin:24px auto;padding:22px;border:1px solid #cbd5e1;border-radius:18px;background:#fff;color:#17313a;font-family:inherit">
+<h2>🎬 YouTube AI — البحث والتحليل الموثّق</h2>
+<p>ابحث عن فيديو أو الصق رابطه. التحليل متاح فقط بعد إدخال نص تفريغ مصرح باستخدامه؛ لا يمكن تنزيل ترجمات الفيديوهات العامة تلقائيًا دون إذن.</p>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><input id="yt-query" aria-label="YouTube search" placeholder="موضوع، كلمات مفتاحية، أو رابط YouTube" maxlength="180" style="flex:1;min-width:180px;padding:10px"><button id="yt-search" type="button">بحث</button></div>
+<p id="yt-status" role="status"></p><div id="yt-results" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px"></div>
+<div id="yt-selected" hidden style="margin-top:16px"><h3 id="yt-title"></h3><iframe id="yt-player" title="YouTube video player" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="width:100%;max-width:650px;aspect-ratio:16/9;border:0"></iframe>
+<p>الصق التفريغ النصي الذي تملك حق استخدامه. يمكن تضمين التوقيتات مثل [00:12:35].</p>
+<textarea id="yt-transcript" rows="7" maxlength="100000" placeholder="نص التفريغ الفعلي للفيديو..." style="width:100%;padding:10px"></textarea>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0"><select id="yt-language" aria-label="Output language"><option value="ar">العربية</option><option value="en">English</option><option value="he">עברית</option><option value="de">Deutsch</option><option value="fr">Français</option><option value="es">Español</option><option value="tr">Türkçe</option><option value="it">Italiano</option></select><button id="yt-summarize" type="button">تلخيص الفيديو</button><button id="yt-copy" type="button">نسخ</button><button id="yt-export" type="button">تصدير TXT</button></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><input id="yt-question" maxlength="800" placeholder="اسأل عن محتوى الفيديو" style="flex:1;min-width:170px;padding:10px"><button id="yt-ask" type="button">اسأل AI</button></div>
+<h3>نتيجة التحليل</h3><pre id="yt-output" style="white-space:pre-wrap;overflow-wrap:anywhere;font-family:inherit;background:#f3f7f7;padding:14px;border-radius:10px"></pre></div></section>
+<script>
+(()=>{'use strict';
+const get=id=>document.getElementById(id);let selected=null;
+const status=get('yt-status'),output=get('yt-output');
+async function api(url,options){const r=await fetch(url,options);const j=await r.json();if(!r.ok)throw Error(j.detail||j.error||'Request failed');return j}
+get('yt-search').onclick=async()=>{const q=get('yt-query').value.trim();if(q.length<2){status.textContent='أدخل كلمتين على الأقل أو رابط فيديو.';return}get('yt-search').disabled=true;status.textContent='جارٍ البحث...';get('yt-results').replaceChildren();try{const data=await api('/api/youtube/search?q='+encodeURIComponent(q));status.textContent='عدد النتائج: '+data.results.length;for(const v of data.results){const card=document.createElement('div');card.style.cssText='border:1px solid #ddd;padding:10px;border-radius:10px';const img=document.createElement('img');if(/^https:\/\/i.test(v.thumbnail)){img.src=v.thumbnail;img.style.width='100%';img.alt='Thumbnail'}card.append(img);const p=document.createElement('p');p.textContent=v.title+' — '+v.channel+' ('+v.duration+')';card.append(p);const btn=document.createElement('button');btn.type='button';btn.textContent='اختيار الفيديو';btn.onclick=()=>{selected=v;get('yt-selected').hidden=false;get('yt-title').textContent=v.title;get('yt-player').src='https://www.youtube-nocookie.com/embed/'+v.id;output.textContent='ألصق نص التفريغ المصرح به ثم اضغط تلخيص الفيديو.'};card.append(btn);get('yt-results').append(card)}}catch(e){status.textContent=e.message}finally{get('yt-search').disabled=false}};
+async function analyze(question){if(!selected){status.textContent='اختر فيديو أولًا';return}const transcript=get('yt-transcript').value;if(transcript.length<80){status.textContent='أدخل نص تفريغ لا يقل عن 80 حرفًا';return}const btn=question?get('yt-ask'):get('yt-summarize');btn.disabled=true;status.textContent='جارٍ تحليل النص الفعلي...';try{const body={video_id:selected.id,transcript,language:get('yt-language').value};if(question)body.question=get('yt-question').value;const data=await api('/api/youtube/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});output.textContent=data.result;status.textContent='تم التحليل استنادًا إلى النص الذي قدمته، وليس مشاهدة مستقلة للفيديو.'}catch(e){status.textContent=e.message}finally{btn.disabled=false}}
+get('yt-summarize').onclick=()=>analyze(false);get('yt-ask').onclick=()=>analyze(true);
+get('yt-copy').onclick=async()=>{try{await navigator.clipboard.writeText(output.textContent);status.textContent='تم النسخ'}catch{status.textContent='تعذر النسخ'}};
+get('yt-export').onclick=()=>{const blob=new Blob([output.textContent],{type:'text/plain;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='youtube-analysis.txt';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
+})();
+</script>
+
 </body>
 </html>
