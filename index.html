@@ -264,7 +264,7 @@ document.getElementById('buildLecture').addEventListener('click',()=>document.ge
   card.appendChild(el('h3',null,(index+1)+'. '+item.title));
   addMeta(card,'المؤلفون',item.authors);addMeta(card,'المجلة',item.journal);addMeta(card,'السنة',item.year);
   const ids=[item.pmid?'PMID: '+item.pmid:'',item.pmcid?'PMCID: '+item.pmcid:'',item.doi?'DOI: '+item.doi:''].filter(Boolean).join(' | ');
-  addMeta(card,'معرّفات',ids);addMeta(card,'إتاحة النص الكامل',item.is_open_access?'مفتوح الوصول بحسب سجل الفهرسة':'لم يُصنّف مفتوح الوصول');
+  addMeta(card,'معرّفات',ids);if(item.pubmed_matched)addMeta(card,'مطابقة الفهرسة','السجل ظهر أيضًا ضمن نتائج PubMed');addMeta(card,'إتاحة النص الكامل',item.is_open_access?'مفتوح الوصول بحسب سجل الفهرسة':'لم يُصنّف مفتوح الوصول');
   const lang=document.getElementById('uiLanguage')?.value||'ar';
   const locale={
    ar:['الملخص الأصلي','ملخص مختصر بلغة الواجهة','لا يتوفر ملخص أصلي لهذا السجل.','جارٍ إعداد الترجمة داخل HAKIM…','تعذرت الترجمة التلقائية حاليًا؛ الملخص المستخرج من النص الأصلي معروض أدناه.','ملخص مقتبس من النص المتاح، وليس مراجعة علمية مستقلة. قد يغفل تفاصيل مهمة.','ترجمة آلية تجريبية لنص علمي منشور؛ راجع الأصل قبل الاعتماد عليه.'],
@@ -366,9 +366,38 @@ document.getElementById('buildLecture').addEventListener('click',()=>document.ge
      return positive.test(title)||(positive.test(abstract)&&!offTopic.test(title));
     }).slice(0,Number(count.value)||10);
    }
+   // Phase 1: rank Europe PMC candidates using transparent title/abstract relevance.
+   // PubMed ESearch is a second, independent index signal, not a second abstract source.
+   const pubmedIds=new Set();
+   let pubmedStatus='unavailable';
+   try{
+    const pmcQuery=resolved.requirePeripheral?'("vasculitic neuropathy"[Title/Abstract] OR ("peripheral neuropathy"[Title/Abstract] AND vasculitis[Title/Abstract]) OR "vasa nervorum"[Title/Abstract])':normalized;
+    const p=new URLSearchParams({db:'pubmed',term:pmcQuery,retmode:'json',retmax:'100',sort:'relevance'});
+    const abort=new AbortController(),timer=setTimeout(()=>abort.abort(),6500);
+    try{
+     const res=await fetch('https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?'+p,{signal:abort.signal});
+     if(!res.ok)throw Error('PubMed HTTP '+res.status);
+     const json=await res.json();
+     for(const id of json?.esearchresult?.idlist||[])pubmedIds.add(String(id));
+     pubmedStatus='ok';
+    }finally{clearTimeout(timer);}
+   }catch(err){console.warn('PubMed cross-check unavailable:',err);}
+   const relevant=/peripheral neuropath|vasculitic neuropath|vasa nervorum|mononeuritis multiplex|peripheral nerv|polyneuropath|diabetic neuropath|nerve ischem|nerve ischaem|ischemic neuropath|ischaemic neuropath/i;
+   const unrelated=/optic neuritis|optic neuropath|optic nerve|visual acuity|visual loss|retinal|ophthalm/i;
+   const scoreRecord=x=>{
+    const title=x.title||'',abstract=x.abstractText||'';
+    let score=(relevant.test(title)?8:0)+(relevant.test(abstract)?3:0);
+    if(pubmedIds.has(String(x.pmid||'')))score+=2;
+    if(unrelated.test(title))score-=15;
+    if(!resolved.requirePeripheral)score+=(title.toLowerCase().includes(query.toLowerCase())?3:0);
+    return score;
+   };
+   records=records.map(x=>({...x,_hakimScore:scoreRecord(x),_pubmedMatched:pubmedIds.has(String(x.pmid||''))}))
+     .sort((a,b)=>b._hakimScore-a._hakimScore)
+     .slice(0,Number(count.value)||10);
    const data={hit_count:payload.hitCount||0,returned:records.length,notice:'بيانات فهرسة من Europe PMC؛ تحقق من النص الأصلي وتقييم جودة الدراسة.',results:records.map(item=>({
      title:item.title||'Untitled',authors:item.authorString||'',journal:item.journalTitle||item.journalInfo?.journal?.title||'',year:item.pubYear||'',
-     pmid:item.pmid||'',pmcid:item.pmcid||'',doi:item.doi||'',is_open_access:item.isOpenAccess==='Y',
+     pmid:item.pmid||'',pmcid:item.pmcid||'',doi:item.doi||'',is_open_access:item.isOpenAccess==='Y',pubmed_matched:item._pubmedMatched,relevance_score:item._hakimScore,
      abstract:item.abstractText?item.abstractText.replace(/<\/?(?:h\d|p|div|br|section)[^>]*>/gi,'\n').replace(/<[^>]*>/g,' ').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').trim():'',
      url:'https://europepmc.org/article/'+encodeURIComponent(item.source||'MED')+'/'+encodeURIComponent(item.id||item.pmid||'')
    }))};
