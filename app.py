@@ -291,13 +291,13 @@ def clinical_image(req: ClinicalImageRequest):
     if not 100 <= len(image_bytes) <= 4 * 1024 * 1024:
         raise HTTPException(status_code=413, detail="IMAGE_TOO_LARGE")
     # Check actual file signatures, not only client-provided MIME type.
-    valid = ((mime == "image/jpeg" and image_bytes.startswith(b"\\xff\\xd8\\xff")) or
-             (mime == "image/png" and image_bytes.startswith(b"\\x89PNG\\r\\n\\x1a\\n")) or
+    valid = ((mime == "image/jpeg" and image_bytes.startswith(b"\xff\xd8\xff")) or
+             (mime == "image/png" and image_bytes.startswith(b"\x89PNG\r\n\x1a\n")) or
              (mime == "image/webp" and image_bytes.startswith(b"RIFF") and image_bytes[8:12] == b"WEBP"))
     if not valid:
         raise HTTPException(status_code=400, detail="INVALID_IMAGE")
-    prompt = ("Language: " + req.language + "\\nSymptoms and question: " + req.description +
-              "\\nAdditional patient answers: " + (req.answers or "Not supplied"))
+    prompt = ("Language: " + req.language + "\nSymptoms and question: " + req.description +
+              "\nAdditional patient answers: " + (req.answers or "Not supplied"))
     try:
         result = OpenAI(api_key=os.environ["OPENAI_API_KEY"], timeout=40).responses.create(
             model=os.getenv("OPENAI_VISION_MODEL", "gpt-4.1-mini"),
