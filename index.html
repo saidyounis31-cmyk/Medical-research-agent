@@ -259,12 +259,17 @@ document.getElementById('buildLecture').addEventListener('click',()=>document.ge
    // Query Europe PMC directly: static preview has no /api/literature-search backend.
    const epmcQuery=query+(oa.checked?' AND OPEN_ACCESS:y':'');
    const epmcParams=new URLSearchParams({query:epmcQuery,format:'json',pageSize:count.value,resultType:'core'});
-   const response=await fetch('https://www.ebi.ac.uk/europepmc/webservices/rest/search?'+epmcParams.toString(),{headers:{'Accept':'application/json'}});
+   const controller=new AbortController();
+   const timeout=setTimeout(()=>controller.abort(),18000);
+   let response;
+   try{response=await fetch('https://www.ebi.ac.uk/europepmc/webservices/rest/search?'+epmcParams.toString(),{headers:{'Accept':'application/json'},signal:controller.signal});}
+   finally{clearTimeout(timeout);}
    const contentType=response.headers.get('content-type')||'';
    if(!response.ok)throw new Error('Europe PMC HTTP '+response.status);
-   if(!contentType.includes('json'))throw new Error('المصدر لم يُرجع بيانات JSON. حاول لاحقًا.');
+   if(!contentType.toLowerCase().includes('json'))throw new Error('Europe PMC أعاد استجابة غير متوقعة. يرجى المحاولة لاحقًا.');
    const payload=await response.json();
-   const records=payload.resultList?.result||[];
+   if(!payload||!payload.resultList||!Array.isArray(payload.resultList.result))throw new Error('استجابة Europe PMC لا تحتوي على بنية النتائج المتوقعة.');
+   const records=payload.resultList.result;
    const data={hit_count:payload.hitCount||0,returned:records.length,notice:'بيانات فهرسة من Europe PMC؛ تحقق من النص الأصلي وتقييم جودة الدراسة.',results:records.map(item=>({
      title:item.title||'Untitled',authors:item.authorString||'',journal:item.journalTitle||item.journalInfo?.journal?.title||'',year:item.pubYear||'',
      pmid:item.pmid||'',pmcid:item.pmcid||'',doi:item.doi||'',is_open_access:item.isOpenAccess==='Y',
@@ -275,7 +280,7 @@ document.getElementById('buildLecture').addEventListener('click',()=>document.ge
    status.textContent='عُثر على '+data.hit_count+' سجلًا؛ عُرض '+data.returned+' نتائج من Europe PMC. هذه نتائج فهرسة وليست تقييمًا لقوة الدليل.';
    data.results.forEach((item,i)=>results.appendChild(showItem(item,i)));
    results.appendChild(el('p','hint',data.notice||'تحقق من المقال الأصلي قبل الاستشهاد.'));
-  }catch(error){status.textContent='تعذّر البحث: '+error.message+' إذا استمر الخطأ، أخبرني بالنص الظاهر.';}
+  }catch(error){const reason=error.name==='AbortError'?'انتهت مهلة الاتصال بعد 18 ثانية. تحقق من الإنترنت وأعد المحاولة.':error instanceof TypeError?'تعذر الاتصال بخدمة Europe PMC من المتصفح. قد يكون الاتصال أو سياسة المتصفح سببًا.':error.message;status.textContent='تعذّر البحث: '+reason;}
   finally{button.disabled=false;}
  }
  button.addEventListener('click',run);q.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();run();}});
