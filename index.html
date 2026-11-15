@@ -361,8 +361,11 @@ document.getElementById('buildLecture').addEventListener('click',()=>document.ge
      abstract:item.abstractText?item.abstractText.replace(/<\/?(?:h\d|p|div|br|section)[^>]*>/gi,'\n').replace(/<[^>]*>/g,' ').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').trim():'',
      url:'https://europepmc.org/article/'+encodeURIComponent(item.source||'MED')+'/'+encodeURIComponent(item.id||item.pmid||'')
    }))};
-   if(!data.results||!data.results.length){status.textContent='لم تُعثر على نتائج بهذه الصياغة. جرّب كلمات إنجليزية أو مرادفات أو اسم المرض والمركّب العلمي.';return;}
-   status.textContent='عُثر على '+data.hit_count+' سجلًا؛ عُرض '+data.returned+' نتائج من Europe PMC. هذه نتائج فهرسة وليست تقييمًا لقوة الدليل.';
+   if(!data.results||!data.results.length){
+    const msg={ar:'لم يُعثر على نتائج. الاستعلام المستخدم: ',en:'No results. Search expression: ',he:'לא נמצאו תוצאות. ביטוי החיפוש: ',de:'Keine Treffer. Suchausdruck: '}[document.getElementById('uiLanguage')?.value]||'لم يُعثر على نتائج. الاستعلام المستخدم: ';
+    status.textContent=msg+normalized+'. جرّب صياغة أقصر أو مفهومًا طبيًا أكثر تحديدًا.';return;
+   }
+   status.textContent='عُثر على '+data.hit_count+' سجلًا؛ عُرض '+data.returned+' نتائج من Europe PMC. '+(normalized!==query?'المصطلح العلمي المستخدم: '+normalized+'. ':'')+'هذه نتائج فهرسة وليست تقييمًا لقوة الدليل.';
    data.results.forEach((item,i)=>results.appendChild(showItem(item,i)));
    results.appendChild(el('p','hint',data.notice||'تحقق من المقال الأصلي قبل الاستشهاد.'));
   }catch(error){const reason=error.name==='AbortError'?'انتهت مهلة الاتصال بعد 18 ثانية. تحقق من الإنترنت وأعد المحاولة.':error instanceof TypeError?'تعذر الاتصال بخدمة Europe PMC من المتصفح. قد يكون الاتصال أو سياسة المتصفح سببًا.':error.message;status.textContent='تعذّر البحث: '+reason;}
@@ -427,8 +430,13 @@ function norm(s){return String(s||'').normalize('NFKC').trim().toLowerCase().rep
 const dictionary=new Map();
 for(const entry of entries)for(const name of entry.names){const key=norm(name);if(!dictionary.has(key))dictionary.set(key,entry);}
 window.hakimResolveSearchTerm=function(value){
- const input=String(value||'').trim(),entry=dictionary.get(norm(input));
- return entry?{query:entry.q,label:entry.q,expanded:entry.q!==input,type:entry.type,matched:true}:{query:input,label:input,expanded:false,type:null,matched:false};
+ const input=String(value||'').trim(),normalized=norm(input),entry=dictionary.get(normalized);
+ if(entry)return {query:entry.q,label:entry.q,expanded:entry.q!==input,type:entry.type,matched:true};
+ // Compound-query bridge: recognize clinical concepts, not literal Arabic sentence strings.
+ const neural=/(التهاب.*اعصاب|التهاب.*العصب|اعتلال.*اعصاب|neuropathy|neuritis)/i.test(normalized);
+ const vascular=/(اوعيه.*دمويه|اوعيه.*دم|التهاب.*اوعيه|blood vessels|vasculitis|vascular)/i.test(normalized);
+ if(neural&&vascular)return {query:'((neuropathy OR neuritis OR peripheral nerve) AND (vascular OR blood vessel OR vasculitis))',label:'neuropathy / neuritis + vascular / vasculitis',expanded:true,type:'compound',matched:true};
+ return {query:input,label:input,expanded:false,type:null,matched:false};
 };
 window.hakimMedicalTerms=entries.length;
 })();
