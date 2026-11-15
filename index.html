@@ -368,6 +368,8 @@ document.getElementById('buildLecture').addEventListener('click',()=>document.ge
   }catch(error){const reason=error.name==='AbortError'?'انتهت مهلة الاتصال بعد 18 ثانية. تحقق من الإنترنت وأعد المحاولة.':error instanceof TypeError?'تعذر الاتصال بخدمة Europe PMC من المتصفح. قد يكون الاتصال أو سياسة المتصفح سببًا.':error.message;status.textContent='تعذّر البحث: '+reason;}
   finally{button.disabled=false;}
  }
+ window.hakimSearchReady=true;
+ q.addEventListener('input',()=>{if(!button.disabled){status.textContent=q.value.trim()?({ar:'موضوع البحث جاهز. اضغط «البحث في الدراسات».',en:'Query ready. Tap Search studies.',he:'השאילתה מוכנה. לחצו על חיפוש מחקרים.',de:'Suchbegriff bereit. Studien suchen.'}[document.getElementById('uiLanguage')?.value]||'موضوع البحث جاهز. اضغط «البحث في الدراسات».'):'أدخل موضوعًا ثم اضغط «البحث في الدراسات». ';}});
  button.addEventListener('click',run);q.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();run();}});
  document.getElementById('clearLiterature').addEventListener('click',()=>{q.value='';results.replaceChildren();status.textContent='أدخل موضوعًا ثم اضغط «البحث في الدراسات». ستُجلب النتائج من المصدر وقت الطلب.';oa.checked=false;});
 })();
@@ -481,5 +483,13 @@ target.after(note);const sel=document.getElementById('uiLanguage');function rend
 <style id="hakim-abstract-style">.hakim-abstract-section{margin:12px 0;padding:12px;border:1px solid #d9e6e2;border-radius:10px;background:#f8fcfb}.hakim-abstract-original{white-space:pre-line;line-height:1.75;overflow-wrap:anywhere}.hakim-abstract-section a{display:inline-block;margin-top:8px}.hakim-abstract-section .hint{font-size:.83rem;margin-top:7px}</style>
 <style id="hakim-inline-summary-style">.hakim-inline-summary{margin-top:14px;padding:12px;background:#eaf5f2;border-radius:9px;border-inline-start:3px solid #287c73}.hakim-summary-text{line-height:1.8;white-space:pre-line;overflow-wrap:anywhere}.hakim-inline-summary .hint{font-size:.82rem}</style>
 <style id="hakim-evidence-style">.hakim-evidence-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:9px;margin-top:12px}.hakim-evidence-cell{padding:10px;background:#fff;border:1px solid #d5e3df;border-radius:8px;min-width:0}.hakim-evidence-cell strong{font-size:.92rem}.hakim-evidence-value{font-size:.88rem;line-height:1.6;overflow-wrap:anywhere;margin:6px 0 0}</style>
+<script id="hakim-search-diagnostics">
+(function(){
+const q=document.getElementById('literatureQuery'),b=document.getElementById('searchLiterature'),status=document.getElementById('literatureStatus');
+if(!q||!b||!status)return;
+const tag=document.createElement('span');tag.id='hakimSearchBuild';tag.className='hint';tag.style.cssText='display:block;font-size:.73rem;opacity:.7;margin-top:5px';tag.textContent='HAKIM search build 2026-11-15.3';status.after(tag);
+if(!window.hakimSearchReady){status.textContent='خطأ في تهيئة محرك البحث. الرجاء تحديث الصفحة وإرسال رقم الإصدار الظاهر للدعم.';b.disabled=true;}
+})();
+</script>
 </body>
 </html>
