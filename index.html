@@ -429,14 +429,43 @@ const entries=[{"type":"botanical","names":["الحبة السوداء","حبة 
 function norm(s){return String(s||'').normalize('NFKC').trim().toLowerCase().replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ـ/g,'').replace(/[\u064b-\u065f]/g,'').replace(/\s+/g,' ');}
 const dictionary=new Map();
 for(const entry of entries)for(const name of entry.names){const key=norm(name);if(!dictionary.has(key))dictionary.set(key,entry);}
+// Concept matching with longest aliases first, word boundaries and non-overlap.
+const extra=[
+ {type:'condition',names:['التهاب الاوعية الدموية','التهاب الأوعية الدموية','vasculitis','vaskulitis','דלקת כלי דם'],q:'vasculitis'},
+ {type:'condition',names:['التهاب الاعصاب','التهاب الأعصاب','التهاب العصب','neuritis','neuritis','דלקת עצבים'],q:'neuritis'},
+ {type:'condition',names:['اعتلال الاعصاب المحيطية','اعتلال الأعصاب المحيطية','اعتلال الاعصاب','اعتلال الأعصاب','peripheral neuropathy','periphere neuropathie','נוירופתיה היקפית'],q:'peripheral neuropathy'},
+ {type:'anatomy',names:['الاوعية الدموية','الأوعية الدموية','اوعيه دمويه','blood vessels','blutgefäße','כלי דם'],q:'blood vessels'},
+ {type:'anatomy',names:['الاعصاب المحيطية','الأعصاب المحيطية','peripheral nerves','periphere nerven','עצבים היקפיים'],q:'peripheral nerves'},
+ {type:'condition',names:['التهاب المفاصل','arthritis','arthritis','דלקת מפרקים'],q:'arthritis'},
+ {type:'condition',names:['السكتة الدماغية','الجلطة الدماغية','stroke','schlaganfall','שבץ מוחי'],q:'stroke'},
+ {type:'condition',names:['التصلب المتعدد','التصلب اللويحي','multiple sclerosis','multiple sklerose','טרשת נפוצה'],q:'multiple sclerosis'},
+ {type:'condition',names:['ارتفاع ضغط الدم','hypertension','bluthochdruck','יתר לחץ דם'],q:'hypertension'},
+ {type:'condition',names:['الاعتلال العصبي السكري','diabetic neuropathy','diabetische neuropathie','נוירופתיה סוכרתית'],q:'diabetic neuropathy'}
+];
+entries.push(...extra);
+const aliases=[];
+for(const e of entries)for(const name of e.names){const key=norm(name);if(key.length>=3)aliases.push({key,entry:e});}
+aliases.sort((a,b)=>b.key.length-a.key.length);
+function boundary(text,start,end){const word=/[\\p{L}\\p{N}]/u;return (start===0||!word.test(text[start-1]))&&(end===text.length||!word.test(text[end]));}
 window.hakimResolveSearchTerm=function(value){
- const input=String(value||'').trim(),normalized=norm(input),entry=dictionary.get(normalized);
- if(entry)return {query:entry.q,label:entry.q,expanded:entry.q!==input,type:entry.type,matched:true};
- // Compound-query bridge: recognize clinical concepts, not literal Arabic sentence strings.
- const neural=/(التهاب.*اعصاب|التهاب.*العصب|اعتلال.*اعصاب|neuropathy|neuritis)/i.test(normalized);
- const vascular=/(اوعيه.*دمويه|اوعيه.*دم|التهاب.*اوعيه|blood vessels|vasculitis|vascular)/i.test(normalized);
- if(neural&&vascular)return {query:'((neuropathy OR neuritis OR peripheral nerve) AND (vascular OR blood vessel OR vasculitis))',label:'neuropathy / neuritis + vascular / vasculitis',expanded:true,type:'compound',matched:true};
- return {query:input,label:input,expanded:false,type:null,matched:false};
+ const input=String(value||'').trim(),normalized=norm(input);
+ const exact=dictionary.get(normalized);
+ if(exact)return {query:exact.q,label:exact.q,expanded:exact.q!==input,type:exact.type,matched:true,concepts:[exact.q]};
+ const spans=[],selected=[],seen=new Set();
+ for(const alias of aliases){
+  let from=0,at;
+  while((at=normalized.indexOf(alias.key,from))!==-1){
+   const end=at+alias.key.length;from=end;
+   if(!boundary(normalized,at,end)||spans.some(x=>at<x.end&&end>x.start))continue;
+   if(!seen.has(alias.entry.q)){selected.push(alias.entry);seen.add(alias.entry.q);}
+   spans.push({start:at,end});
+  }
+ }
+ if(!selected.length)return {query:input,label:input,expanded:false,type:null,matched:false,concepts:[]};
+ // Single concept searches are safe; compound concepts use AND (not a claim of causation).
+ const terms=selected.slice(0,5).map(x=>'('+x.q+')');
+ const composed=terms.join(' AND ');
+ return {query:composed,label:selected.map(x=>x.q).join(' + '),expanded:true,type:selected.length>1?'compound':selected[0].type,matched:true,concepts:selected.map(x=>x.q),partial:true};
 };
 window.hakimMedicalTerms=entries.length;
 })();
