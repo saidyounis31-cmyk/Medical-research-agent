@@ -23,6 +23,12 @@ class SearchNormalizationTests(unittest.TestCase):
         phrase = "نبات له أوراق صغيرة ورائحة قوية لا أعرف اسمه"
         with patch.dict(os.environ, {"ENABLE_MULTILINGUAL_QUERY_REWRITE": "false"}):
             self.assertEqual(normalize_query(phrase)["normalized"], phrase)
+    def test_colloquial_bedwetting(self):
+        self.check("ابني عمره 4.5 سنوات يعاني من التبول الليلي أثناء النوم حتى اذا نام في النهار يتبول على نفسه، ما الحل وكيف اعالجه", "nocturnal enuresis")
+    def test_bedwetting_english(self):
+        self.check("My four-year-old child has bedwetting at night", "nocturnal enuresis")
+    def test_bedwetting_hebrew(self):
+        self.check("הילד סובל מהרטבת לילה", "nocturnal enuresis")
     def test_invalid_length(self):
         with self.assertRaises(ValueError):
             normalize_query("x" * 501)
