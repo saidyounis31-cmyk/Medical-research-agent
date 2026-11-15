@@ -19,6 +19,9 @@ html{scroll-behavior:smooth}body{background:#edf4f3}.wrap{max-width:1240px}.haki
 @media(max-width:1000px){.hakim-cards{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:640px){.hakim-hero{padding:20px}.hakim-top{align-items:flex-start}.hakim-hero-content{margin:28px 0 24px}.hakim-cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.hakim-cards .hakim-card{min-height:160px;padding:13px}.hakim-card strong{font-size:.93rem}.hakim-lang-label{width:100%;justify-content:space-between}.hakim-brandline{font-size:.57rem}}@media(max-width:380px){.hakim-cards{grid-template-columns:1fr}.hakim-cards .hakim-card{min-height:130px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hakim-cards .hakim-card{transition:none}}
 </style>
+<style id="hakim-source-styles">
+.hakim-source-tools{margin:18px 0;padding:14px;background:#f4faf8;border:1px solid #d0e6e0;border-radius:14px}.hakim-source-heading{font-weight:800;margin-bottom:10px}.hakim-source-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.hakim-source-grid a{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:12px;background:#fff;border:1px solid #c4d9d4;border-radius:10px;color:#125f5c;text-decoration:none;font-weight:700;overflow-wrap:anywhere}.hakim-source-grid a:hover,.hakim-source-grid a:focus-visible{border-color:#0d7771;background:#e5f4ef}.hakim-source-grid a span{flex-shrink:0}.hakim-source-tools .hint{margin:10px 0 0}.literature-card h3,.literature-card p{unicode-bidi:plaintext;overflow-wrap:anywhere}.literature-card h3{text-align:start}.literature-card{min-width:0}@media(max-width:430px){.hakim-source-grid{grid-template-columns:1fr}.hakim-source-tools{padding:11px}}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -85,7 +88,18 @@ html{scroll-behavior:smooth}body{background:#edf4f3}.wrap{max-width:1240px}.haki
   <div class="field"><label for="literatureQuery">موضوع البحث أو الكلمات المفتاحية</label><input id="literatureQuery" type="text" placeholder="مثال: Nigella sativa asthma randomized trial" autocomplete="off" /></div>
   <div class="row"><div class="field"><label for="literatureCount">عدد النتائج</label><select id="literatureCount"><option value="5">5 نتائج</option><option value="10" selected>10 نتائج</option><option value="20">20 نتيجة</option></select></div><div class="field" style="display:flex;align-items:center;gap:9px;padding-top:28px"><input id="literatureOA" type="checkbox" style="width:auto"><label for="literatureOA" style="margin:0">المقالات مفتوحة الوصول فقط</label></div></div>
   <div class="btns"><button class="btn primary" id="searchLiterature">البحث في الدراسات</button><button class="btn secondary" id="clearLiterature">مسح البحث</button></div>
-  <p id="literatureStatus" class="hint" aria-live="polite">أدخل موضوعًا ثم اضغط «البحث في الدراسات». ستُجلب النتائج من المصدر وقت الطلب.</p>
+  <div class="hakim-source-tools" aria-label="Research databases">
+ <div class="hakim-source-heading" id="hakimSourceHeading">ابحث أيضًا في قواعد البيانات التالية</div>
+ <div class="hakim-source-grid">
+  <a id="hakimPubmed" href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank" rel="noopener noreferrer">PubMed / NCBI <span aria-hidden="true">↗</span></a>
+  <a id="hakimPMC" href="https://pmc.ncbi.nlm.nih.gov/" target="_blank" rel="noopener noreferrer">PubMed Central (PMC) <span aria-hidden="true">↗</span></a>
+  <a id="hakimNIH" href="https://www.nih.gov/" target="_blank" rel="noopener noreferrer">NIH <span aria-hidden="true">↗</span></a>
+  <a id="hakimScholar" href="https://scholar.google.com/" target="_blank" rel="noopener noreferrer">Google Scholar <span aria-hidden="true">↗</span></a>
+ </div>
+ <p id="hakimSourceNote" class="hint">Europe PMC يعرض النتائج داخل HAKIM. تفتح الروابط الأخرى البحث في مواقعها الأصلية.</p>
+ <p id="hakimQueryHint" class="hint" aria-live="polite"></p>
+</div>
+<p id="literatureStatus" class="hint" aria-live="polite">أدخل موضوعًا ثم اضغط «البحث في الدراسات». ستُجلب النتائج من المصدر وقت الطلب.</p>
   <div id="literatureResults" class="literature-results" aria-live="polite"></div>
   <div class="note"><strong>تنبيه علمي:</strong> ظهور المقال في الفهرس لا يعني أن نتائجه صحيحة أو أن العلاج فعّال. تحقّق من تصميم الدراسة، وحجم العينة، والنتائج، والمخاطر، والتمويل، والنص الكامل عند الإمكان. هذا البحث ليس توصية علاجية.</div>
 </section>
@@ -332,6 +346,21 @@ select.addEventListener("change",()=>apply(select.value));apply(select.value);
 </script>
 <script id="hakim-static-preview">
 (function(){const statusText={ar:'هذه معاينة ثابتة: البحث العلمي يتصل مباشرة بـ Europe PMC. أزرار تحليل الذكاء الاصطناعي تحتاج إلى خادم API منفصل.',en:'Static preview: scientific search connects directly to Europe PMC. AI analysis buttons require a separate API server.',he:'תצוגה סטטית: החיפוש מתחבר ישירות ל-Europe PMC. ניתוח AI דורש שרת API נפרד.',de:'Statische Vorschau: Die Recherche nutzt Europe PMC direkt. KI-Analyse benötigt einen separaten API-Server.'};const bar=document.createElement('p');bar.className='hint';bar.style.cssText='padding:10px 14px;border:1px solid #b9d9d3;border-radius:12px;background:#eff8f5;margin:14px 0';bar.setAttribute('role','status');const nav=document.querySelector('.hakim-cards');nav?.after(bar);const sel=document.getElementById('uiLanguage');function update(){bar.textContent=statusText[sel?.value]||statusText.ar}sel?.addEventListener('change',update);update()})();
+</script>
+<script id="hakim-research-sources">
+(function(){
+const q=document.getElementById('literatureQuery'),sel=document.getElementById('uiLanguage');
+if(!q)return;
+const ids={hakimPubmed:'https://pubmed.ncbi.nlm.nih.gov/?term=',hakimPMC:'https://pmc.ncbi.nlm.nih.gov/?term=',hakimNIH:'https://www.nih.gov/search?query=',hakimScholar:'https://scholar.google.com/scholar?q='};
+const i18n={
+ar:['ابحث أيضًا في قواعد البيانات التالية','Europe PMC يعرض النتائج داخل HAKIM. الروابط الأخرى تفتح البحث في مواقعها الأصلية.','تم التعرف على الاسم الشائع لحبة البركة. يمكنك استخدام Nigella sativa للحصول على نتائج علمية أوسع.'],
+en:['Search other research databases','Europe PMC results appear inside HAKIM. Other links open the search on the original websites.','Recognized the common name for black seed. Use Nigella sativa for broader scientific results.'],
+he:['חיפוש גם במאגרי מידע נוספים','תוצאות Europe PMC מוצגות בתוך HAKIM. הקישורים האחרים פותחים חיפוש באתר המקור.','זוהה השם העממי של קצח. ניתן להשתמש ב-Nigella sativa לחיפוש מדעי רחב יותר.'],
+de:['Weitere Forschungsdatenbanken durchsuchen','Europe PMC zeigt Ergebnisse in HAKIM. Andere Links öffnen die Suche auf den Originalseiten.','Der Trivialname für Schwarzkümmel wurde erkannt. Mit Nigella sativa finden Sie mehr wissenschaftliche Ergebnisse.']};
+const header=document.getElementById('hakimSourceHeading'),note=document.getElementById('hakimSourceNote'),hint=document.getElementById('hakimQueryHint');
+function update(){const lang=sel?.value||'ar',t=i18n[lang]||i18n.ar;header.textContent=t[0];note.textContent=t[1];const value=q.value.trim();const normalized=/^(?:الحبة السوداء|حبة البركة|الحبة السوداء او حبة البركة|الحبة السوداء أو حبة البركة)$/.test(value)?'Nigella sativa':value;hint.textContent=normalized!==value?t[2]:'';for(const [id,base] of Object.entries(ids)){document.getElementById(id).href=base+encodeURIComponent(normalized||'medical research');}}
+q.addEventListener('input',update);sel?.addEventListener('change',update);update();
+})();
 </script>
 </body>
 </html>
