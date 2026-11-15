@@ -302,20 +302,19 @@ document.getElementById('buildLecture').addEventListener('click',()=>document.ge
    matches.sort((a,b)=>a.start-b.start);
    const extracted=new Map();
    matches.forEach((m,j)=>{const value=raw.slice(m.end,j+1<matches.length?matches[j+1].start:raw.length).trim();if(value&&!extracted.has(m.kind))extracted.set(m.kind,value);});
-   const grid=el('div','hakim-evidence-grid');
-   for(let kind=0;kind<6;kind++){
-    const cell=el('div','hakim-evidence-cell');cell.appendChild(el('strong',null,sectionLabels[kind]));
-    const value=extracted.get(kind);
-    const p=el('p','hakim-evidence-value',value?value.slice(0,700):sectionLabels[6]);p.dir='auto';cell.appendChild(p);grid.appendChild(cell);
+   // Show only explicitly populated evidence fields. An unstructured abstract is not an empty study.
+   if(extracted.size){
+    const grid=el('div','hakim-evidence-grid');
+    for(let kind=0;kind<6;kind++){
+     const value=extracted.get(kind);if(!value)continue;
+     const cell=el('div','hakim-evidence-cell');cell.appendChild(el('strong',null,sectionLabels[kind]));
+     const p=el('p','hakim-evidence-value',value.slice(0,1200));p.dir='auto';cell.appendChild(p);grid.appendChild(cell);
+    }
+    summary.appendChild(grid);
+   }else{
+    const note={ar:'هذا ملخص غير مقسّم إلى أقسام معيارية. يُعرض النص الأصلي والمقتطف المترجم، دون اختلاق هدف أو منهجية أو نتائج.',en:'This abstract has no explicit structured headings. The source abstract and translated excerpt are shown without inventing study details.',he:'התקציר אינו מחולק לכותרות מובנות. מוצגים המקור והקטע המתורגם ללא המצאת פרטים.',de:'Dieses Abstract hat keine strukturierten Überschriften. Original und übersetzter Auszug werden ohne erfundene Angaben gezeigt.'}[lang];
+    summary.appendChild(el('p','hint',note));
    }
-   summary.appendChild(grid);
-   const evidenceNote={
-    ar:'استخراج حرفي من عناوين الملخص المنظم فقط؛ لا يستنتج HAKIM معلومات غير مذكورة. النصوص المستخرجة تبقى بلغة المصدر.',
-    en:'Verbatim extraction from explicitly headed abstract sections only. Missing details are not inferred. Extracts remain in the source language.',
-    he:'חילוץ מתוך סעיפים בעלי כותרות מפורשות בלבד; מידע חסר אינו מוסק. הקטעים נשארים בשפת המקור.',
-    de:'Wörtliche Extraktion nur aus ausdrücklich überschriebenen Abstract-Abschnitten. Fehlende Angaben werden nicht erschlossen; Auszüge bleiben in der Originalsprache.'
-   }[lang];
-   summary.appendChild(el('p','hint',evidenceNote));
    const clean=item.abstract.replace(/\s+/g,' ').trim();
    const chunks=clean.match(/[^.!?。؟]+[.!?。؟]?/g)||[clean];
    const extract=chunks.filter(x=>x.trim().length>30).slice(0,3).join(' ').slice(0,440).trim()||clean.slice(0,440);
@@ -343,7 +342,7 @@ document.getElementById('buildLecture').addEventListener('click',()=>document.ge
    // Query Europe PMC directly: static preview has no /api/literature-search backend.
    const resolved=window.hakimResolveSearchTerm(query);const normalized=resolved.query;
    const epmcQuery=normalized+(oa.checked?' AND OPEN_ACCESS:y':'');
-   const epmcParams=new URLSearchParams({query:epmcQuery,format:'json',pageSize:count.value,resultType:'core'});
+   const epmcParams=new URLSearchParams({query:epmcQuery,format:'json',pageSize:resolved.requirePeripheral?'100':count.value,resultType:'core'});
    const controller=new AbortController();
    const timeout=setTimeout(()=>controller.abort(),18000);
    let response;
@@ -358,8 +357,14 @@ document.getElementById('buildLecture').addEventListener('click',()=>document.ge
    // On peripheral vascular queries, exclude unrelated optic/visual nerve records.
    // Filtering is deliberately conservative: it does not assert clinical relevance.
    if(resolved.requirePeripheral){
-    const peripheral=/peripheral|neuropath|vasculitic|vasa nervorum|mononeuritis multiplex|nerve ischem|nerve ischaem|small fiber|small fibre|polyneuritis|polyneuropathy/i;
-    records=records.filter(x=>peripheral.test((x.title||'')+' '+(x.abstractText||'')));
+    // Conservative title-first relevance: optic/CNS-only articles are not peripheral nerve evidence.
+    const positive=/peripheral neuropath|vasculitic neuropath|vasa nervorum|mononeuritis multiplex|peripheral nerv|polyneuropath|diabetic neuropath|nerve ischem|nerve ischaem|ischemic neuropath|ischaemic neuropath/i;
+    const offTopic=/optic neuritis|optic neuropath|optic nerve|visual acuity|visual loss|retinal|ophthalm|multiple sclerosis|central nervous system/i;
+    records=records.filter(x=>{
+     const title=x.title||'',abstract=x.abstractText||'';
+     if(offTopic.test(title)&&!positive.test(title))return false;
+     return positive.test(title)||(positive.test(abstract)&&!offTopic.test(title));
+    }).slice(0,Number(count.value)||10);
    }
    const data={hit_count:payload.hitCount||0,returned:records.length,notice:'بيانات فهرسة من Europe PMC؛ تحقق من النص الأصلي وتقييم جودة الدراسة.',results:records.map(item=>({
      title:item.title||'Untitled',authors:item.authorString||'',journal:item.journalTitle||item.journalInfo?.journal?.title||'',year:item.pubYear||'',
@@ -369,7 +374,7 @@ document.getElementById('buildLecture').addEventListener('click',()=>document.ge
    }))};
    if(!data.results||!data.results.length){
     const msg={ar:'لم يُعثر على نتائج. الاستعلام المستخدم: ',en:'No results. Search expression: ',he:'לא נמצאו תוצאות. ביטוי החיפוש: ',de:'Keine Treffer. Suchausdruck: '}[document.getElementById('uiLanguage')?.value]||'لم يُعثر على نتائج. الاستعلام المستخدم: ';
-    status.textContent=msg+normalized+'. قد تكون الدفعة الأولى غير مرتبطة بالسؤال؛ جرّب تغيير عدد النتائج أو صياغة أدق.';return;
+    status.textContent=msg+normalized+'. لم تجتز أي دراسة من الدفعة الحالية معيار الصلة بالأعصاب الطرفية؛ لن نعرض دراسات العصب البصري كبديل.';return;
    }
    status.textContent='فهرس Europe PMC: '+data.hit_count+' سجلًا؛ المعروض بعد فحص الصلة: '+data.returned+' من الدفعة المسترجعة. '+(normalized!==query?'الاستعلام: '+normalized+'. ':'')+'تحتاج النتائج إلى مراجعة علمية.';
    data.results.forEach((item,i)=>results.appendChild(showItem(item,i)));
