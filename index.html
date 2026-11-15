@@ -303,5 +303,14 @@ function apply(lang){const ix=langs.indexOf(lang);optionEntries.forEach(({el,ori
 const selector=document.getElementById("uiLanguage");if(!selector)return;selector.addEventListener("change",()=>apply(selector.value));apply(selector.value);
 })();
 </script>
+<script id="hakim-status-localization">
+(function(){
+const langs=["en","he","de"],dictionary={"بحث مباشر":["Live search","חיפוש ישיר","Live-Suche"],"واجهة محلية":["Local prototype","אב טיפוס מקומי","Lokaler Prototyp"],"لا يوجد تحليل صور آلي":["No automated image analysis","אין ניתוח תמונה אוטומטי","Keine automatische Bildanalyse"],"تحليل النص يدويًا/بالتكامل":["Transcript-based workflow","עבודה עם תמלול","Transkriptbasierter Ablauf"],"مسودة طلب — لم تُنشأ الملفات":["Request draft — no files generated","טיוטת בקשה — לא נוצרו קבצים","Anfrageentwurf — keine Dateien erstellt"],"مصادر علمية مباشرة • دون مفتاح API":["Direct scientific sources • no API key","מקורות מדעיים ישירים • ללא מפתח API","Direkte wissenschaftliche Quellen • ohne API-Schlüssel"],"الوحدة السريرية • نموذج أولي":["Clinical module • prototype","כלי קליני • אב טיפוס","Klinisches Modul • Prototyp"],"وحدة التصوير الطبي • نموذج أولي":["Medical imaging • prototype","דימות רפואי • אב טיפוס","Bildgebung • Prototyp"],"المعرفة المستمدة من المحاضرات":["Learning from lectures","למידה מהרצאות","Lernen aus Vorlesungen"],"ضمان النزاهة العلمية:":["Scientific integrity:","יושרה מדעית:","Wissenschaftliche Integrität:"],"تنبيه علمي:":["Scientific caution:","אזהרה מדעית:","Wissenschaftlicher Hinweis:"]};
+const nodes=[...document.querySelectorAll(".status,.eyebrow,.note strong")].filter(el=>!el.closest(".hakim-hero")).map(el=>({el,original:el.textContent.trim()})).filter(item=>dictionary[item.original]);
+const select=document.getElementById("uiLanguage");if(!select)return;
+function apply(lang){const ix=langs.indexOf(lang);nodes.forEach(({el,original})=>{el.textContent=ix<0?original:dictionary[original][ix]});}
+select.addEventListener("change",()=>apply(select.value));apply(select.value);
+})();
+</script>
 </body>
 </html>
