@@ -66,7 +66,7 @@ $('analyzeImage').addEventListener('click',async()=>{
  const payload=await response.json();
  if(!response.ok)throw Error(payload.detail==='AI_NOT_CONFIGURED'?a[10]:a[11]);
  $('imageAssessment').textContent=payload.assessment||a[11];$('imageAssessment').hidden=false;$('imageStatus').textContent='';$('imageAssessment').scrollIntoView({behavior:'smooth',block:'nearest'});
- }catch(_){$('imageStatus').textContent=_.message||a[11]}finally{$('analyzeImage').disabled=false}
+ }catch(_){$('imageStatus').textContent=_.message||a[11];$('imageAssessment').textContent=({ar:'يمكنك الاستمرار بوصف الحالة والإجابة عن هذه الأسئلة للطبيب: هل البقع مؤلمة أم حاكة؟ هل تنتشر أو يصاحبها تورم أو حمى؟ هل استُخدم دواء أو منتج جديد؟ لا يمكن تشخيص الطفح من الصورة دون خدمة التحليل.',en:'While image analysis is unavailable, note for your clinician: Is it itchy or painful? Spreading, swollen or accompanied by fever? Any new products or medicines? A diagnosis cannot be made here.',he:'עד שהניתוח זמין: האם יש גרד או כאב? האם הפריחה מתפשטת, יש נפיחות או חום? האם השתמשתם במוצר או תרופה חדשים? לא ניתן לאבחן כאן.',de:'Bis zur Bildanalyse: Juckreiz oder Schmerzen? Ausbreitung, Schwellung oder Fieber? Neue Produkte oder Medikamente? Hier ist keine Diagnose möglich.'})[l];$('imageAssessment').hidden=false}finally{$('analyzeImage').disabled=false}
 });
 
 let controller=null;
