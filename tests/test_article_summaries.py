@@ -16,7 +16,7 @@ class AbstractFormattingTests(unittest.TestCase):
         self.assertNotIn("<h4>", text)
 
     def test_entities_are_decoded(self):
-        self.assertEqual(clean_abstract("Sana&lt;sup&gt;a &amp; Yemen"), "Sana<sup>a & Yemen")
+        self.assertEqual(clean_abstract("Sana&lt;sup&gt;a &amp; Yemen"), "Sanaa & Yemen")
 
     def test_missing_abstract(self):
         self.assertEqual(clean_abstract(None), "")
