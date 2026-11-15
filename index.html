@@ -266,16 +266,37 @@ document.getElementById('buildLecture').addEventListener('click',()=>document.ge
   const ids=[item.pmid?'PMID: '+item.pmid:'',item.pmcid?'PMCID: '+item.pmcid:'',item.doi?'DOI: '+item.doi:''].filter(Boolean).join(' | ');
   addMeta(card,'معرّفات',ids);addMeta(card,'إتاحة النص الكامل',item.is_open_access?'مفتوح الوصول بحسب سجل الفهرسة':'لم يُصنّف مفتوح الوصول');
   const lang=document.getElementById('uiLanguage')?.value||'ar';
-  const words={ar:['الملخص الأصلي','لا يتوفر ملخص في سجل Europe PMC لهذا المقال. افتح المصدر للتحقق.','ترجمة الملخص إلى لغة الواجهة (خدمة خارجية)','تنبيه: الترجمة آلية خارج HAKIM وليست تلخيصًا علميًا معتمدًا.'],en:['Original abstract','No abstract is available in the Europe PMC record. Open the source to verify.','Translate abstract to interface language (external service)','Note: external machine translation is not a validated scientific summary.'],he:['תקציר מקורי','אין תקציר ברשומת Europe PMC. יש לבדוק במקור.','תרגום התקציר לשפת הממשק (שירות חיצוני)','התרגום חיצוני ואוטומטי ואינו סיכום מדעי מאומת.'],de:['Originalzusammenfassung','In Europe PMC ist kein Abstract verfügbar. Bitte die Quelle prüfen.','Abstract in die Oberflächensprache übersetzen (externer Dienst)','Hinweis: Externe maschinelle Übersetzung ist keine validierte wissenschaftliche Zusammenfassung.']}[lang]||[];
+  const locale={
+   ar:['الملخص الأصلي','ملخص مختصر بلغة الواجهة','لا يتوفر ملخص أصلي لهذا السجل.','جارٍ إعداد الترجمة داخل HAKIM…','تعذرت الترجمة التلقائية حاليًا؛ الملخص المستخرج من النص الأصلي معروض أدناه.','ملخص مقتبس من النص المتاح، وليس مراجعة علمية مستقلة. قد يغفل تفاصيل مهمة.','ترجمة آلية تجريبية لنص علمي منشور؛ راجع الأصل قبل الاعتماد عليه.'],
+   en:['Original abstract','Brief summary in interface language','No abstract is available for this record.','Preparing inline translation…','Automatic translation is unavailable; the extracted source-language summary is shown below.','Extracted summary, not an independent scientific appraisal. Important details may be omitted.','Experimental machine translation of published scientific text; verify against the original.'],
+   he:['תקציר מקורי','סיכום קצר בשפת הממשק','אין תקציר ברשומה.','מכין תרגום בתוך HAKIM…','התרגום אינו זמין כעת; הסיכום בשפת המקור מוצג להלן.','סיכום מחולץ מהמקור, לא סקירה מדעית עצמאית. פרטים חשובים עלולים להיעדר.','תרגום מכונה ניסיוני; יש לאמת מול המקור.'],
+   de:['Originalabstract','Kurzfassung in der Oberflächensprache','Für diesen Eintrag ist kein Abstract verfügbar.','Übersetzung innerhalb von HAKIM wird vorbereitet…','Automatische Übersetzung nicht verfügbar; der Auszug in der Originalsprache folgt.','Aus dem Quelltext extrahiert, keine unabhängige wissenschaftliche Bewertung. Details können fehlen.','Experimentelle maschinelle Übersetzung; bitte Original prüfen.']
+  }[lang]||[];
   const abstractSection=el('section','hakim-abstract-section');
-  abstractSection.appendChild(el('strong',null,words[0]));
+  abstractSection.appendChild(el('strong',null,locale[0]));
   if(item.abstract){
    const original=el('p','hakim-abstract-original',item.abstract);original.dir='auto';abstractSection.appendChild(original);
-   const translated=el('a',null,words[2]);
-   translated.href='https://translate.google.com/?sl=auto&tl='+encodeURIComponent(({ar:'ar',en:'en',he:'iw',de:'de'})[lang]||'ar')+'&text='+encodeURIComponent(item.abstract.slice(0,4500))+'&op=translate';
-   translated.target='_blank';translated.rel='noopener noreferrer';abstractSection.appendChild(translated);
-   abstractSection.appendChild(el('p','hint',words[3]));
-  }else{abstractSection.appendChild(el('p','hint',words[1]));}
+   const summary=el('div','hakim-inline-summary');
+   summary.appendChild(el('strong',null,locale[1]));
+   const body=el('p','hakim-summary-text',locale[3]);body.dir='auto';summary.appendChild(body);
+   const note=el('p','hint',locale[5]);summary.appendChild(note);
+   abstractSection.appendChild(summary);
+   const clean=item.abstract.replace(/\\s+/g,' ').trim();
+   const chunks=clean.match(/[^.!?。؟]+[.!?。؟]?/g)||[clean];
+   const extract=chunks.filter(x=>x.trim().length>30).slice(0,3).join(' ').slice(0,440).trim()||clean.slice(0,440);
+   const target=({ar:'ar',en:'en',he:'he',de:'de'})[lang]||'ar';
+   // Translate only a short extract from a PUBLIC abstract. No patient or clinical form data is sent.
+   if(!extract){body.textContent=locale[2];}
+   else if(lang==='en'){body.textContent=extract;}
+   else{
+    const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),10000);
+    fetch('https://api.mymemory.translated.net/get?'+new URLSearchParams({q:extract,langpair:'en|'+target}),{signal:controller.signal})
+     .then(r=>{if(!r.ok)throw Error('translation HTTP '+r.status);return r.json();})
+     .then(data=>{const translated=data?.responseData?.translatedText;if(data?.responseStatus!==200||!translated||/MYMEMORY WARNING|QUERY LENGTH LIMIT/i.test(translated))throw Error('unavailable');body.textContent=translated;note.textContent=locale[6];})
+     .catch(()=>{body.textContent=extract;note.textContent=locale[4]+' '+locale[5];})
+     .finally(()=>clearTimeout(timer));
+   }
+  }else{abstractSection.appendChild(el('p','hint',locale[2]));}
   card.appendChild(abstractSection);
   const link=el('a',null,'فتح سجل المقال في Europe PMC');link.href=item.url;link.target='_blank';link.rel='noopener noreferrer';card.appendChild(link);
   return card;
@@ -423,5 +444,6 @@ target.after(note);const sel=document.getElementById('uiLanguage');function rend
 })();
 </script>
 <style id="hakim-abstract-style">.hakim-abstract-section{margin:12px 0;padding:12px;border:1px solid #d9e6e2;border-radius:10px;background:#f8fcfb}.hakim-abstract-original{white-space:pre-line;line-height:1.75;overflow-wrap:anywhere}.hakim-abstract-section a{display:inline-block;margin-top:8px}.hakim-abstract-section .hint{font-size:.83rem;margin-top:7px}</style>
+<style id="hakim-inline-summary-style">.hakim-inline-summary{margin-top:14px;padding:12px;background:#eaf5f2;border-radius:9px;border-inline-start:3px solid #287c73}.hakim-summary-text{line-height:1.8;white-space:pre-line;overflow-wrap:anywhere}.hakim-inline-summary .hint{font-size:.82rem}</style>
 </body>
 </html>
