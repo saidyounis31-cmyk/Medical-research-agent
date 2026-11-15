@@ -81,12 +81,14 @@ def home():
     return FileResponse(BASE_DIR / "public_search.html")
 
 def fetch_europe_pmc(params: str) -> dict:
-    """Retry temporary Europe PMC failures without treating upstream errors as empty results."""
-    url = "https://www.ebi.ac.uk/europepmc/webservices/rest/search?" + params
+    """Try both official Europe PMC hosts for temporary upstream failures."""
+    hosts = ("https://www.ebi.ac.uk/europepmc/webservices/rest/search?",
+             "https://www.europepmc.org/webservices/rest/search?")
     last_error = None
     for attempt in range(3):
-        req = Request(url, headers={"User-Agent": "HAKIM-MedicalResearch/0.4",
-                                    "Accept": "application/json"})
+        url = hosts[attempt % len(hosts)]
+        req = Request(url + params, headers={"User-Agent": "HAKIM-MedicalResearch/0.4",
+                                             "Accept": "application/json"})
         try:
             with urlopen(req, timeout=12) as response:
                 return json.load(response)
@@ -94,12 +96,10 @@ def fetch_europe_pmc(params: str) -> dict:
             last_error = exc
             if exc.code not in (429, 500, 502, 503, 504):
                 raise
-            if attempt < 2:
-                time.sleep(0.6 * (attempt + 1))
         except (URLError, TimeoutError, OSError) as exc:
             last_error = exc
-            if attempt < 2:
-                time.sleep(0.6 * (attempt + 1))
+        if attempt < 2:
+            time.sleep(0.6 * (attempt + 1))
     raise last_error or RuntimeError("Europe PMC unavailable")
 
 @app.get("/api/literature-search")
