@@ -43,19 +43,6 @@ def normalize_query(query):
     query = re.sub(r"\s+", " ", str(query or "")).strip()
     if not 2 <= len(query) <= 500:
         raise ValueError("Search query must contain 2–500 characters")
-    if os.getenv("ENABLE_MULTILINGUAL_QUERY_REWRITE", "false").lower() == "true" and os.getenv("OPENAI_API_KEY"):
-        try:
-            response = OpenAI(api_key=os.environ["OPENAI_API_KEY"], timeout=12).responses.create(
-                model=os.getenv("OPENAI_MODEL", "gpt-4.1-mini"),
-                instructions=("Rewrite this Arabic, Hebrew, German or English medical question as concise English "
-                              "biomedical search keywords. Do not diagnose. Preserve uncertainty. "
-                              "Return only keywords without quotes or Boolean syntax."),
-                input=query, max_output_tokens=90)
-            normalized = (response.output_text or "").strip().replace("\n", " ")[:300]
-            if normalized and re.search(r"[A-Za-z]", normalized):
-                return {"original": query, "normalized": normalized, "rewritten": True, "method": "llm"}
-        except Exception:
-            pass
     folded = _fold(query)
     concepts = []
     for pattern, term in CONCEPTS:
@@ -74,6 +61,19 @@ def normalize_query(query):
         # allowing generic intervention terms to dominate Europe PMC retrieval.
         disease = concepts[0]
         return {"original": query, "normalized": f'TITLE_ABS:"{disease}"', "rewritten": True, "method": "lexicon", "concepts": concepts}
+    if os.getenv("ENABLE_MULTILINGUAL_QUERY_REWRITE", "false").lower() == "true" and os.getenv("OPENAI_API_KEY"):
+        try:
+            response = OpenAI(api_key=os.environ["OPENAI_API_KEY"], timeout=12).responses.create(
+                model=os.getenv("OPENAI_MODEL", "gpt-4.1-mini"),
+                instructions=("Rewrite this Arabic, Hebrew, German or English medical question as concise English "
+                              "biomedical search keywords. Do not diagnose. Preserve uncertainty. "
+                              "Return only keywords without quotes or Boolean syntax."),
+                input=query, max_output_tokens=90)
+            normalized = (response.output_text or "").strip().replace("\n", " ")[:300]
+            if normalized and re.search(r"[A-Za-z]", normalized):
+                return {"original": query, "normalized": normalized, "rewritten": True, "method": "llm"}
+        except Exception:
+            pass
     return {"original": query, "normalized": query, "rewritten": False, "method": "original"}
 
 
