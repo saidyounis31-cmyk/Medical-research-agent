@@ -341,7 +341,7 @@ document.getElementById('buildLecture').addEventListener('click',()=>document.ge
   button.disabled=true;results.replaceChildren();status.textContent='جارٍ البحث في Europe PMC…';
   try{
    // Query Europe PMC directly: static preview has no /api/literature-search backend.
-   const normalized=window.hakimResolveSearchTerm(query).query;
+   const resolved=window.hakimResolveSearchTerm(query);const normalized=resolved.query;
    const epmcQuery=normalized+(oa.checked?' AND OPEN_ACCESS:y':'');
    const epmcParams=new URLSearchParams({query:epmcQuery,format:'json',pageSize:count.value,resultType:'core'});
    const controller=new AbortController();
@@ -354,7 +354,13 @@ document.getElementById('buildLecture').addEventListener('click',()=>document.ge
    if(!contentType.toLowerCase().includes('json'))throw new Error('Europe PMC أعاد استجابة غير متوقعة. يرجى المحاولة لاحقًا.');
    const payload=await response.json();
    if(!payload||!payload.resultList||!Array.isArray(payload.resultList.result))throw new Error('استجابة Europe PMC لا تحتوي على بنية النتائج المتوقعة.');
-   const records=payload.resultList.result;
+   let records=payload.resultList.result;
+   // On peripheral vascular queries, exclude unrelated optic/visual nerve records.
+   // Filtering is deliberately conservative: it does not assert clinical relevance.
+   if(resolved.requirePeripheral){
+    const peripheral=/peripheral|neuropath|vasculitic|vasa nervorum|mononeuritis multiplex|nerve ischem|nerve ischaem|small fiber|small fibre|polyneuritis|polyneuropathy/i;
+    records=records.filter(x=>peripheral.test((x.title||'')+' '+(x.abstractText||'')));
+   }
    const data={hit_count:payload.hitCount||0,returned:records.length,notice:'بيانات فهرسة من Europe PMC؛ تحقق من النص الأصلي وتقييم جودة الدراسة.',results:records.map(item=>({
      title:item.title||'Untitled',authors:item.authorString||'',journal:item.journalTitle||item.journalInfo?.journal?.title||'',year:item.pubYear||'',
      pmid:item.pmid||'',pmcid:item.pmcid||'',doi:item.doi||'',is_open_access:item.isOpenAccess==='Y',
@@ -363,9 +369,9 @@ document.getElementById('buildLecture').addEventListener('click',()=>document.ge
    }))};
    if(!data.results||!data.results.length){
     const msg={ar:'لم يُعثر على نتائج. الاستعلام المستخدم: ',en:'No results. Search expression: ',he:'לא נמצאו תוצאות. ביטוי החיפוש: ',de:'Keine Treffer. Suchausdruck: '}[document.getElementById('uiLanguage')?.value]||'لم يُعثر على نتائج. الاستعلام المستخدم: ';
-    status.textContent=msg+normalized+'. جرّب صياغة أقصر أو مفهومًا طبيًا أكثر تحديدًا.';return;
+    status.textContent=msg+normalized+'. قد تكون الدفعة الأولى غير مرتبطة بالسؤال؛ جرّب تغيير عدد النتائج أو صياغة أدق.';return;
    }
-   status.textContent='عُثر على '+data.hit_count+' سجلًا؛ عُرض '+data.returned+' نتائج من Europe PMC. '+(normalized!==query?'المصطلح العلمي المستخدم: '+normalized+'. ':'')+'هذه نتائج فهرسة وليست تقييمًا لقوة الدليل.';
+   status.textContent='فهرس Europe PMC: '+data.hit_count+' سجلًا؛ المعروض بعد فحص الصلة: '+data.returned+' من الدفعة المسترجعة. '+(normalized!==query?'الاستعلام: '+normalized+'. ':'')+'تحتاج النتائج إلى مراجعة علمية.';
    data.results.forEach((item,i)=>results.appendChild(showItem(item,i)));
    results.appendChild(el('p','hint',data.notice||'تحقق من المقال الأصلي قبل الاستشهاد.'));
   }catch(error){const reason=error.name==='AbortError'?'انتهت مهلة الاتصال بعد 18 ثانية. تحقق من الإنترنت وأعد المحاولة.':error instanceof TypeError?'تعذر الاتصال بخدمة Europe PMC من المتصفح. قد يكون الاتصال أو سياسة المتصفح سببًا.':error.message;status.textContent='تعذّر البحث: '+reason;}
@@ -449,6 +455,13 @@ aliases.sort((a,b)=>b.key.length-a.key.length);
 function boundary(text,start,end){const word=/[\\p{L}\\p{N}]/u;return (start===0||!word.test(text[start-1]))&&(end===text.length||!word.test(text[end]));}
 window.hakimResolveSearchTerm=function(value){
  const input=String(value||'').trim(),normalized=norm(input);
+ // High-precision peripheral nerve + vascular intent. Do not conflate optic neuritis with peripheral neuropathy.
+ const peripheralNerve=/(اعصاب|عصب|neuropathy|neuritis|neuropathie|nerven|עצבים|נוירופתיה)/i.test(normalized);
+ const vessels=/(اوعيه|دمويه|دموية|وعائي|vascular|vasculitis|blood vessels|gefäß|gefäss|כלי דם)/i.test(normalized);
+ if(peripheralNerve&&vessels){
+  const expression='((vasculitic neuropathy) OR (peripheral neuropathy AND vasculitis) OR (vasa nervorum AND neuropathy) OR (peripheral nerve AND vascular))';
+  return {query:expression,label:'vasculitic neuropathy / peripheral neuropathy / vasa nervorum',expanded:true,type:'peripheral-vascular',matched:true,concepts:['peripheral neuropathy','vasculitis','vasa nervorum'],requirePeripheral:true};
+ }
  const exact=dictionary.get(normalized);
  if(exact)return {query:exact.q,label:exact.q,expanded:exact.q!==input,type:exact.type,matched:true,concepts:[exact.q]};
  const spans=[],selected=[],seen=new Set();
