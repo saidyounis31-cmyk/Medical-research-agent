@@ -70,6 +70,8 @@ $('analyzeImage').addEventListener('click',async()=>{
 });
 
 let controller=null;
+let lastResearchQuestion=''; // Page-session context only; never persisted to storage.
+const providerMessages={ar:'خدمة الذكاء الاصطناعي وصلت إلى حد الاستخدام أو الحصة المتاحة. البحث والمستخلص الأصلي ما زالا متاحين؛ لا يمكن إنشاء ملخص عربي آلي الآن.',en:'AI provider usage limit or quota reached. Search and original abstracts remain available; AI summaries are temporarily unavailable.',he:'הגעת למגבלת שימוש או מכסה של ספק הבינה המלאכותית. החיפוש והתקצירים המקוריים עדיין זמינים.',de:'Nutzungslimit oder Kontingent des KI-Anbieters erreicht. Suche und Originalabstracts bleiben verfügbar.'};
 function locale(){let l=$('lang').value,a=t[l],im=imageI18n[l];['imageTitle','imageIntro','imageFileLabel','answersLabel','consentText','analyzeImage'].forEach((id,i)=>$(id).textContent=im[[0,1,2,3,5,6][i]]);$('imageAnswers').placeholder=im[4];document.documentElement.lang=l;document.documentElement.dir=['ar','he'].includes(l)?'rtl':'ltr';['subtitle','questionLabel','resultsTitle','notice'].forEach((id,i)=>$(id).textContent=a[[0,1,4,17][i]]);$('query').placeholder=a[2];$('search').textContent=a[3];$('ask').textContent=aiWords[l][0];$('answerTitle').textContent=aiWords[l][1]}
 function node(tag,txt,cls){const e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=txt;return e}
 const summaryLabels={
@@ -79,12 +81,12 @@ he:['קטע קצר מהתקציר המקורי','סיכום בעברית','הצ�
 de:['Kurzer Auszug aus dem Originalabstract','Auf Deutsch zusammenfassen','Originalabstract lesen','Zusammenfassung wird erstellt...','KI-Zusammenfassung ist nicht konfiguriert. Lesen Sie das Originalabstract.','Zusammenfassung nicht verfügbar. Das Originalabstract bleibt lesbar.','Nur auf Basis des Abstracts, keine Volltextbewertung.']};
 function showRecord(item,a){
 let l=$('lang').value,labels=summaryLabels[l],box=node('article',undefined,'result');
-box.append(node('h3',item.title||''));box.append(node('p',[item.authors,item.journal,item.year].filter(Boolean).join(' · '),'meta'));
+let title=node('h3',item.title||'');title.dir='auto';box.append(title);box.append(node('p',[item.authors,item.journal,item.year].filter(Boolean).join(' · '),'meta'));
 if(item.abstract){
  let abstract=String(item.abstract);
  // The backend removes markup; textContent also prevents execution of source HTML.
  let preview=abstract.length>360?abstract.slice(0,360).trimEnd()+'…':abstract;
- box.append(node('p',labels[0],'meta'),node('p',preview,'short'));
+ let excerpt=node('p',preview,'short');excerpt.dir='auto';excerpt.style.textAlign='start';box.append(node('p',labels[0],'meta'),excerpt);
  let btn=node('button',labels[1],'summarize');btn.type='button';
  let status=node('p','', 'summary-status');status.setAttribute('role','status');
  btn.addEventListener('click',async()=>{
@@ -92,7 +94,7 @@ if(item.abstract){
    try{
      let response=await fetch('/api/article-summary',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({title:item.title||'Untitled',abstract,language:l})});
      let payload=await response.json();
-     if(!response.ok){status.textContent=payload.detail==='AI_NOT_CONFIGURED'?labels[4]:labels[5];return}
+     if(!response.ok){status.textContent=payload.detail==='AI_NOT_CONFIGURED'?labels[4]:payload.detail==='AI_PROVIDER_LIMIT'?providerMessages[l]:labels[5];return}
      status.textContent=payload.summary+'\n\n'+labels[6];
    }catch(_){status.textContent=labels[5]}finally{btn.disabled=false}
  });
@@ -103,12 +105,15 @@ let link=node('a',a[10]);if(typeof item.url==='string' && /^https:\/\/(europepmc
 async function run(){const a=t[$('lang').value],q=$('query').value.trim();if(q.length<2){$('status').textContent=a[6];$('query').focus();return}if(controller)controller.abort();controller=new AbortController();$('search').disabled=true;$('status').textContent=a[5];$('results').hidden=false;$('summary').textContent=a[5];$('articles').replaceChildren();$('results').scrollIntoView({behavior:'smooth',block:'start'});
 try{let response=await fetch('/api/literature-search?'+new URLSearchParams({q,page_size:'10'}),{signal:controller.signal});let raw=await response.text();let data;try{data=JSON.parse(raw)}catch(_){throw Error(response.ok?'Unexpected response format':'Server error (HTTP '+response.status+'). Please try again later.' )}if(!response.ok)throw Error(data.detail==='LITERATURE_SOURCE_UNAVAILABLE'?upstreamMessages[$('lang').value]:(typeof data.detail==='string'?data.detail:'HTTP '+response.status));if(!Array.isArray(data.results)||!data.results.length){$('summary').textContent=a[7];$('status').textContent=a[7];return}
 $('summary').textContent=a[8]+data.returned+'. '+a[9];data.results.forEach(x=>$('articles').append(showRecord(x,a)));$('status').textContent=a[8]+data.returned;
+lastResearchQuestion=q;
+const images=node('a',({ar:'عرض صور علمية مرتبطة بالموضوع (Wikimedia Commons)',en:'Explore related images (Wikimedia Commons)',he:'תמונות קשורות (Wikimedia Commons)',de:'Verwandte Bilder (Wikimedia Commons)'})[$('lang').value]);images.href='https://commons.wikimedia.org/wiki/Special:MediaSearch?type=image&search='+encodeURIComponent((data.effective_query||q).slice(0,160));images.target='_blank';images.rel='noopener noreferrer';$('articles').prepend(images);
 }catch(e){if(e.name!=='AbortError'){$('summary').textContent=e.message;$('status').textContent=''}}finally{$('search').disabled=false}}
-async function askHakim(){const l=$('lang').value,a=aiWords[l],q=$('query').value.trim();if(q.length<5){$('status').textContent=t[l][6];$('query').focus();return}
+async function askHakim(){const l=$('lang').value,a=aiWords[l],q=$('query').value.trim();if(q.length<2){$('status').textContent=t[l][6];$('query').focus();return}
 $('aiResults').hidden=false;$('aiAnswer').textContent=a[2];$('aiSources').replaceChildren();$('ask').disabled=true;$('aiResults').scrollIntoView({behavior:'smooth',block:'start'});
-try{const response=await fetch('/api/evidence-answer',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q,language:l})});const raw=await response.text();let data={};try{data=JSON.parse(raw)}catch(_){}
-if(!response.ok){if(data.detail==='AI_NOT_CONFIGURED')throw Error(a[3]);throw Error(a[5])}
+try{const response=await fetch('/api/evidence-answer',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q,language:l,previous_question:lastResearchQuestion!==q?lastResearchQuestion:''})});const raw=await response.text();let data={};try{data=JSON.parse(raw)}catch(_){}
+if(!response.ok){if(data.detail==='AI_NOT_CONFIGURED')throw Error(a[3]);if(data.detail==='AI_PROVIDER_LIMIT')throw Error(providerMessages[l]);throw Error(a[5])}
 if(data.status==='no_evidence'){$('aiAnswer').textContent=a[4];return}
+lastResearchQuestion=q;
 $('aiAnswer').textContent=data.answer||a[5];if(Array.isArray(data.sources)&&data.sources.length){$('aiSources').append(node('h3',a[6]));data.sources.forEach(s=>{if(!s.url||!/^https:\/\/(europepmc\.org|doi\.org)\//.test(s.url))return;let link=node('a','['+s.number+'] '+s.title+' ('+s.year+')');link.href=s.url;link.target='_blank';link.rel='noopener noreferrer';$('aiSources').append(link)})}
 }catch(e){$('aiAnswer').textContent=e.message||a[5]}finally{$('ask').disabled=false}}
 $('ask').addEventListener('click',askHakim);$('lang').addEventListener('change',locale);$('search').addEventListener('click',run);$('query').addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key==='Enter')run()});locale();
