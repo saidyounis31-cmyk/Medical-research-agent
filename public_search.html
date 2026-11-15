@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>حكيم HAKIM — البحث الطبي والعلمي</title>
+<style>
+:root{font-family:system-ui,"Segoe UI",Tahoma,Arial,sans-serif;color:#17313a;background:#f3f7f7}*{box-sizing:border-box}
+body{margin:0}main{max-width:850px;margin:auto;padding:20px 14px 70px}
+header{padding:25px 20px;background:linear-gradient(125deg,#10484a,#146b66);color:#fff;border-radius:18px;margin-bottom:20px}
+header h1{font-size:clamp(1.6rem,5vw,2.4rem);margin:0 0 6px}header p{margin:0;color:#e1f4ee}
+.top{display:flex;justify-content:flex-end;margin:0 0 14px}select,textarea,button{font:inherit}
+select{padding:9px;border:1px solid #cbd8d8;border-radius:10px;background:white}
+.card{background:#fff;border:1px solid #d6e1e4;border-radius:18px;padding:20px;box-shadow:0 8px 28px #17313a0d}
+label{font-weight:700;display:block;margin-bottom:9px}textarea{display:block;width:100%;min-height:125px;resize:vertical;border:1px solid #b9ccce;border-radius:12px;padding:15px;color:#17313a;line-height:1.7}
+button{background:#126b65;color:white;border:0;border-radius:12px;padding:13px 26px;font-weight:700;margin-top:14px;cursor:pointer;min-width:125px}
+button:disabled{opacity:.65;cursor:wait}button:focus-visible,textarea:focus-visible{outline:3px solid #78c9bc;outline-offset:2px}
+#status{margin:14px 0 0;color:#376269;min-height:24px}#results{margin-top:18px;scroll-margin-top:15px}
+#results[hidden]{display:none}.result{padding:16px 18px;background:#fff;border:1px solid #d6e1e4;border-radius:14px;margin:12px 0}
+.result h3{font-size:1.05rem;margin:0 0 10px;line-height:1.55}.result p{line-height:1.7;overflow-wrap:anywhere}
+.result a{color:#096e6a;font-weight:700;overflow-wrap:anywhere}.meta{color:#61727a;font-size:.88rem}
+.summary{background:#eaf5f2;padding:15px;border-radius:13px;margin:14px 0}
+.note{font-size:.85rem;color:#63777c;margin:16px 0}
+@media(max-width:520px){main{padding:12px 10px 40px}.card{padding:15px}header{padding:20px 16px}button{width:100%}}
+</style></head><body><main>
+<div class="top"><select id="lang" aria-label="Language"><option value="ar">العربية</option><option value="en">English</option><option value="he">עברית</option><option value="de">Deutsch</option></select></div>
+<header><h1>حكيم | HAKIM | חכים</h1><p id="subtitle">البحث الطبي والعلمي — ANEMONE SLN LTD</p></header>
+<section class="card"><label for="query" id="questionLabel">ما الموضوع أو السؤال الذي تريد البحث عنه؟</label>
+<textarea id="query" maxlength="500" placeholder="اكتب سؤالك كما تتحدث عادةً، حتى لو كان جملة كاملة أو بلغة عامية."></textarea>
+<button id="search" type="button">بحث</button><p id="status" role="status" aria-live="polite"></p></section>
+<section id="results" hidden aria-live="polite"><h2 id="resultsTitle">نتائج البحث</h2><div id="summary" class="summary"></div><div id="articles"></div></section>
+<p id="notice" class="note">المعلومات للبحث والتعليم، ولا تمثل تشخيصًا أو توصية علاجية. لا تُدخل بيانات تعريفية أو معلومات مرضى حساسة.</p>
+</main><script>
+(()=>{'use strict';
+const $=id=>document.getElementById(id);
+const t={
+ar:['البحث الطبي والعلمي — ANEMONE SLN LTD','ما الموضوع أو السؤال الذي تريد البحث عنه؟','اكتب سؤالك كما تتحدث عادةً، حتى لو كان جملة كاملة أو بلغة عامية.','بحث','نتائج البحث','جارٍ البحث عن الدراسات...','أدخل سؤالًا أو موضوعًا للبحث.','لم تظهر دراسات بهذه الصياغة. جرّب اسم المرض أو مصطلحات طبية أكثر تحديدًا.','دراسات متاحة في فهرس Europe PMC: ','هذه نتائج فهرسة علمية، وليست إجابة علاجية شخصية أو تقييمًا لجودة الدراسات.','فتح المقال الأصلي','المؤلفون','المجلة','السنة','ملخص الدراسة','لا يوجد ملخص متاح في السجل.','تعذر البحث: ','المعلومات للبحث والتعليم، ولا تمثل تشخيصًا أو توصية علاجية. لا تُدخل بيانات تعريفية أو معلومات مرضى حساسة.'],
+en:['Medical and scientific search — ANEMONE SLN LTD','What would you like to research?','Type your question naturally, including complete sentences.','Search','Search results','Searching scientific literature...','Enter a question or topic.','No studies found for this query. Try more specific medical terms.','Europe PMC indexed records: ','These are bibliographic results, not personalized medical advice or a quality appraisal.','Open original article','Authors','Journal','Year','Abstract','No abstract available in this record.','Search failed: ','For education and research only; not a diagnosis or treatment recommendation. Do not enter identifying or sensitive patient data.'],
+he:['חיפוש רפואי ומדעי — ANEMONE SLN LTD','מה הנושא או השאלה שברצונך לחפש?','כתבו את השאלה בשפה טבעית, גם במשפטים מלאים.','חפש','תוצאות החיפוש','מחפש מאמרים מדעיים...','יש להזין שאלה או נושא.','לא נמצאו מחקרים לניסוח זה. נסו מונחים רפואיים מדויקים יותר.','רשומות ב-Europe PMC: ','אלה רשומות ביבליוגרפיות, לא המלצה רפואית אישית או הערכת איכות המחקרים.','פתיחת המאמר המקורי','מחברים','כתב עת','שנה','תקציר','אין תקציר זמין ברשומה.','החיפוש נכשל: ','למטרות לימוד ומחקר בלבד; לא אבחנה או המלצת טיפול. אין להזין פרטי מטופלים מזהים או רגישים.'],
+de:['Medizinische und wissenschaftliche Suche — ANEMONE SLN LTD','Welches Thema möchten Sie recherchieren?','Geben Sie Ihre Frage in natürlicher Sprache ein, auch als vollständigen Satz.','Suchen','Suchergebnisse','Wissenschaftliche Literatur wird durchsucht...','Bitte eine Frage oder ein Thema eingeben.','Keine Studien gefunden. Versuchen Sie genauere medizinische Begriffe.','In Europe PMC indexierte Einträge: ','Dies sind bibliografische Ergebnisse, keine individuelle Therapieempfehlung oder Qualitätsbewertung.','Originalartikel öffnen','Autoren','Zeitschrift','Jahr','Zusammenfassung','Keine Zusammenfassung verfügbar.','Suche fehlgeschlagen: ','Nur für Bildung und Forschung, keine Diagnose oder Therapieempfehlung. Keine identifizierenden oder sensiblen Patientendaten eingeben.']
+};
+let controller=null;
+function locale(){let l=$('lang').value,a=t[l];document.documentElement.lang=l;document.documentElement.dir=['ar','he'].includes(l)?'rtl':'ltr';['subtitle','questionLabel','resultsTitle','notice'].forEach((id,i)=>$(id).textContent=a[[0,1,4,17][i]]);$('query').placeholder=a[2];$('search').textContent=a[3]}
+function node(tag,txt,cls){const e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=txt;return e}
+function showRecord(item,a){let box=node('article',undefined,'result');box.append(node('h3',item.title||''));box.append(node('p',[item.authors,item.journal,item.year].filter(Boolean).join(' · '),'meta'));if(item.abstract){let abs=node('p',item.abstract);box.append(node('h4',a[14]),abs)}else box.append(node('p',a[15],'meta'));let link=node('a',a[10]);if(typeof item.url==='string' && /^https:\/\/(europepmc\.org|doi\.org)\//.test(item.url)){link.href=item.url;link.target='_blank';link.rel='noopener noreferrer';box.append(link)}return box}
+async function run(){const a=t[$('lang').value],q=$('query').value.trim();if(q.length<2){$('status').textContent=a[6];$('query').focus();return}if(controller)controller.abort();controller=new AbortController();$('search').disabled=true;$('status').textContent=a[5];$('results').hidden=false;$('summary').textContent=a[5];$('articles').replaceChildren();$('results').scrollIntoView({behavior:'smooth',block:'start'});
+try{let response=await fetch('/api/literature-search?'+new URLSearchParams({q,page_size:'10'}),{signal:controller.signal});let data=await response.json();if(!response.ok)throw Error(typeof data.detail==='string'?data.detail:'HTTP '+response.status);if(!Array.isArray(data.results)||!data.results.length){$('summary').textContent=a[7];$('status').textContent=a[7];return}
+$('summary').textContent=a[8]+data.returned+'. '+a[9];data.results.forEach(x=>$('articles').append(showRecord(x,a)));$('status').textContent=a[8]+data.returned;
+}catch(e){if(e.name!=='AbortError'){$('summary').textContent=a[16]+e.message;$('status').textContent=a[16]+e.message}}finally{$('search').disabled=false}}
+$('lang').addEventListener('change',locale);$('search').addEventListener('click',run);$('query').addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key==='Enter')run()});locale();
+})();
+</script></body></html>
