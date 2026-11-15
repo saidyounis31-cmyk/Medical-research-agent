@@ -163,7 +163,7 @@ def literature_search(
     epmc_query = "(" + query_info["normalized"] + ")"
     if open_access_only:
         epmc_query += " AND OPEN_ACCESS:Y"
-    params = urlencode({"query": epmc_query, "format": "json", "pageSize": page_size, "resultType": "core"})
+    params = urlencode({"query": epmc_query, "format": "json", "pageSize": min(100, max(30, page_size * 5)), "resultType": "core"})
     url = "https://www.ebi.ac.uk/europepmc/webservices/rest/search?" + params
     req = Request(url, headers={"User-Agent": "MedicalScientificAgent/0.3 (educational literature search)"})
     try:
@@ -198,7 +198,7 @@ def literature_search(
             "url": article_url,
         })
     from multilingual_search import rank_research_results
-    results = rank_research_results(query, results)
+    results = rank_research_results(query, results)[:page_size]
     return {
         "ok": True,
         "source": "Europe PMC",
