@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>حكيم HAKIM — البحث الطبي والعلمي</title>
+<style>
+:root{font-family:system-ui,"Segoe UI",Tahoma,Arial,sans-serif;color:#17313a;background:#f3f7f7}*{box-sizing:border-box}
+body{margin:0}main{max-width:850px;margin:auto;padding:20px 14px 70px}
+header{padding:25px 20px;background:linear-gradient(125deg,#10484a,#146b66);color:#fff;border-radius:18px;margin-bottom:20px}
+header h1{font-size:clamp(1.6rem,5vw,2.4rem);margin:0 0 6px}header p{margin:0;color:#e1f4ee}header .company{display:block;white-space:nowrap;direction:ltr;unicode-bidi:isolate;font-size:clamp(.85rem,3.3vw,1rem);margin-top:8px}
+.top{display:flex;justify-content:flex-end;margin:0 0 14px}select,textarea,button{font:inherit}
+select{padding:9px;border:1px solid #cbd8d8;border-radius:10px;background:white}
+.card{background:#fff;border:1px solid #d6e1e4;border-radius:18px;padding:20px;box-shadow:0 8px 28px #17313a0d}
+label{font-weight:700;display:block;margin-bottom:9px}textarea{display:block;width:100%;min-height:125px;resize:vertical;border:1px solid #b9ccce;border-radius:12px;padding:15px;color:#17313a;line-height:1.7}
+button{background:#126b65;color:white;border:0;border-radius:12px;padding:13px 26px;font-weight:700;margin-top:14px;cursor:pointer;min-width:125px}
+button:disabled{opacity:.65;cursor:wait}.actions{display:flex;gap:10px;flex-wrap:wrap}.actions button{flex:1;min-width:165px}.actions .outline{background:#e5f2ef;color:#12645e}.answer{white-space:pre-wrap;line-height:1.85;font-size:1rem;overflow-wrap:anywhere}.sources{margin-top:15px}.sources a{display:block;margin:8px 0;color:#096e6a;overflow-wrap:anywhere}button:focus-visible,textarea:focus-visible{outline:3px solid #78c9bc;outline-offset:2px}
+#status{margin:14px 0 0;color:#376269;min-height:24px}#results{margin-top:18px;scroll-margin-top:15px}
+#results[hidden]{display:none}.result{padding:16px 18px;background:#fff;border:1px solid #d6e1e4;border-radius:14px;margin:12px 0}
+.result h3{font-size:1.05rem;margin:0 0 10px;line-height:1.55}.result p{line-height:1.7;overflow-wrap:anywhere}
+.result details{margin:12px 0}.result summary{cursor:pointer;color:#126b65;font-weight:700;padding:8px 0}.result .short{line-height:1.75;white-space:pre-wrap}.result .original{white-space:pre-wrap;direction:auto;text-align:start}.result .summarize{margin:8px 0;min-width:0;padding:10px 16px}.result .summary-status{color:#376269;white-space:pre-wrap}.result a{color:#096e6a;font-weight:700;overflow-wrap:anywhere}.meta{color:#61727a;font-size:.88rem}
+.summary{background:#eaf5f2;padding:15px;border-radius:13px;margin:14px 0}
+#imagePanel{margin-top:18px}#imagePanel input[type=file]{display:block;width:100%;margin:10px 0}#imagePreview{display:none;max-width:100%;max-height:260px;border-radius:12px;margin:12px 0}#imagePanel .consent{display:flex;gap:10px;align-items:flex-start;font-weight:400}#imagePanel .consent input{margin-top:7px;flex-shrink:0}#imageAssessment{white-space:pre-wrap;line-height:1.8;overflow-wrap:anywhere}#imageStatus{color:#376269}
+.note{font-size:.85rem;color:#63777c;margin:16px 0}
+@media(max-width:520px){main{padding:12px 10px 40px}.card{padding:15px}header{padding:20px 16px}button{width:100%}}
+</style></head><body><main>
+<div class="top"><select id="lang" aria-label="Language"><option value="ar">العربية</option><option value="en">English</option><option value="he">עברית</option><option value="de">Deutsch</option></select></div>
+<header><h1>حكيم | HAKIM | חכים</h1><p id="subtitle">البحث الطبي والعلمي</p><span class="company">ANEMONE SLN LTD</span></header>
+<section class="card"><label for="query" id="questionLabel">اكتب بكلماتك ما الذي تبحث عنه أو صف الحالة بالتفصيل</label>
+<textarea id="query" maxlength="500" placeholder="مثال: ابنتي عندها بقع بيضاء في الوجه واليدين، هل توجد دراسات عن البهاق؟ أو صف نبتة لا تعرف اسمها."></textarea>
+<div class="actions"><button id="search" type="button">بحث</button><button id="ask" class="outline" type="button">اسأل حكيم</button></div><p id="status" role="status" aria-live="polite"></p></section>
+<section id="imagePanel" class="card"><h2 id="imageTitle">الفحص بالصور والأسئلة</h2><p id="imageIntro">أرفق صورة واضحة، واكتب وصف الحالة أعلاه، ثم اطلب تقييمًا أوليًا وأسئلة متابعة.</p><label id="imageFileLabel" for="imageFile">إضافة صورة (JPG / PNG / WebP، حتى 4 ميغابايت)</label><input id="imageFile" type="file" accept="image/jpeg,image/png,image/webp" capture="environment"><img id="imagePreview" alt="معاينة الصورة المختارة"><label id="answersLabel" for="imageAnswers">إجابات إضافية عن الأعراض (اختياري)</label><textarea id="imageAnswers" maxlength="3000" placeholder="مثلاً: منذ متى ظهرت؟ هل توجد حكة أو ألم أو حرارة؟"></textarea><label class="consent"><input id="imageConsent" type="checkbox"><span id="consentText">أوافق على إرسال الصورة ووصف الحالة إلى مزود الذكاء الاصطناعي لتحليلها. لا تُحفظ الصورة في خادم حكيم.</span></label><button id="analyzeImage" type="button">حلّل الصورة</button><p id="imageStatus" role="status" aria-live="polite"></p><div id="imageAssessment" hidden></div></section>
+<section id="aiResults" hidden class="card" style="margin-top:18px;scroll-margin-top:15px"><h2 id="answerTitle">إجابة حكيم العلمية</h2><div id="aiAnswer" class="answer"></div><div id="aiSources" class="sources"></div></section><section id="results" hidden aria-live="polite"><h2 id="resultsTitle">نتائج البحث</h2><div id="summary" class="summary"></div><div id="articles"></div></section>
+<p id="notice" class="note">المعلومات للبحث والتعليم، ولا تمثل تشخيصًا أو توصية علاجية. لا تُدخل بيانات تعريفية أو معلومات مرضى حساسة.</p>
+</main><script>
+(()=>{'use strict';
+const $=id=>document.getElementById(id);
+const t={
+ar:['البحث الطبي والعلمي','اكتب بكلماتك ما الذي تبحث عنه أو صف الحالة بالتفصيل','مثال: ابنتي عندها بقع بيضاء في الوجه واليدين، هل توجد دراسات عن البهاق؟ أو صف نبتة لا تعرف اسمها.','بحث','نتائج البحث','جارٍ البحث عن الدراسات...','أدخل سؤالًا أو موضوعًا للبحث.','لم تظهر دراسات بهذه الصياغة. جرّب اسم المرض أو مصطلحات طبية أكثر تحديدًا.','دراسات متاحة في فهرس Europe PMC: ','هذه نتائج فهرسة علمية، وليست إجابة علاجية شخصية أو تقييمًا لجودة الدراسات.','فتح المقال الأصلي','المؤلفون','المجلة','السنة','ملخص الدراسة','لا يوجد ملخص متاح في السجل.','تعذر البحث: ','المعلومات للبحث والتعليم، ولا تمثل تشخيصًا أو توصية علاجية. لا تُدخل بيانات تعريفية أو معلومات مرضى حساسة.'],
+en:['Medical and scientific search','Describe your question, symptoms, or an unknown plant in your own words','Write several sentences if needed.','Search','Search results','Searching scientific literature...','Enter a question or topic.','No studies found for this query. Try more specific medical terms.','Europe PMC indexed records: ','These are bibliographic results, not personalized medical advice or a quality appraisal.','Open original article','Authors','Journal','Year','Abstract','No abstract available in this record.','Search failed: ','For education and research only; not a diagnosis or treatment recommendation. Do not enter identifying or sensitive patient data.'],
+he:['חיפוש רפואי ומדעי','תארו במילים שלכם מה אתם מחפשים או את המצב הרפואי','אפשר לכתוב כמה משפטים, גם בשפה מדוברת.','חפש','תוצאות החיפוש','מחפש מאמרים מדעיים...','יש להזין שאלה או נושא.','לא נמצאו מחקרים לניסוח זה. נסו מונחים רפואיים מדויקים יותר.','רשומות ב-Europe PMC: ','אלה רשומות ביבליוגרפיות, לא המלצה רפואית אישית או הערכת איכות המחקרים.','פתיחת המאמר המקורי','מחברים','כתב עת','שנה','תקציר','אין תקציר זמין ברשומה.','החיפוש נכשל: ','למטרות לימוד ומחקר בלבד; לא אבחנה או המלצת טיפול. אין להזין פרטי מטופלים מזהים או רגישים.'],
+de:['Medizinische und wissenschaftliche Suche','Beschreiben Sie Ihre Frage, Beschwerden oder eine unbekannte Pflanze','Schreiben Sie gern mehrere Sätze in Ihren eigenen Worten.','Suchen','Suchergebnisse','Wissenschaftliche Literatur wird durchsucht...','Bitte eine Frage oder ein Thema eingeben.','Keine Studien gefunden. Versuchen Sie genauere medizinische Begriffe.','In Europe PMC indexierte Einträge: ','Dies sind bibliografische Ergebnisse, keine individuelle Therapieempfehlung oder Qualitätsbewertung.','Originalartikel öffnen','Autoren','Zeitschrift','Jahr','Zusammenfassung','Keine Zusammenfassung verfügbar.','Suche fehlgeschlagen: ','Nur für Bildung und Forschung, keine Diagnose oder Therapieempfehlung. Keine identifizierenden oder sensiblen Patientendaten eingeben.']
+};
+const aiWords={
+ar:['اسأل حكيم','إجابة حكيم العلمية','جارٍ البحث وتحليل الأدلة...','خدمة الإجابة العلمية غير مهيأة بعد. يلزم إعداد مفتاح الذكاء الاصطناعي على الخادم.','لا تتوفر ملخصات دراسات كافية لإعداد إجابة موثقة عن هذا السؤال.','تعذر إنشاء الإجابة حاليًا. حاول لاحقًا.','المصادر المستخدمة:'],
+en:['Ask HAKIM','HAKIM evidence answer','Searching and analyzing evidence...','AI answer service is not configured. A server-side API key is required.','Not enough retrieved study abstracts to provide a grounded answer.','Unable to generate an answer right now. Try again later.','Sources used:'],
+he:['שאל את חכים','תשובה מדעית של חכים','מחפש ומנתח ראיות...','שירות התשובות אינו מוגדר. נדרש מפתח API בשרת.','אין מספיק תקצירי מחקרים כדי לתת תשובה מבוססת.','לא ניתן ליצור תשובה כרגע. נסו שוב מאוחר יותר.','מקורות:'],
+de:['HAKIM fragen','Wissenschaftliche Antwort von HAKIM','Evidenz wird gesucht und analysiert...','Der KI-Antwortdienst ist nicht konfiguriert. Ein serverseitiger API-Schlüssel ist erforderlich.','Nicht genügend Studienabstracts für eine fundierte Antwort verfügbar.','Die Antwort konnte nicht erstellt werden. Bitte später erneut versuchen.','Quellen:']};
+const upstreamMessages={ar:'مصدر الدراسات العلمية غير متاح مؤقتًا. هذه مشكلة اتصال بالخدمة، وليست خطأ في سؤالك. حاول مجددًا بعد قليل.',en:'The scientific literature service is temporarily unavailable. Your question is not the problem. Please try again shortly.',he:'שירות המחקרים אינו זמין זמנית. הבעיה אינה בניסוח השאלה. נסו שוב בעוד זמן קצר.',de:'Der Literaturdienst ist vorübergehend nicht erreichbar. Ihre Frage ist nicht das Problem. Bitte versuchen Sie es später erneut.'};
+
+const imageI18n={
+ar:['الفحص بالصور والأسئلة','أرفق صورة واضحة، واكتب وصف الحالة أعلاه، ثم اطلب تقييمًا أوليًا وأسئلة متابعة.','إضافة صورة (JPG / PNG / WebP، حتى 4 ميغابايت)','إجابات إضافية عن الأعراض (اختياري)','مثلاً: منذ متى ظهرت؟ هل توجد حكة أو ألم أو حرارة؟','أوافق على إرسال الصورة ووصف الحالة إلى مزود الذكاء الاصطناعي لتحليلها. لا تُحفظ الصورة في خادم حكيم.','حلّل الصورة','اختر صورة واكتب وصفًا للحالة أولاً.','يجب الموافقة على إرسال الصورة للتحليل.','جارٍ تحليل الصورة...','خدمة تحليل الصور غير مهيأة بعد.','تعذر تحليل الصورة حاليًا.','الصورة أكبر من 4 ميغابايت أو نوعها غير مدعوم.'],
+en:['Image assessment and questions','Attach a clear photo and describe the symptoms above to receive a preliminary assessment and follow-up questions.','Add image (JPG / PNG / WebP, up to 4 MB)','Additional symptom details (optional)','When did it start? Itching, pain, or fever?','I consent to sending the image and description to the AI provider for analysis. The HAKIM server does not store the image.','Analyze image','Select an image and describe the symptoms first.','Please consent to image analysis.','Analyzing image...','Image analysis is not configured.','Image analysis is currently unavailable.','Image exceeds 4 MB or is unsupported.'],
+he:['הערכת תמונה ושאלות','צרפו תמונה ברורה ותארו למעלה את התסמינים לקבלת הערכה ראשונית ושאלות המשך.','הוספת תמונה (JPG / PNG / WebP, עד 4 MB)','פרטים נוספים על התסמינים (לא חובה)','מתי התחיל? גרד, כאב או חום?','אני מסכים/ה לשליחת התמונה והתיאור לספק הבינה המלאכותית לצורך ניתוח. שרת חכים אינו שומר את התמונה.','נתח תמונה','בחרו תמונה ותארו את התסמינים תחילה.','יש להסכים לניתוח התמונה.','מנתח תמונה...','שירות ניתוח התמונות אינו מוגדר.','ניתוח התמונה אינו זמין כרגע.','התמונה גדולה מ-4MB או בפורמט לא נתמך.'],
+de:['Bildbeurteilung und Fragen','Fügen Sie ein klares Foto hinzu und beschreiben Sie oben die Beschwerden.','Bild hinzufügen (JPG / PNG / WebP, bis 4 MB)','Weitere Symptome (optional)','Seit wann? Juckreiz, Schmerzen oder Fieber?','Ich stimme der Übermittlung des Bildes und der Beschreibung an den KI-Anbieter zu. Der HAKIM-Server speichert das Bild nicht.','Bild analysieren','Bitte wählen Sie ein Bild und beschreiben Sie die Beschwerden.','Bitte stimmen Sie der Bildanalyse zu.','Bild wird analysiert...','Die Bildanalyse ist nicht konfiguriert.','Die Bildanalyse ist derzeit nicht verfügbar.','Bild größer als 4 MB oder nicht unterstützt.']};
+let selectedImage=null;
+$('imageFile').addEventListener('change',async()=>{
+ const f=$('imageFile').files[0], l=$('lang').value;selectedImage=null;$('imagePreview').style.display='none';$('imageStatus').textContent='';
+ if(!f)return;
+ if(f.size>4*1024*1024||!['image/jpeg','image/png','image/webp'].includes(f.type)){$('imageStatus').textContent=imageI18n[l][12];return}
+ try{selectedImage=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=reject;reader.readAsDataURL(f)});$('imagePreview').src=selectedImage;$('imagePreview').style.display='block'}catch(_){$('imageStatus').textContent=imageI18n[l][11]}
+});
+$('analyzeImage').addEventListener('click',async()=>{
+ const l=$('lang').value,a=imageI18n[l],description=$('query').value.trim();
+ if(!selectedImage||description.length<5){$('imageStatus').textContent=a[7];return}
+ if(!$('imageConsent').checked){$('imageStatus').textContent=a[8];return}
+ $('analyzeImage').disabled=true;$('imageStatus').textContent=a[9];$('imageAssessment').hidden=true;
+ try{const response=await fetch('/api/clinical-image',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({description,language:l,image_data_url:selectedImage,answers:$('imageAnswers').value,consent:true})});
+ const payload=await response.json();
+ if(!response.ok)throw Error(payload.detail==='AI_NOT_CONFIGURED'?a[10]:a[11]);
+ $('imageAssessment').textContent=payload.assessment||a[11];$('imageAssessment').hidden=false;$('imageStatus').textContent='';$('imageAssessment').scrollIntoView({behavior:'smooth',block:'nearest'});
+ }catch(_){$('imageStatus').textContent=_.message||a[11];$('imageAssessment').textContent=({ar:'يمكنك الاستمرار بوصف الحالة والإجابة عن هذه الأسئلة للطبيب: هل البقع مؤلمة أم حاكة؟ هل تنتشر أو يصاحبها تورم أو حمى؟ هل استُخدم دواء أو منتج جديد؟ لا يمكن تشخيص الطفح من الصورة دون خدمة التحليل.',en:'While image analysis is unavailable, note for your clinician: Is it itchy or painful? Spreading, swollen or accompanied by fever? Any new products or medicines? A diagnosis cannot be made here.',he:'עד שהניתוח זמין: האם יש גרד או כאב? האם הפריחה מתפשטת, יש נפיחות או חום? האם השתמשתם במוצר או תרופה חדשים? לא ניתן לאבחן כאן.',de:'Bis zur Bildanalyse: Juckreiz oder Schmerzen? Ausbreitung, Schwellung oder Fieber? Neue Produkte oder Medikamente? Hier ist keine Diagnose möglich.'})[l];$('imageAssessment').hidden=false}finally{$('analyzeImage').disabled=false}
+});
+
+let controller=null;
+let lastResearchQuestion=''; // Page-session context only; never persisted to storage.
+const providerMessages={ar:'خدمة الذكاء الاصطناعي وصلت إلى حد الاستخدام أو الحصة المتاحة. البحث والمستخلص الأصلي ما زالا متاحين؛ لا يمكن إنشاء ملخص عربي آلي الآن.',en:'AI provider usage limit or quota reached. Search and original abstracts remain available; AI summaries are temporarily unavailable.',he:'הגעת למגבלת שימוש או מכסה של ספק הבינה המלאכותית. החיפוש והתקצירים המקוריים עדיין זמינים.',de:'Nutzungslimit oder Kontingent des KI-Anbieters erreicht. Suche und Originalabstracts bleiben verfügbar.'};
+function locale(){let l=$('lang').value,a=t[l],im=imageI18n[l];['imageTitle','imageIntro','imageFileLabel','answersLabel','consentText','analyzeImage'].forEach((id,i)=>$(id).textContent=im[[0,1,2,3,5,6][i]]);$('imageAnswers').placeholder=im[4];document.documentElement.lang=l;document.documentElement.dir=['ar','he'].includes(l)?'rtl':'ltr';['subtitle','questionLabel','resultsTitle','notice'].forEach((id,i)=>$(id).textContent=a[[0,1,4,17][i]]);$('query').placeholder=a[2];$('search').textContent=a[3];$('ask').textContent=aiWords[l][0];$('answerTitle').textContent=aiWords[l][1]}
+function node(tag,txt,cls){const e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=txt;return e}
+const summaryLabels={
+ar:['خلاصة سريعة من النص الأصلي','ملخص علمي بالعربية','عرض الملخص الأصلي','جارٍ إعداد الملخص...','التلخيص الآلي غير متاح الآن. اقرأ النص الأصلي أدناه.','تعذر إعداد الملخص الآن. النص الأصلي متاح أدناه.','ملخص مستند إلى المستخلص المنشور فقط، وليس مراجعة للنص الكامل.'],
+en:['Quick excerpt from original abstract','Summarize in English','Read original abstract','Preparing summary...','AI summary is not configured. Read the original abstract below.','Summary unavailable. The original abstract remains available.','Based only on the published abstract, not a full-text appraisal.'],
+he:['קטע קצר מהתקציר המקורי','סיכום בעברית','הצגת התקציר המקורי','מכין סיכום...','שירות הסיכום אינו מוגדר. ניתן לקרוא את התקציר המקורי.','הסיכום אינו זמין. התקציר המקורי זמין.','מבוסס על התקציר בלבד, ללא בדיקת המאמר המלא.'],
+de:['Kurzer Auszug aus dem Originalabstract','Auf Deutsch zusammenfassen','Originalabstract lesen','Zusammenfassung wird erstellt...','KI-Zusammenfassung ist nicht konfiguriert. Lesen Sie das Originalabstract.','Zusammenfassung nicht verfügbar. Das Originalabstract bleibt lesbar.','Nur auf Basis des Abstracts, keine Volltextbewertung.']};
+function showRecord(item,a){
+let l=$('lang').value,labels=summaryLabels[l],box=node('article',undefined,'result');
+let title=node('h3',item.title||'');title.dir='auto';box.append(title);box.append(node('p',[item.authors,item.journal,item.year].filter(Boolean).join(' · '),'meta'));
+const relevanceWords={ar:{direct_topic:'مرتبط بالمرض والتدخل المذكور؛ الفعالية السريرية غير مثبتة بهذا التصنيف',background:'معلومات مساندة عن المرض فقط',low:'صلة ضعيفة بالسؤال العلاجي'},en:{direct_topic:'Disease and intervention mentioned; efficacy not established',background:'Disease background only',low:'Low relevance to treatment question'},he:{direct_topic:'קשור למחלה ולהתערבות; היעילות לא הוכחה',background:'רקע על המחלה בלבד',low:'רלוונטיות נמוכה לשאלת הטיפול'},de:{direct_topic:'Krankheit und Intervention erwähnt; Wirksamkeit nicht belegt',background:'Nur Hintergrund zur Krankheit',low:'Geringe Relevanz zur Therapiefrage'}};
+if(item.relevance)box.append(node('p',relevanceWords[l][item.relevance]||'','meta'));
+if(item.abstract){
+ let abstract=String(item.abstract);
+ // The backend removes markup; textContent also prevents execution of source HTML.
+ let preview=abstract.length>360?abstract.slice(0,360).trimEnd()+'…':abstract;
+ let excerpt=node('p',preview,'short');excerpt.dir='auto';excerpt.style.textAlign='start';box.append(node('p',labels[0],'meta'),excerpt);
+ let btn=node('button',labels[1],'summarize');btn.type='button';
+ let status=node('p','', 'summary-status');status.setAttribute('role','status');
+ btn.addEventListener('click',async()=>{
+   btn.disabled=true;status.textContent=labels[3];
+   try{
+     let response=await fetch('/api/article-summary',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({title:item.title||'Untitled',abstract,language:l})});
+     let payload=await response.json();
+     if(!response.ok){status.textContent=payload.detail==='AI_NOT_CONFIGURED'?labels[4]:payload.detail==='AI_PROVIDER_LIMIT'?providerMessages[l]:labels[5];return}
+     status.textContent=payload.summary+'\n\n'+labels[6];
+   }catch(_){status.textContent=labels[5]}finally{btn.disabled=false}
+ });
+ box.append(btn,status);
+ let details=node('details');details.append(node('summary',labels[2]),node('p',abstract,'original'));box.append(details);
+}else box.append(node('p',a[15],'meta'));
+let link=node('a',a[10]);if(typeof item.url==='string' && /^https:\/\/(europepmc\.org|doi\.org)\//.test(item.url)){link.href=item.url;link.target='_blank';link.rel='noopener noreferrer';box.append(link)}return box}
+async function run(){const a=t[$('lang').value],q=$('query').value.trim();if(q.length<2){$('status').textContent=a[6];$('query').focus();return}if(controller)controller.abort();controller=new AbortController();$('search').disabled=true;$('status').textContent=a[5];$('results').hidden=false;$('summary').textContent=a[5];$('articles').replaceChildren();$('results').scrollIntoView({behavior:'smooth',block:'start'});
+try{let response=await fetch('/api/literature-search?'+new URLSearchParams({q,page_size:'10'}),{signal:controller.signal});let raw=await response.text();let data;try{data=JSON.parse(raw)}catch(_){throw Error(response.ok?'Unexpected response format':'Server error (HTTP '+response.status+'). Please try again later.' )}if(!response.ok)throw Error(data.detail==='LITERATURE_SOURCE_UNAVAILABLE'?upstreamMessages[$('lang').value]:(typeof data.detail==='string'?data.detail:'HTTP '+response.status));if(!Array.isArray(data.results)||!data.results.length){$('summary').textContent=a[7];$('status').textContent=a[7];return}
+$('summary').textContent=a[8]+data.returned+'. '+a[9];data.results.forEach(x=>$('articles').append(showRecord(x,a)));$('status').textContent=a[8]+data.returned;
+lastResearchQuestion=q;
+const images=node('a',({ar:'عرض صور علمية مرتبطة بالموضوع (Wikimedia Commons)',en:'Explore related images (Wikimedia Commons)',he:'תמונות קשורות (Wikimedia Commons)',de:'Verwandte Bilder (Wikimedia Commons)'})[$('lang').value]);images.href='https://commons.wikimedia.org/wiki/Special:MediaSearch?type=image&search='+encodeURIComponent((data.effective_query||q).slice(0,160));images.target='_blank';images.rel='noopener noreferrer';$('articles').prepend(images);
+}catch(e){if(e.name!=='AbortError'){$('summary').textContent=e.message;$('status').textContent=''}}finally{$('search').disabled=false}}
+async function askHakim(){const l=$('lang').value,a=aiWords[l],q=$('query').value.trim();if(q.length<2){$('status').textContent=t[l][6];$('query').focus();return}
+$('aiResults').hidden=false;$('aiAnswer').textContent=a[2];$('aiSources').replaceChildren();$('ask').disabled=true;$('aiResults').scrollIntoView({behavior:'smooth',block:'start'});
+try{const response=await fetch('/api/evidence-answer',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q,language:l,previous_question:lastResearchQuestion!==q?lastResearchQuestion:''})});const raw=await response.text();let data={};try{data=JSON.parse(raw)}catch(_){}
+if(!response.ok){if(data.detail==='AI_NOT_CONFIGURED')throw Error(a[3]);if(data.detail==='AI_PROVIDER_LIMIT')throw Error(providerMessages[l]);throw Error(a[5])}
+if(data.status==='no_evidence'){$('aiAnswer').textContent=a[4];return}
+lastResearchQuestion=q;
+$('aiAnswer').textContent=data.answer||a[5];if(Array.isArray(data.sources)&&data.sources.length){$('aiSources').append(node('h3',a[6]));data.sources.forEach(s=>{if(!s.url||!/^https:\/\/(europepmc\.org|doi\.org)\//.test(s.url))return;let link=node('a','['+s.number+'] '+s.title+' ('+s.year+')');link.href=s.url;link.target='_blank';link.rel='noopener noreferrer';$('aiSources').append(link)})}
+}catch(e){$('aiAnswer').textContent=e.message||a[5]}finally{$('ask').disabled=false}}
+$('ask').addEventListener('click',askHakim);$('lang').addEventListener('change',locale);$('search').addEventListener('click',run);$('query').addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key==='Enter')run()});locale();
+})();
+</script></body></html>

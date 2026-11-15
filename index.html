@@ -55,7 +55,7 @@
   <div class="field"><label for="topic">موضوع النبات أو السؤال العلمي</label><input id="topic" type="text" placeholder="مثال: Nigella sativa — الحبة السوداء"></div>
   <div class="field"><label for="question">السؤال أو التعليمات الإضافية (اختياري)</label><textarea id="question" placeholder="اكتب السؤال السريري أو نطاق المراجعة أو شروطاً إضافية..."></textarea></div>
   <div class="field"><label for="signature">التوقيع على العمل الأصلي (اختياري)</label><input id="signature" type="text" value="إعداد وتصميم سعيد يونس — saidy4613@gmail.com"><div class="hint">لا يُضاف التوقيع إلى أعمال الآخرين بما يوحي بتأليفها.</div></div>
-  <div class="btns"><button class="btn primary" id="build">إنشاء نص الطلب</button><button class="btn secondary" id="reset">إعادة ضبط</button></div>
+  <div class="btns"><button class="btn primary" type="button" id="startResearch">بحث</button><button class="btn secondary" type="button" id="build">إنشاء نص الطلب فقط</button><button class="btn secondary" id="reset">إعادة ضبط</button></div>
 </section>
 <section class="panel">
   <h2>٢. نص الطلب الناتج</h2>
@@ -163,6 +163,17 @@ function makeRequest(){
 }
 function render(){const data=makeRequest();if(!data)return;$('#preview').textContent=data.text;$('#state').textContent='مسودة طلب — لم تُنشأ الملفات';$('#deliverables').textContent=data.formats.map(x=>'□ '+x+' — الحالة: مطلوب؛ لم يُنشأ بعد').join('\n')+'\n\n□ التحقق من المراجع — لم يبدأ في هذه الأداة\n□ مراجعة علمية ولغوية — تُجرى بعد إعداد المحتوى';}
 $('#build').addEventListener('click',render);
+$('#startResearch').addEventListener('click',()=>{
+ const topic=$('#topic').value.trim(),question=$('#question').value.trim();
+ if(!topic && !question){alert('اكتب موضوع البحث أو سؤالك أولًا.');$('#topic').focus();return;}
+ const query=[topic,question].filter(Boolean).join(' ');
+ if(query.length>500){alert('نص البحث طويل جدًا. اختصره إلى 500 حرف أو أقل، ثم أعد المحاولة.');return;}
+ const field=$('#literatureQuery'); 
+ if(!field){alert('تعذر العثور على وحدة البحث.');return;}
+ field.value=query;
+ $('#literature-lab').scrollIntoView({behavior:'smooth',block:'start'});
+ const button=$('#searchLiterature');button.click();
+});
 $('#copy').addEventListener('click',async()=>{if($('#preview').textContent.startsWith('اضغط'))render();const t=$('#preview').textContent;try{await navigator.clipboard.writeText(t);$('#copy').textContent='تم النسخ';setTimeout(()=>$('#copy').textContent='نسخ نص الطلب',1500)}catch(e){const r=document.createElement('textarea');r.value=t;document.body.appendChild(r);r.select();const ok=document.execCommand('copy');r.remove();alert(ok?'تم نسخ النص.':'تعذر النسخ تلقائياً؛ حدد النص وانسخه يدوياً.')}});
 $('#download').addEventListener('click',()=>{if($('#preview').textContent.startsWith('اضغط'))render();const blob=new Blob(['\ufeff'+$('#preview').textContent],{type:'text/plain;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='medical_scientific_agent_request.txt';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url)});
 $('#print').addEventListener('click',()=>{if($('#preview').textContent.startsWith('اضغط'))render();window.print()});
@@ -241,7 +252,7 @@ document.getElementById('buildLecture').addEventListener('click',()=>document.ge
   return card;
  }
  async function run(){
-  const query=q.value.trim();if(query.length<2){status.textContent='اكتب كلمتين أو أكثر لتحديد موضوع البحث.';q.focus();return;}
+  const query=q.value.trim();if(query.length<2){status.textContent='أدخل موضوعًا أو عبارة بحث.';q.focus();return;}
   button.disabled=true;results.replaceChildren();status.textContent='جارٍ البحث في Europe PMC…';
   try{
    const params=new URLSearchParams({q:query,page_size:count.value,open_access_only:String(oa.checked)});
@@ -259,5 +270,47 @@ document.getElementById('buildLecture').addEventListener('click',()=>document.ge
 })();
 </script>
 
+
+<section id="youtube-ai-lab" dir="rtl" style="max-width:1050px;margin:24px auto;padding:22px;border:1px solid #cbd5e1;border-radius:18px;background:#fff;color:#17313a;font-family:inherit">
+<h2>🎬 YouTube AI — البحث والتحليل الموثّق</h2>
+<p>ابحث عن فيديو أو الصق رابطه. التحليل متاح فقط بعد إدخال نص تفريغ مصرح باستخدامه؛ لا يمكن تنزيل ترجمات الفيديوهات العامة تلقائيًا دون إذن.</p>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><input id="yt-query" aria-label="YouTube search" placeholder="موضوع، كلمات مفتاحية، أو رابط YouTube" maxlength="180" style="flex:1;min-width:180px;padding:10px"><button id="yt-search" type="button">بحث</button></div>
+<p id="yt-status" role="status"></p><div id="yt-results" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px"></div>
+<div id="yt-selected" hidden style="margin-top:16px"><h3 id="yt-title"></h3><iframe id="yt-player" title="YouTube video player" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="width:100%;max-width:650px;aspect-ratio:16/9;border:0"></iframe>
+<p>الصق التفريغ النصي الذي تملك حق استخدامه. يمكن تضمين التوقيتات مثل [00:12:35].</p>
+<textarea id="yt-transcript" rows="7" maxlength="100000" placeholder="نص التفريغ الفعلي للفيديو..." style="width:100%;padding:10px"></textarea>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0"><select id="yt-language" aria-label="Output language"><option value="ar">العربية</option><option value="en">English</option><option value="he">עברית</option><option value="de">Deutsch</option><option value="fr">Français</option><option value="es">Español</option><option value="tr">Türkçe</option><option value="it">Italiano</option></select><button id="yt-summarize" type="button">تلخيص الفيديو</button><button id="yt-copy" type="button">نسخ</button><button id="yt-export" type="button">تصدير TXT</button></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><input id="yt-question" maxlength="800" placeholder="اسأل عن محتوى الفيديو" style="flex:1;min-width:170px;padding:10px"><button id="yt-ask" type="button">اسأل AI</button></div>
+<h3>نتيجة التحليل</h3><pre id="yt-output" style="white-space:pre-wrap;overflow-wrap:anywhere;font-family:inherit;background:#f3f7f7;padding:14px;border-radius:10px"></pre></div></section>
+<script>
+(()=>{'use strict';
+const get=id=>document.getElementById(id);let selected=null;
+const status=get('yt-status'),output=get('yt-output');
+async function api(url,options){const r=await fetch(url,options);const j=await r.json();if(!r.ok)throw Error(j.detail||j.error||'Request failed');return j}
+get('yt-search').onclick=async()=>{const q=get('yt-query').value.trim();if(q.length<2){status.textContent='أدخل كلمتين على الأقل أو رابط فيديو.';return}get('yt-search').disabled=true;status.textContent='جارٍ البحث...';get('yt-results').replaceChildren();try{const data=await api('/api/youtube/search?q='+encodeURIComponent(q));status.textContent='عدد النتائج: '+data.results.length;for(const v of data.results){const card=document.createElement('div');card.style.cssText='border:1px solid #ddd;padding:10px;border-radius:10px';const img=document.createElement('img');if(/^https:\/\/i.test(v.thumbnail)){img.src=v.thumbnail;img.style.width='100%';img.alt='Thumbnail'}card.append(img);const p=document.createElement('p');p.textContent=v.title+' — '+v.channel+' ('+v.duration+')';card.append(p);const btn=document.createElement('button');btn.type='button';btn.textContent=get('yt-search').dataset.selectLabel||'اختيار الفيديو';btn.onclick=()=>{selected=v;get('yt-selected').hidden=false;get('yt-title').textContent=v.title;get('yt-player').src='https://www.youtube-nocookie.com/embed/'+v.id;output.textContent='ألصق نص التفريغ المصرح به ثم اضغط تلخيص الفيديو.'};card.append(btn);get('yt-results').append(card)}}catch(e){status.textContent=e.message}finally{get('yt-search').disabled=false}};
+async function analyze(question){if(!selected){status.textContent='اختر فيديو أولًا';return}const transcript=get('yt-transcript').value;if(transcript.length<80){status.textContent='أدخل نص تفريغ لا يقل عن 80 حرفًا';return}const btn=question?get('yt-ask'):get('yt-summarize');btn.disabled=true;status.textContent='جارٍ تحليل النص الفعلي...';try{const body={video_id:selected.id,transcript,language:get('yt-language').value};if(question)body.question=get('yt-question').value;const data=await api('/api/youtube/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});output.textContent=data.result;status.textContent='تم التحليل استنادًا إلى النص الذي قدمته، وليس مشاهدة مستقلة للفيديو.'}catch(e){status.textContent=e.message}finally{btn.disabled=false}}
+get('yt-summarize').onclick=()=>analyze(false);get('yt-ask').onclick=()=>analyze(true);
+get('yt-copy').onclick=async()=>{try{await navigator.clipboard.writeText(output.textContent);status.textContent='تم النسخ'}catch{status.textContent='تعذر النسخ'}};
+get('yt-export').onclick=()=>{const blob=new Blob([output.textContent],{type:'text/plain;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='youtube-analysis.txt';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
+})();
+</script>
+
+<script>
+(()=>{const strings={
+ar:['البحث والتحليل الموثّق','ابحث عن فيديو أو الصق رابطه. التحليل يتطلب تفريغًا نصيًا مصرحًا باستخدامه.','موضوع أو كلمات مفتاحية أو رابط فيديو','بحث','الصق نص التفريغ المصرح به','نص التفريغ','تلخيص الفيديو','نسخ','تصدير','اسأل عن الفيديو','اسأل الذكاء الاصطناعي','نتيجة التحليل','اختيار الفيديو'],
+en:['Transcript-based video analysis','Search by topic or URL. Analysis requires an authorized transcript.','Topic, keywords or video URL','Search','Paste an authorized transcript','Video transcript','Summarize video','Copy','Export','Ask about the video','Ask AI','Analysis result','Select video'],
+he:['ניתוח וידאו מבוסס תמליל','חפשו לפי נושא או קישור. הניתוח דורש תמליל מורשה.','נושא, מילות מפתח או קישור','חיפוש','הדביקו תמליל מורשה','תמליל הסרטון','סיכום סרטון','העתקה','ייצוא','שאלה על הסרטון','שאלו את הבינה המלאכותית','תוצאת הניתוח','בחירת סרטון'],
+de:['Transkriptbasierte Videoanalyse','Suche nach Thema oder URL. Die Analyse erfordert ein autorisiertes Transkript.','Thema, Suchbegriffe oder Video-URL','Suchen','Autorisiertes Transkript einfügen','Videotranskript','Video zusammenfassen','Kopieren','Exportieren','Frage zum Video','KI fragen','Analyseergebnis','Video auswählen']};
+const ids=['yt-query','yt-search','yt-transcript','yt-summarize','yt-copy','yt-export','yt-question','yt-ask'];
+function apply(lang){let t=strings[lang]||strings.ar;let s=document.getElementById('youtube-ai-lab');if(!s)return;s.dir=['ar','he'].includes(lang)?'rtl':'ltr';s.querySelector('h2').textContent='🎬 YouTube AI — '+t[0];s.querySelector('h2 + p').textContent=t[1];document.getElementById('yt-query').placeholder=t[2];document.getElementById('yt-search').textContent=t[3];document.querySelector('#yt-selected > p').textContent=t[4];document.getElementById('yt-transcript').placeholder=t[5];['yt-summarize','yt-copy','yt-export'].forEach((id,i)=>document.getElementById(id).textContent=t[i+6]);document.getElementById('yt-question').placeholder=t[9];document.getElementById('yt-ask').textContent=t[10];document.querySelector('#yt-selected > h3:last-of-type').textContent=t[11];document.getElementById('yt-search').dataset.selectLabel=t[12];}
+window.applyYoutubeLocale=apply;let selector=document.getElementById('ui-lang-select');if(selector)selector.addEventListener('change',()=>apply(selector.value));let output=document.getElementById('yt-language');output.addEventListener('change',()=>{if(!selector){apply(output.value);document.documentElement.lang=output.value;document.documentElement.dir=['ar','he'].includes(output.value)?'rtl':'ltr';}});apply(selector?selector.value:'ar');
+})();
+</script>
+<script>
+(()=>{const words={ar:'بحث',en:'Search',he:'חפש',de:'Suchen'};const button=document.getElementById('startResearch');if(!button)return;
+function setLabel(){const selector=document.getElementById('ui-lang-select');const chosen=selector?selector.value:document.documentElement.lang;const lang=(chosen||'ar').slice(0,2);button.textContent=words[lang]||words.ar;}
+setLabel();document.getElementById('ui-lang-select')?.addEventListener('change',setLabel);new MutationObserver(setLabel).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
+})();
+</script>
 </body>
 </html>
