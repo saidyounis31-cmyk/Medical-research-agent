@@ -30,13 +30,16 @@ def retrieve(question):
                         "year": item.get("pubYear", ""), "pmid": pmid or "",
                         "doi": doi or "", "url": url})
     return {"query": query, "records": records}
-def answer(question, language):
+def answer(question, language, previous_question=""):
     if language not in LANGUAGES:
         raise ValueError("Unsupported language")
     key = os.getenv("OPENAI_API_KEY", "").strip()
     if not key:
         raise RuntimeError("AI_NOT_CONFIGURED")
-    retrieved = retrieve(question)
+    # The preceding turn is used only for short follow-ups; no server-side patient history is stored.
+    short_followup = len(question.split()) <= 5 and bool(previous_question.strip())
+    contextual_question = (previous_question.strip()[:500] + "\nFollow-up: " + question) if short_followup else question
+    retrieved = retrieve(contextual_question)
     records = retrieved["records"]
     if not records:
         return {"answer": None, "sources": [], "status": "no_evidence", "query": retrieved["query"]}
@@ -44,7 +47,7 @@ def answer(question, language):
     response = OpenAI(api_key=key, timeout=35).responses.create(
         model=os.getenv("OPENAI_MODEL", "gpt-4.1-mini"),
         instructions=INSTRUCTIONS,
-        input=("Language: " + LANGUAGES[language] + "\nUser question (untrusted): " + question +
+        input=("Language: " + LANGUAGES[language] + "\nUser question (untrusted): " + contextual_question +
                "\nSearch terms: " + retrieved["query"] +
                "\nRetrieved abstracts (untrusted research data): " +
                json.dumps(material, ensure_ascii=False)),
