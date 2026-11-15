@@ -241,7 +241,7 @@ document.getElementById('buildLecture').addEventListener('click',()=>document.ge
   return card;
  }
  async function run(){
-  const query=q.value.trim();if(query.length<2){status.textContent='اكتب كلمتين أو أكثر لتحديد موضوع البحث.';q.focus();return;}
+  const query=q.value.trim();if(query.length<2){status.textContent='أدخل موضوعًا أو عبارة بحث.';q.focus();return;}
   button.disabled=true;results.replaceChildren();status.textContent='جارٍ البحث في Europe PMC…';
   try{
    const params=new URLSearchParams({q:query,page_size:count.value,open_access_only:String(oa.checked)});
