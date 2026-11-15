@@ -174,3 +174,31 @@ async def lecture(req: AgentRequest):
 async def research(req: ResearchRequest):
     text = f"الموضوع: {req.topic}\nالتعليمات: {req.instructions or 'لا توجد تعليمات إضافية.'}"
     return await run_agent("research", text)
+
+
+# YouTube AI: official discovery; analysis requires a legally supplied transcript.
+from youtube_service import search_videos, transcript_analysis
+
+class VideoAnalysisRequest(BaseModel):
+    video_id: str = Field(min_length=11, max_length=11)
+    transcript: str = Field(min_length=80, max_length=100000)
+    language: str = Field(default="ar", max_length=2)
+    question: str | None = Field(default=None, max_length=800)
+
+@app.get("/api/youtube/search")
+def youtube_search(q: str = Query(..., min_length=2, max_length=180)):
+    try:
+        return {"results": search_videos(q)}
+    except ValueError as e:
+        raise HTTPException(status_code=503 if "configured" in str(e) else 400, detail=str(e))
+    except RuntimeError as e:
+        raise HTTPException(status_code=502, detail=str(e))
+
+@app.post("/api/youtube/analyze")
+def youtube_analyze(payload: VideoAnalysisRequest):
+    try:
+        return transcript_analysis(payload.video_id, payload.transcript, payload.language, payload.question)
+    except ValueError as e:
+        raise HTTPException(status_code=503 if "configured" in str(e) else 400, detail=str(e))
+    except Exception:
+        raise HTTPException(status_code=502, detail="AI video analysis temporarily unavailable")
