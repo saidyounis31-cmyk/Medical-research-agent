@@ -1,6 +1,7 @@
 from __future__ import annotations
 import json
 import os
+import time
 from pathlib import Path
 from typing import Literal
 from urllib.error import HTTPError, URLError
@@ -79,6 +80,28 @@ def health():
 def home():
     return FileResponse(BASE_DIR / "public_search.html")
 
+def fetch_europe_pmc(params: str) -> dict:
+    """Retry temporary Europe PMC failures without treating upstream errors as empty results."""
+    url = "https://www.ebi.ac.uk/europepmc/webservices/rest/search?" + params
+    last_error = None
+    for attempt in range(3):
+        req = Request(url, headers={"User-Agent": "HAKIM-MedicalResearch/0.4",
+                                    "Accept": "application/json"})
+        try:
+            with urlopen(req, timeout=12) as response:
+                return json.load(response)
+        except HTTPError as exc:
+            last_error = exc
+            if exc.code not in (429, 500, 502, 503, 504):
+                raise
+            if attempt < 2:
+                time.sleep(0.6 * (attempt + 1))
+        except (URLError, TimeoutError, OSError) as exc:
+            last_error = exc
+            if attempt < 2:
+                time.sleep(0.6 * (attempt + 1))
+    raise last_error or RuntimeError("Europe PMC unavailable")
+
 @app.get("/api/literature-search")
 def literature_search(
     q: str = Query(..., min_length=2, max_length=500),
@@ -98,12 +121,9 @@ def literature_search(
     url = "https://www.ebi.ac.uk/europepmc/webservices/rest/search?" + params
     req = Request(url, headers={"User-Agent": "MedicalScientificAgent/0.3 (educational literature search)"})
     try:
-        with urlopen(req, timeout=18) as response:
-            payload = json.loads(response.read().decode("utf-8"))
-    except HTTPError as exc:
-        raise HTTPException(status_code=502, detail=f"أعاد مصدر البحث خطأ HTTP {exc.code}. حاول بكلمات أبسط.") from exc
-    except (URLError, TimeoutError, json.JSONDecodeError) as exc:
-        raise HTTPException(status_code=502, detail="تعذر الاتصال بـ Europe PMC حاليًا. تحقق من اتصال الخدمة وأعد المحاولة.") from exc
+        payload = fetch_europe_pmc(params)
+    except (HTTPError, URLError, TimeoutError, json.JSONDecodeError, OSError) as exc:
+        raise HTTPException(status_code=503, detail="LITERATURE_SOURCE_UNAVAILABLE") from exc
     results = []
     for item in payload.get("resultList", {}).get("result", []):
         pmid = item.get("pmid")
