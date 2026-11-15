@@ -28,7 +28,7 @@ CONCEPTS = (
 INTENTS = (
     (r"(?:طفل|طفلة|ابني|ابنتي|ولدي|بنتي|اطفال|ילד|ילדה|children|child|pediatric|kinder)", "child"),
     (r"(?:علاج|اعالج|اعالجه|دواء|ادوية|معالجة|حل|טיפול|treatment|therapy|behandlung)", "treatment"),
-    (r"(?:زيت|زيوت|أعشاب|نباتات|عشبي|צמח|שמנים|herbal|herbs|essential oils|pflanzen)", "herbal medicine"),
+    (r"(?:زيت|زيوت|اعشاب|نباتات|عشبي|צמח|שמנים|herbal|herbs|essential oils|pflanzen|heilpflanzen|krauter|kräuter)", "herbal medicine"),
     (r"(?:الوجه|وجهي|وجهها|وجهه|פנים|face|gesicht)", "face"),
     (r"(?:اليدين|اليد|يدي|ידיים|hands|hand|hände)", "hands"),
     (r"(?:اعراض|الم|symptoms|symptom|תסמינים|symptome)", "symptoms"),
@@ -70,5 +70,51 @@ def normalize_query(query):
         for pattern, term in INTENTS:
             if re.search(pattern, folded, re.IGNORECASE) and term not in concepts:
                 concepts.append(term)
-        return {"original": query, "normalized": " ".join(concepts[:5]), "rewritten": True, "method": "lexicon"}
+        # Search for the disease first; use interventions for relevance ranking rather than
+        # allowing generic intervention terms to dominate Europe PMC retrieval.
+        disease = concepts[0]
+        return {"original": query, "normalized": f'TITLE_ABS:"{disease}"', "rewritten": True, "method": "lexicon", "concepts": concepts}
     return {"original": query, "normalized": query, "rewritten": False, "method": "original"}
+
+
+def rank_research_results(question, results):
+    """Transparent lexical relevance triage, not a clinical quality or efficacy score."""
+    folded = _fold(question)
+    concepts = [term for pattern, term in CONCEPTS if re.search(pattern, folded, re.IGNORECASE)]
+    herb_intent = any(re.search(pattern, folded, re.IGNORECASE) and term == "herbal medicine" for pattern, term in INTENTS)
+    pediatric = any(re.search(pattern, folded, re.IGNORECASE) and term == "child" for pattern, term in INTENTS)
+    plant_terms = re.compile(r"herbal|herb\\b|botanical|phytotherap|plant extract|medicinal plant|essential oil|traditional chinese medicine|\\btcm\\b|salvia|artemisia|tribulus|nigella|curcumin|plant-derived", re.I)
+    evidence_terms = re.compile(r"randomi[sz]ed|clinical trial|controlled trial|systematic review|meta-analysis|patient|participants|human subjects", re.I)
+    disease = concepts[0] if concepts else ""
+    for item in results:
+        title = str(item.get("title") or "")
+        abstract = str(item.get("abstract") or "")
+        combined = title + " " + abstract
+        title_match = bool(disease and disease.lower() in title.lower())
+        disease_match = bool(disease and disease.lower() in combined.lower())
+        plant_match = bool(plant_terms.search(combined))
+        clinical_match = bool(evidence_terms.search(combined))
+        score = (4 if title_match else 2 if disease_match else 0)
+        if herb_intent:
+            score += 4 if plant_match else 0
+        if pediatric and re.search(r"child|pediatric|adolescent", combined, re.I):
+            score += 1
+        if clinical_match:
+            score += 1
+        # Do not call a generic dermatology review direct treatment evidence.
+        if disease and not disease_match:
+            level = "low"
+        elif herb_intent and not plant_match:
+            level = "low"
+        elif herb_intent and disease_match and plant_match:
+            level = "direct_topic"
+        else:
+            level = "background"
+        item["relevance"] = level
+        item["relevance_score"] = score
+        item["relevance_reason"] = ("Disease and botanical intervention mentioned; clinical efficacy not established"
+                                    if level == "direct_topic" else
+                                    "Disease context only; not direct evidence of requested intervention"
+                                    if level == "background" else
+                                    "Insufficient matching terms for the requested disease and intervention")
+    return sorted(results, key=lambda x: x["relevance_score"], reverse=True)
