@@ -132,6 +132,7 @@ def clean_abstract(value: str) -> str:
     parser.feed(str(value or ""))
     parser.close()
     text = html.unescape("".join(parser.parts))
+    text = re.sub(r"</?(?:sup|sub|i|b|em|strong|span)\\b[^>]*>", "", text, flags=re.IGNORECASE)
     return "\n".join(" ".join(line.split()) for line in text.splitlines() if line.strip())
 
 
