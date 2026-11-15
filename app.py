@@ -1,5 +1,6 @@
 from __future__ import annotations
 import json
+import logging
 import html
 import re
 from html.parser import HTMLParser
@@ -22,6 +23,17 @@ from openai import OpenAI
 
 BASE_DIR = Path(__file__).resolve().parent
 load_dotenv(BASE_DIR / ".env")
+logger = logging.getLogger("medical_agent.ai")
+
+
+def log_ai_failure(operation: str, exc: Exception) -> None:
+    """Log only exception class and provider status; never secrets or patient content."""
+    status = getattr(exc, "status_code", None)
+    if not isinstance(status, int):
+        status = None
+    logger.error("AI request failed: operation=%s error_type=%s provider_status=%s",
+                 operation, type(exc).__name__, status)
+
 app = FastAPI(title="Medical & Scientific Agent API", version="0.3.0")
 app.add_middleware(
     CORSMiddleware,
@@ -233,6 +245,7 @@ def article_summary(req: ArticleSummaryRequest):
         return {"ok": True, "language": req.language, "summary": summary,
                 "basis": "abstract_only"}
     except Exception as exc:
+        log_ai_failure("article_summary", exc)
         raise HTTPException(status_code=502, detail="SUMMARY_UNAVAILABLE") from exc
 
 
@@ -249,8 +262,10 @@ def evidence_answer_endpoint(req: EvidenceAnswerRequest):
     except RuntimeError as exc:
         if str(exc) == "AI_NOT_CONFIGURED":
             raise HTTPException(status_code=503, detail="AI_NOT_CONFIGURED") from exc
+        log_ai_failure("evidence_answer", exc)
         raise HTTPException(status_code=502, detail="AI_ANALYSIS_UNAVAILABLE") from exc
     except (TimeoutError, OSError, ValueError) as exc:
+        log_ai_failure("evidence_answer_retrieval", exc)
         raise HTTPException(status_code=502, detail="EVIDENCE_RETRIEVAL_UNAVAILABLE") from exc
     except Exception as exc:
         raise HTTPException(status_code=502, detail="AI_ANALYSIS_UNAVAILABLE") from exc
