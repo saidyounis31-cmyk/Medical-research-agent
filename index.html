@@ -281,7 +281,7 @@ document.getElementById('buildLecture').addEventListener('click',()=>document.ge
    const body=el('p','hakim-summary-text',locale[3]);body.dir='auto';summary.appendChild(body);
    const note=el('p','hint',locale[5]);summary.appendChild(note);
    abstractSection.appendChild(summary);
-   const clean=item.abstract.replace(/\\s+/g,' ').trim();
+   const clean=item.abstract.replace(/\s+/g,' ').trim();
    const chunks=clean.match(/[^.!?。؟]+[.!?。؟]?/g)||[clean];
    const extract=chunks.filter(x=>x.trim().length>30).slice(0,3).join(' ').slice(0,440).trim()||clean.slice(0,440);
    const target=({ar:'ar',en:'en',he:'he',de:'de'})[lang]||'ar';
