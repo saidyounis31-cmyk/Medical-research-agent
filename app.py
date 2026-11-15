@@ -197,6 +197,8 @@ def literature_search(
             "abstract": abstract,
             "url": article_url,
         })
+    from multilingual_search import rank_research_results
+    results = rank_research_results(query, results)
     return {
         "ok": True,
         "source": "Europe PMC",
@@ -206,6 +208,7 @@ def literature_search(
         "query_rewritten": query_info["rewritten"],
         "hit_count": int(payload.get("hitCount", 0)),
         "returned": len(results),
+        "direct_topic_count": sum(r["relevance"] == "direct_topic" for r in results),
         "results": results,
         "notice": "هذه نتائج فهرسة مباشرة وليست تقييمًا لجودة الدليل. قد لا يتوفر النص الكامل لكل سجل؛ تحقق من المقال الأصلي قبل الاستشهاد أو اتخاذ قرار سريري.",
     }
