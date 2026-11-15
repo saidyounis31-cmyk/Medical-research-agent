@@ -82,6 +82,8 @@ de:['Kurzer Auszug aus dem Originalabstract','Auf Deutsch zusammenfassen','Origi
 function showRecord(item,a){
 let l=$('lang').value,labels=summaryLabels[l],box=node('article',undefined,'result');
 let title=node('h3',item.title||'');title.dir='auto';box.append(title);box.append(node('p',[item.authors,item.journal,item.year].filter(Boolean).join(' · '),'meta'));
+const relevanceWords={ar:{direct_topic:'مرتبط بالمرض والتدخل المذكور؛ الفعالية السريرية غير مثبتة بهذا التصنيف',background:'معلومات مساندة عن المرض فقط',low:'صلة ضعيفة بالسؤال العلاجي'},en:{direct_topic:'Disease and intervention mentioned; efficacy not established',background:'Disease background only',low:'Low relevance to treatment question'},he:{direct_topic:'קשור למחלה ולהתערבות; היעילות לא הוכחה',background:'רקע על המחלה בלבד',low:'רלוונטיות נמוכה לשאלת הטיפול'},de:{direct_topic:'Krankheit und Intervention erwähnt; Wirksamkeit nicht belegt',background:'Nur Hintergrund zur Krankheit',low:'Geringe Relevanz zur Therapiefrage'}};
+if(item.relevance)box.append(node('p',relevanceWords[l][item.relevance]||'','meta'));
 if(item.abstract){
  let abstract=String(item.abstract);
  // The backend removes markup; textContent also prevents execution of source HTML.
