@@ -32,7 +32,7 @@ INTENTS = (
 def _fold(s):
     s = unicodedata.normalize("NFKC", s).lower()
     s = re.sub(r"[\u064b-\u065f\u0670]", "", s)
-    s = s.translate(str.maketrans("أإآٱىة", "ااااه"))
+    s = s.translate(str.maketrans("أإآٱىة", "اااااه"))
     return re.sub(r"\s+", " ", s).strip()
 
 def normalize_query(query):
