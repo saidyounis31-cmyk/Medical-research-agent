@@ -265,7 +265,18 @@ document.getElementById('buildLecture').addEventListener('click',()=>document.ge
   addMeta(card,'المؤلفون',item.authors);addMeta(card,'المجلة',item.journal);addMeta(card,'السنة',item.year);
   const ids=[item.pmid?'PMID: '+item.pmid:'',item.pmcid?'PMCID: '+item.pmcid:'',item.doi?'DOI: '+item.doi:''].filter(Boolean).join(' | ');
   addMeta(card,'معرّفات',ids);addMeta(card,'إتاحة النص الكامل',item.is_open_access?'مفتوح الوصول بحسب سجل الفهرسة':'لم يُصنّف مفتوح الوصول');
-  if(item.abstract)card.appendChild(el('p',null,'الملخص: '+item.abstract));
+  const lang=document.getElementById('uiLanguage')?.value||'ar';
+  const words={ar:['الملخص الأصلي','لا يتوفر ملخص في سجل Europe PMC لهذا المقال. افتح المصدر للتحقق.','ترجمة الملخص إلى لغة الواجهة (خدمة خارجية)','تنبيه: الترجمة آلية خارج HAKIM وليست تلخيصًا علميًا معتمدًا.'],en:['Original abstract','No abstract is available in the Europe PMC record. Open the source to verify.','Translate abstract to interface language (external service)','Note: external machine translation is not a validated scientific summary.'],he:['תקציר מקורי','אין תקציר ברשומת Europe PMC. יש לבדוק במקור.','תרגום התקציר לשפת הממשק (שירות חיצוני)','התרגום חיצוני ואוטומטי ואינו סיכום מדעי מאומת.'],de:['Originalzusammenfassung','In Europe PMC ist kein Abstract verfügbar. Bitte die Quelle prüfen.','Abstract in die Oberflächensprache übersetzen (externer Dienst)','Hinweis: Externe maschinelle Übersetzung ist keine validierte wissenschaftliche Zusammenfassung.']}[lang]||[];
+  const abstractSection=el('section','hakim-abstract-section');
+  abstractSection.appendChild(el('strong',null,words[0]));
+  if(item.abstract){
+   const original=el('p','hakim-abstract-original',item.abstract);original.dir='auto';abstractSection.appendChild(original);
+   const translated=el('a',null,words[2]);
+   translated.href='https://translate.google.com/?sl=auto&tl='+encodeURIComponent(({ar:'ar',en:'en',he:'iw',de:'de'})[lang]||'ar')+'&text='+encodeURIComponent(item.abstract.slice(0,4500))+'&op=translate';
+   translated.target='_blank';translated.rel='noopener noreferrer';abstractSection.appendChild(translated);
+   abstractSection.appendChild(el('p','hint',words[3]));
+  }else{abstractSection.appendChild(el('p','hint',words[1]));}
+  card.appendChild(abstractSection);
   const link=el('a',null,'فتح سجل المقال في Europe PMC');link.href=item.url;link.target='_blank';link.rel='noopener noreferrer';card.appendChild(link);
   return card;
  }
@@ -291,7 +302,7 @@ document.getElementById('buildLecture').addEventListener('click',()=>document.ge
    const data={hit_count:payload.hitCount||0,returned:records.length,notice:'بيانات فهرسة من Europe PMC؛ تحقق من النص الأصلي وتقييم جودة الدراسة.',results:records.map(item=>({
      title:item.title||'Untitled',authors:item.authorString||'',journal:item.journalTitle||item.journalInfo?.journal?.title||'',year:item.pubYear||'',
      pmid:item.pmid||'',pmcid:item.pmcid||'',doi:item.doi||'',is_open_access:item.isOpenAccess==='Y',
-     abstract:item.abstractText?item.abstractText.replace(/<[^>]*>/g,' ').slice(0,2500):'',
+     abstract:item.abstractText?item.abstractText.replace(/<[^>]*>/g,' ').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').trim():'',
      url:'https://europepmc.org/article/'+encodeURIComponent(item.source||'MED')+'/'+encodeURIComponent(item.id||item.pmid||'')
    }))};
    if(!data.results||!data.results.length){status.textContent='لم تُعثر على نتائج بهذه الصياغة. جرّب كلمات إنجليزية أو مرادفات أو اسم المرض والمركّب العلمي.';return;}
@@ -411,5 +422,6 @@ de:'Hinweis: Die Begriffserweiterung ist eine experimentelle Literatur-Suchhilfe
 target.after(note);const sel=document.getElementById('uiLanguage');function render(){note.textContent=messages[sel?.value]||messages.ar;}sel?.addEventListener('change',render);render();
 })();
 </script>
+<style id="hakim-abstract-style">.hakim-abstract-section{margin:12px 0;padding:12px;border:1px solid #d9e6e2;border-radius:10px;background:#f8fcfb}.hakim-abstract-original{white-space:pre-line;line-height:1.75;overflow-wrap:anywhere}.hakim-abstract-section a{display:inline-block;margin-top:8px}.hakim-abstract-section .hint{font-size:.83rem;margin-top:7px}</style>
 </body>
 </html>
