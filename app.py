@@ -19,7 +19,7 @@ from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from dotenv import load_dotenv
-from openai import OpenAI
+from openai import OpenAI, RateLimitError, AuthenticationError, PermissionDeniedError
 
 BASE_DIR = Path(__file__).resolve().parent
 load_dotenv(BASE_DIR / ".env")
@@ -244,13 +244,20 @@ def article_summary(req: ArticleSummaryRequest):
             raise ValueError("Empty summary")
         return {"ok": True, "language": req.language, "summary": summary,
                 "basis": "abstract_only"}
+    except RateLimitError as exc:
+        log_ai_failure("article_summary", exc)
+        raise HTTPException(status_code=503, detail="AI_PROVIDER_LIMIT") from exc
+    except (AuthenticationError, PermissionDeniedError) as exc:
+        log_ai_failure("article_summary", exc)
+        raise HTTPException(status_code=503, detail="AI_PROVIDER_AUTH") from exc
     except Exception as exc:
         log_ai_failure("article_summary", exc)
         raise HTTPException(status_code=502, detail="SUMMARY_UNAVAILABLE") from exc
 
 
 class EvidenceAnswerRequest(BaseModel):
-    question: str = Field(min_length=5, max_length=500)
+    question: str = Field(min_length=2, max_length=500)
+    previous_question: str = Field(default="", max_length=500)
     language: Literal["ar", "en", "he", "de"] = "ar"
 
 @app.post("/api/evidence-answer")
@@ -258,7 +265,13 @@ def evidence_answer_endpoint(req: EvidenceAnswerRequest):
     """Search Europe PMC abstracts and synthesize an evidence-limited answer."""
     from evidence_answer import answer
     try:
-        return answer(req.question, req.language)
+        return answer(req.question, req.language, req.previous_question)
+    except RateLimitError as exc:
+        log_ai_failure("evidence_answer", exc)
+        raise HTTPException(status_code=503, detail="AI_PROVIDER_LIMIT") from exc
+    except (AuthenticationError, PermissionDeniedError) as exc:
+        log_ai_failure("evidence_answer", exc)
+        raise HTTPException(status_code=503, detail="AI_PROVIDER_AUTH") from exc
     except RuntimeError as exc:
         if str(exc) == "AI_NOT_CONFIGURED":
             raise HTTPException(status_code=503, detail="AI_NOT_CONFIGURED") from exc
