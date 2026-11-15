@@ -25,6 +25,18 @@ app.add_middleware(
     allow_headers=["Content-Type", "Authorization"],
 )
 
+@app.middleware("http")
+async def security_headers(request, call_next):
+    response = await call_next(request)
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    response.headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
+    response.headers["Content-Security-Policy"] = "frame-ancestors 'none'; object-src 'none'; base-uri 'self'"
+    if request.url.scheme == "https" or request.headers.get("x-forwarded-proto") == "https":
+        response.headers["Strict-Transport-Security"] = "max-age=31536000"
+    return response
+
 class AgentRequest(BaseModel):
     text: str = Field(min_length=3, max_length=50000)
 
@@ -60,9 +72,6 @@ def health():
     return {
         "status": "ok",
         "version": app.version,
-        "api_key_configured": bool(os.getenv("OPENAI_API_KEY")),
-        "model": os.getenv("OPENAI_MODEL", "gpt-4.1-mini"),
-        "web_search_enabled": os.getenv("ENABLE_WEB_SEARCH", "false").lower() == "true",
         "europe_pmc_search_available": True,
     }
 
