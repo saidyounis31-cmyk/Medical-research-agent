@@ -77,7 +77,7 @@ def health():
 
 @app.get("/")
 def home():
-    return FileResponse(BASE_DIR / "index.html")
+    return FileResponse(BASE_DIR / "public_search.html")
 
 @app.get("/api/literature-search")
 def literature_search(
