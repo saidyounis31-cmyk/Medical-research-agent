@@ -15,7 +15,7 @@ button:disabled{opacity:.65;cursor:wait}.actions{display:flex;gap:10px;flex-wrap
 #status{margin:14px 0 0;color:#376269;min-height:24px}#results{margin-top:18px;scroll-margin-top:15px}
 #results[hidden]{display:none}.result{padding:16px 18px;background:#fff;border:1px solid #d6e1e4;border-radius:14px;margin:12px 0}
 .result h3{font-size:1.05rem;margin:0 0 10px;line-height:1.55}.result p{line-height:1.7;overflow-wrap:anywhere}
-.result a{color:#096e6a;font-weight:700;overflow-wrap:anywhere}.meta{color:#61727a;font-size:.88rem}
+.result details{margin:12px 0}.result summary{cursor:pointer;color:#126b65;font-weight:700;padding:8px 0}.result .short{line-height:1.75;white-space:pre-wrap}.result .original{white-space:pre-wrap;direction:auto;text-align:start}.result .summarize{margin:8px 0;min-width:0;padding:10px 16px}.result .summary-status{color:#376269;white-space:pre-wrap}.result a{color:#096e6a;font-weight:700;overflow-wrap:anywhere}.meta{color:#61727a;font-size:.88rem}
 .summary{background:#eaf5f2;padding:15px;border-radius:13px;margin:14px 0}
 #imagePanel{margin-top:18px}#imagePanel input[type=file]{display:block;width:100%;margin:10px 0}#imagePreview{display:none;max-width:100%;max-height:260px;border-radius:12px;margin:12px 0}#imagePanel .consent{display:flex;gap:10px;align-items:flex-start;font-weight:400}#imagePanel .consent input{margin-top:7px;flex-shrink:0}#imageAssessment{white-space:pre-wrap;line-height:1.8;overflow-wrap:anywhere}#imageStatus{color:#376269}
 .note{font-size:.85rem;color:#63777c;margin:16px 0}
@@ -72,7 +72,34 @@ $('analyzeImage').addEventListener('click',async()=>{
 let controller=null;
 function locale(){let l=$('lang').value,a=t[l],im=imageI18n[l];['imageTitle','imageIntro','imageFileLabel','answersLabel','consentText','analyzeImage'].forEach((id,i)=>$(id).textContent=im[[0,1,2,3,5,6][i]]);$('imageAnswers').placeholder=im[4];document.documentElement.lang=l;document.documentElement.dir=['ar','he'].includes(l)?'rtl':'ltr';['subtitle','questionLabel','resultsTitle','notice'].forEach((id,i)=>$(id).textContent=a[[0,1,4,17][i]]);$('query').placeholder=a[2];$('search').textContent=a[3];$('ask').textContent=aiWords[l][0];$('answerTitle').textContent=aiWords[l][1]}
 function node(tag,txt,cls){const e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=txt;return e}
-function showRecord(item,a){let box=node('article',undefined,'result');box.append(node('h3',item.title||''));box.append(node('p',[item.authors,item.journal,item.year].filter(Boolean).join(' · '),'meta'));if(item.abstract){let abs=node('p',item.abstract);box.append(node('h4',a[14]),abs)}else box.append(node('p',a[15],'meta'));let link=node('a',a[10]);if(typeof item.url==='string' && /^https:\/\/(europepmc\.org|doi\.org)\//.test(item.url)){link.href=item.url;link.target='_blank';link.rel='noopener noreferrer';box.append(link)}return box}
+const summaryLabels={
+ar:['خلاصة سريعة من النص الأصلي','ملخص علمي بالعربية','عرض الملخص الأصلي','جارٍ إعداد الملخص...','التلخيص الآلي غير متاح الآن. اقرأ النص الأصلي أدناه.','تعذر إعداد الملخص الآن. النص الأصلي متاح أدناه.','ملخص مستند إلى المستخلص المنشور فقط، وليس مراجعة للنص الكامل.'],
+en:['Quick excerpt from original abstract','Summarize in English','Read original abstract','Preparing summary...','AI summary is not configured. Read the original abstract below.','Summary unavailable. The original abstract remains available.','Based only on the published abstract, not a full-text appraisal.'],
+he:['קטע קצר מהתקציר המקורי','סיכום בעברית','הצגת התקציר המקורי','מכין סיכום...','שירות הסיכום אינו מוגדר. ניתן לקרוא את התקציר המקורי.','הסיכום אינו זמין. התקציר המקורי זמין.','מבוסס על התקציר בלבד, ללא בדיקת המאמר המלא.'],
+de:['Kurzer Auszug aus dem Originalabstract','Auf Deutsch zusammenfassen','Originalabstract lesen','Zusammenfassung wird erstellt...','KI-Zusammenfassung ist nicht konfiguriert. Lesen Sie das Originalabstract.','Zusammenfassung nicht verfügbar. Das Originalabstract bleibt lesbar.','Nur auf Basis des Abstracts, keine Volltextbewertung.']};
+function showRecord(item,a){
+let l=$('lang').value,labels=summaryLabels[l],box=node('article',undefined,'result');
+box.append(node('h3',item.title||''));box.append(node('p',[item.authors,item.journal,item.year].filter(Boolean).join(' · '),'meta'));
+if(item.abstract){
+ let abstract=String(item.abstract);
+ // The backend removes markup; textContent also prevents execution of source HTML.
+ let preview=abstract.length>360?abstract.slice(0,360).trimEnd()+'…':abstract;
+ box.append(node('p',labels[0],'meta'),node('p',preview,'short'));
+ let btn=node('button',labels[1],'summarize');btn.type='button';
+ let status=node('p','', 'summary-status');status.setAttribute('role','status');
+ btn.addEventListener('click',async()=>{
+   btn.disabled=true;status.textContent=labels[3];
+   try{
+     let response=await fetch('/api/article-summary',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({title:item.title||'Untitled',abstract,language:l})});
+     let payload=await response.json();
+     if(!response.ok){status.textContent=payload.detail==='AI_NOT_CONFIGURED'?labels[4]:labels[5];return}
+     status.textContent=payload.summary+'\n\n'+labels[6];
+   }catch(_){status.textContent=labels[5]}finally{btn.disabled=false}
+ });
+ box.append(btn,status);
+ let details=node('details');details.append(node('summary',labels[2]),node('p',abstract,'original'));box.append(details);
+}else box.append(node('p',a[15],'meta'));
+let link=node('a',a[10]);if(typeof item.url==='string' && /^https:\/\/(europepmc\.org|doi\.org)\//.test(item.url)){link.href=item.url;link.target='_blank';link.rel='noopener noreferrer';box.append(link)}return box}
 async function run(){const a=t[$('lang').value],q=$('query').value.trim();if(q.length<2){$('status').textContent=a[6];$('query').focus();return}if(controller)controller.abort();controller=new AbortController();$('search').disabled=true;$('status').textContent=a[5];$('results').hidden=false;$('summary').textContent=a[5];$('articles').replaceChildren();$('results').scrollIntoView({behavior:'smooth',block:'start'});
 try{let response=await fetch('/api/literature-search?'+new URLSearchParams({q,page_size:'10'}),{signal:controller.signal});let raw=await response.text();let data;try{data=JSON.parse(raw)}catch(_){throw Error(response.ok?'Unexpected response format':'Server error (HTTP '+response.status+'). Please try again later.' )}if(!response.ok)throw Error(data.detail==='LITERATURE_SOURCE_UNAVAILABLE'?upstreamMessages[$('lang').value]:(typeof data.detail==='string'?data.detail:'HTTP '+response.status));if(!Array.isArray(data.results)||!data.results.length){$('summary').textContent=a[7];$('status').textContent=a[7];return}
 $('summary').textContent=a[8]+data.returned+'. '+a[9];data.results.forEach(x=>$('articles').append(showRecord(x,a)));$('status').textContent=a[8]+data.returned;
