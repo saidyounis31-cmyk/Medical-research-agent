@@ -398,5 +398,18 @@ return {render};}).filter(Boolean);
 function update(){pickers.forEach(p=>p.render())}langSelect?.addEventListener('change',update);update();
 })();
 </script>
+<script id="hakim-terminology-disclosure">
+(function(){
+const target=document.getElementById('hakimQueryHint');if(!target)return;
+const note=document.createElement('p');note.id='hakimTerminologyNotice';note.className='hint';note.style.cssText='padding:9px 12px;border-inline-start:3px solid #b78b39;background:#fff8e8;border-radius:8px;margin:10px 0';
+const messages={
+ar:'تنبيه: توسيع المصطلحات حاليًا تجريبي ومخصص للبحث العلمي فقط. لا يمثل قاموسًا شاملًا للأمراض والأعراض ولا يقدم تشخيصًا طبيًا.',
+en:'Notice: terminology expansion is an experimental literature-search aid, not a comprehensive disease/symptom dictionary or a diagnostic tool.',
+he:'לתשומת לבכם: הרחבת המונחים היא כלי ניסיוני לחיפוש מחקרים בלבד, ולא מילון מלא של מחלות ותסמינים או כלי אבחון.',
+de:'Hinweis: Die Begriffserweiterung ist eine experimentelle Literatur-Suchhilfe, kein vollständiges Krankheits-/Symptomwörterbuch und kein Diagnosewerkzeug.'
+};
+target.after(note);const sel=document.getElementById('uiLanguage');function render(){note.textContent=messages[sel?.value]||messages.ar;}sel?.addEventListener('change',render);render();
+})();
+</script>
 </body>
 </html>
