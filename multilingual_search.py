@@ -9,6 +9,8 @@ import unicodedata
 from openai import OpenAI
 
 CONCEPTS = (
+    (r"(?:بقع حمراء|بقع حمرا|احمرار|طفح جلدي|حساسيه|تحسس|التهاب الجلد|red spots|skin rash|dermatitis|allergic rash|פריחה|אדמומיות|דרמטיטיס|haut ausschlag|hautausschlag|rote flecken)", "skin rash"),
+    (r"(?:لسعه|لدغه|قرصه|نحله|بعوضه|حشره|sting|insect bite|bee sting|mosquito bite|עקיצה|דבורה|יתוש|insektenstich|mueckenstich)", "insect bite"),
     (r"(?:تبول|يتبول|بيتبول|بول|التبول|سلس البول|بلل الفراش|تبليل الفراش|تبول لا ارادي|التبول اللاارادي|enuresis|bedwetting|bed wetting|nocturnal incontinence|הרטבת לילה|אנורזיס|bettnassen|einnassen)", "nocturnal enuresis"),
 
     (r"\b(?:بهاق|البهاق|vitiligo|בהקת|ויטיליגו)\b", "vitiligo"),
@@ -61,6 +63,8 @@ def normalize_query(query):
             if term not in concepts:
                 concepts.append(term)
     if concepts:
+        if "skin rash" in concepts:
+            return {"original": query, "normalized": '("skin rash" OR dermatitis OR urticaria OR "contact dermatitis" OR "insect bite")', "rewritten": True, "method": "lexicon"}
         if "nocturnal enuresis" in concepts:
             return {"original": query, "normalized": '"nocturnal enuresis" OR bedwetting', "rewritten": True, "method": "lexicon"}
         for pattern, term in INTENTS:
