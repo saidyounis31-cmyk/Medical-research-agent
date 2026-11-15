@@ -271,7 +271,8 @@ document.getElementById('buildLecture').addEventListener('click',()=>document.ge
   button.disabled=true;results.replaceChildren();status.textContent='جارٍ البحث في Europe PMC…';
   try{
    // Query Europe PMC directly: static preview has no /api/literature-search backend.
-   const epmcQuery=query+(oa.checked?' AND OPEN_ACCESS:y':'');
+   const normalized=/^(?:الحبة السوداء|حبة البركة|الحبة السوداء او حبة البركة|الحبة السوداء أو حبة البركة)$/.test(query)?'Nigella sativa':query;
+   const epmcQuery=normalized+(oa.checked?' AND OPEN_ACCESS:y':'');
    const epmcParams=new URLSearchParams({query:epmcQuery,format:'json',pageSize:count.value,resultType:'core'});
    const controller=new AbortController();
    const timeout=setTimeout(()=>controller.abort(),18000);
