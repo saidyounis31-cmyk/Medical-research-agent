@@ -352,16 +352,17 @@ select.addEventListener("change",()=>apply(select.value));apply(select.value);
 (function(){const statusText={ar:'هذه معاينة ثابتة: البحث العلمي يتصل مباشرة بـ Europe PMC. أزرار تحليل الذكاء الاصطناعي تحتاج إلى خادم API منفصل.',en:'Static preview: scientific search connects directly to Europe PMC. AI analysis buttons require a separate API server.',he:'תצוגה סטטית: החיפוש מתחבר ישירות ל-Europe PMC. ניתוח AI דורש שרת API נפרד.',de:'Statische Vorschau: Die Recherche nutzt Europe PMC direkt. KI-Analyse benötigt einen separaten API-Server.'};const bar=document.createElement('p');bar.className='hint';bar.style.cssText='padding:10px 14px;border:1px solid #b9d9d3;border-radius:12px;background:#eff8f5;margin:14px 0';bar.setAttribute('role','status');const nav=document.querySelector('.hakim-cards');nav?.after(bar);const sel=document.getElementById('uiLanguage');function update(){bar.textContent=statusText[sel?.value]||statusText.ar}sel?.addEventListener('change',update);update()})();
 </script>
 <script id="hakim-medical-term-resolver">
+(function(){
+const entries=[{"type":"botanical","names":["الحبة السوداء","حبة البركة","الحبة السوداء او حبة البركة","black seed","schwarzkümmel","קצח"],"q":"Nigella sativa"},{"type":"symptom","names":["رعشة اليدين","رعشة اليد","رجفة اليدين","رجفة اليد","رعاش اليدين","رعاش اليد","ريشة اليدين","hand tremor","hand shaking","händezittern","רעד בידיים","רעד ידיים"],"q":"(hand tremor OR hand tremors OR tremor)"},{"type":"symptom","names":["صداع","الصداع","headache","kopfschmerzen","כאב ראש"],"q":"headache"},{"type":"symptom","names":["دوخة","الدوخة","دوار","dizziness","schwindel","סחרחורת"],"q":"(dizziness OR vertigo)"},{"type":"symptom","names":["تنميل اليدين","خدر اليدين","numbness in hands","taube hände","נימול בידיים"],"q":"(hand numbness OR paresthesia)"},{"type":"symptom","names":["الم المفاصل","آلام المفاصل","وجع المفاصل","joint pain","gelenkschmerzen","כאבי מפרקים"],"q":"(arthralgia OR joint pain)"},{"type":"condition","names":["الروماتويد","التهاب المفاصل الروماتويدي","rheumatoid arthritis","rheumatoide arthritis","דלקת מפרקים שגרונית"],"q":"rheumatoid arthritis"},{"type":"condition","names":["الفيبروميالغيا","الألم العضلي الليفي","fibromyalgia","fibromyalgie","פיברומיאלגיה"],"q":"fibromyalgia"},{"type":"condition","names":["باركنسون","مرض باركنسون","الشلل الرعاش","parkinson disease","morbus parkinson","מחלת פרקינסון"],"q":"Parkinson disease"},{"type":"condition","names":["السكري","داء السكري","diabetes","diabetes mellitus","סוכרת"],"q":"diabetes mellitus"},{"type":"condition","names":["الربو","ربو","asthma","asthma bronchiale","אסתמה"],"q":"asthma"},{"type":"condition","names":["البهاق","vitiligo","ויטיליגו"],"q":"vitiligo"},{"type":"botanical","names":["الزعتر الطبي","زعتر طبي","thyme","thymian","קורנית"],"q":"Thymus vulgaris"},{"type":"botanical","names":["المورينجا","moringa","מורינגה"],"q":"Moringa oleifera"},{"type":"botanical","names":["الكركم","turmeric","kurkuma","כורכום"],"q":"Curcuma longa"}];
+function norm(s){return String(s||'').normalize('NFKC').trim().toLowerCase().replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ـ/g,'').replace(/[\u064b-\u065f]/g,'').replace(/\s+/g,' ');}
+const dictionary=new Map();
+for(const entry of entries)for(const name of entry.names){const key=norm(name);if(!dictionary.has(key))dictionary.set(key,entry);}
 window.hakimResolveSearchTerm=function(value){
- const input=String(value||'').trim();
- const normalized=input.replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ـ/g,'').replace(/[ًٌٍَُِّْ]/g,'').replace(/\s+/g,' ').toLowerCase();
- const terms=[
- {patterns:['الحبة السوداء','حبة البركة','الحبة السوداء او حبة البركة'],query:'Nigella sativa',label:'Nigella sativa'},
- {patterns:['رعشة اليدين','رعشه اليدين','رعشة اليد','رعشه اليد','رجفة اليدين','رجفه اليدين','رجفة اليد','رجفه اليد','رعاش اليدين','رعاش اليد','ريشة اليدين','ريشه اليدين'],query:'(hand tremor OR hand tremors OR tremor)',label:'hand tremor / tremor'}
- ];
- const found=terms.find(t=>t.patterns.some(p=>normalized===p.replace(/[أإآ]/g,'ا').replace(/ى/g,'ي')));
- return found?{query:found.query,label:found.label,expanded:true}:{query:input,label:input,expanded:false};
+ const input=String(value||'').trim(),entry=dictionary.get(norm(input));
+ return entry?{query:entry.q,label:entry.q,expanded:entry.q!==input,type:entry.type,matched:true}:{query:input,label:input,expanded:false,type:null,matched:false};
 };
+window.hakimMedicalTerms=entries.length;
+})();
 </script>
 <script id="hakim-research-sources">
 (function(){
