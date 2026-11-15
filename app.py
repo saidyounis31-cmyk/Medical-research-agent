@@ -144,6 +144,26 @@ def literature_search(
         "notice": "هذه نتائج فهرسة مباشرة وليست تقييمًا لجودة الدليل. قد لا يتوفر النص الكامل لكل سجل؛ تحقق من المقال الأصلي قبل الاستشهاد أو اتخاذ قرار سريري.",
     }
 
+
+class EvidenceAnswerRequest(BaseModel):
+    question: str = Field(min_length=5, max_length=500)
+    language: Literal["ar", "en", "he", "de"] = "ar"
+
+@app.post("/api/evidence-answer")
+def evidence_answer_endpoint(req: EvidenceAnswerRequest):
+    """Search Europe PMC abstracts and synthesize an evidence-limited answer."""
+    from evidence_answer import answer
+    try:
+        return answer(req.question, req.language)
+    except RuntimeError as exc:
+        if str(exc) == "AI_NOT_CONFIGURED":
+            raise HTTPException(status_code=503, detail="AI_NOT_CONFIGURED") from exc
+        raise HTTPException(status_code=502, detail="AI_ANALYSIS_UNAVAILABLE") from exc
+    except (TimeoutError, OSError, ValueError) as exc:
+        raise HTTPException(status_code=502, detail="EVIDENCE_RETRIEVAL_UNAVAILABLE") from exc
+    except Exception as exc:
+        raise HTTPException(status_code=502, detail="AI_ANALYSIS_UNAVAILABLE") from exc
+
 async def run_agent(kind: str, text: str) -> dict:
     api_key = os.getenv("OPENAI_API_KEY", "").strip()
     if not api_key:
