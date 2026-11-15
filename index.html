@@ -55,7 +55,7 @@
   <div class="field"><label for="topic">موضوع النبات أو السؤال العلمي</label><input id="topic" type="text" placeholder="مثال: Nigella sativa — الحبة السوداء"></div>
   <div class="field"><label for="question">السؤال أو التعليمات الإضافية (اختياري)</label><textarea id="question" placeholder="اكتب السؤال السريري أو نطاق المراجعة أو شروطاً إضافية..."></textarea></div>
   <div class="field"><label for="signature">التوقيع على العمل الأصلي (اختياري)</label><input id="signature" type="text" value="إعداد وتصميم سعيد يونس — saidy4613@gmail.com"><div class="hint">لا يُضاف التوقيع إلى أعمال الآخرين بما يوحي بتأليفها.</div></div>
-  <div class="btns"><button class="btn primary" id="build">إنشاء نص الطلب</button><button class="btn secondary" id="reset">إعادة ضبط</button></div>
+  <div class="btns"><button class="btn primary" type="button" id="startResearch">🔎 ابدأ البحث العلمي الآن</button><button class="btn secondary" type="button" id="build">إنشاء نص الطلب فقط</button><button class="btn secondary" id="reset">إعادة ضبط</button></div>
 </section>
 <section class="panel">
   <h2>٢. نص الطلب الناتج</h2>
@@ -163,6 +163,17 @@ function makeRequest(){
 }
 function render(){const data=makeRequest();if(!data)return;$('#preview').textContent=data.text;$('#state').textContent='مسودة طلب — لم تُنشأ الملفات';$('#deliverables').textContent=data.formats.map(x=>'□ '+x+' — الحالة: مطلوب؛ لم يُنشأ بعد').join('\n')+'\n\n□ التحقق من المراجع — لم يبدأ في هذه الأداة\n□ مراجعة علمية ولغوية — تُجرى بعد إعداد المحتوى';}
 $('#build').addEventListener('click',render);
+$('#startResearch').addEventListener('click',()=>{
+ const topic=$('#topic').value.trim(),question=$('#question').value.trim();
+ if(!topic && !question){alert('اكتب موضوع البحث أو سؤالك أولًا.');$('#topic').focus();return;}
+ const query=[topic,question].filter(Boolean).join(' ');
+ if(query.length>500){alert('نص البحث طويل جدًا. اختصره إلى 500 حرف أو أقل، ثم أعد المحاولة.');return;}
+ const field=$('#literatureQuery'); 
+ if(!field){alert('تعذر العثور على وحدة البحث.');return;}
+ field.value=query;
+ $('#literature-lab').scrollIntoView({behavior:'smooth',block:'start'});
+ const button=$('#searchLiterature');button.click();
+});
 $('#copy').addEventListener('click',async()=>{if($('#preview').textContent.startsWith('اضغط'))render();const t=$('#preview').textContent;try{await navigator.clipboard.writeText(t);$('#copy').textContent='تم النسخ';setTimeout(()=>$('#copy').textContent='نسخ نص الطلب',1500)}catch(e){const r=document.createElement('textarea');r.value=t;document.body.appendChild(r);r.select();const ok=document.execCommand('copy');r.remove();alert(ok?'تم نسخ النص.':'تعذر النسخ تلقائياً؛ حدد النص وانسخه يدوياً.')}});
 $('#download').addEventListener('click',()=>{if($('#preview').textContent.startsWith('اضغط'))render();const blob=new Blob(['\ufeff'+$('#preview').textContent],{type:'text/plain;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='medical_scientific_agent_request.txt';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url)});
 $('#print').addEventListener('click',()=>{if($('#preview').textContent.startsWith('اضغط'))render();window.print()});
