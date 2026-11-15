@@ -9,6 +9,8 @@ import unicodedata
 from openai import OpenAI
 
 CONCEPTS = (
+    (r"(?:تبول|يتبول|بيتبول|بول|التبول|سلس البول|بلل الفراش|تبليل الفراش|تبول لا ارادي|التبول اللاارادي|enuresis|bedwetting|bed wetting|nocturnal incontinence|הרטבת לילה|אנורזיס|bettnassen|einnassen)", "nocturnal enuresis"),
+
     (r"\b(?:بهاق|البهاق|vitiligo|בהקת|ויטיליגו)\b", "vitiligo"),
     (r"\b(?:سكري|السكري|سكر|diabetes|diabetic|סוכרת|diabetes mellitus|diabetes typ)\b", "diabetes mellitus"),
     (r"\b(?:النوع الثاني|نوع ثاني|type 2|typ 2|סוג 2)\b", "type 2"),
@@ -22,12 +24,12 @@ CONCEPTS = (
     (r"\b(?:زعتر|الزعتر|thyme|thymus vulgaris)\b", "Thymus vulgaris"),
 )
 INTENTS = (
-    (r"(?:طفل|طفلة|ابني|ابنتي|ولدي|بنتي|أطفال|ילד|ילדה|children|child|pediatric|kinder)", "child"),
-    (r"(?:علاج|أعالج|دواء|أدوية|معالجة|טיפול|treatment|therapy|behandlung)", "treatment"),
+    (r"(?:طفل|طفلة|ابني|ابنتي|ولدي|بنتي|اطفال|ילד|ילדה|children|child|pediatric|kinder)", "child"),
+    (r"(?:علاج|اعالج|اعالجه|دواء|ادوية|معالجة|حل|טיפול|treatment|therapy|behandlung)", "treatment"),
     (r"(?:زيت|زيوت|أعشاب|نباتات|عشبي|צמח|שמנים|herbal|herbs|essential oils|pflanzen)", "herbal medicine"),
     (r"(?:الوجه|وجهي|وجهها|وجهه|פנים|face|gesicht)", "face"),
     (r"(?:اليدين|اليد|يدي|ידיים|hands|hand|hände)", "hands"),
-    (r"(?:أعراض|ألم|symptoms|symptom|תסמינים|symptome)", "symptoms"),
+    (r"(?:اعراض|الم|symptoms|symptom|תסמינים|symptome)", "symptoms"),
 )
 def _fold(s):
     s = unicodedata.normalize("NFKC", s).lower()
