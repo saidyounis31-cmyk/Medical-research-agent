@@ -61,6 +61,8 @@ def normalize_query(query):
             if term not in concepts:
                 concepts.append(term)
     if concepts:
+        if "nocturnal enuresis" in concepts:
+            return {"original": query, "normalized": '"nocturnal enuresis" OR bedwetting', "rewritten": True, "method": "lexicon"}
         for pattern, term in INTENTS:
             if re.search(pattern, folded, re.IGNORECASE) and term not in concepts:
                 concepts.append(term)
