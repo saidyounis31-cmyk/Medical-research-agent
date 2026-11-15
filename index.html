@@ -274,7 +274,7 @@ document.getElementById('buildLecture').addEventListener('click',()=>document.ge
   button.disabled=true;results.replaceChildren();status.textContent='جارٍ البحث في Europe PMC…';
   try{
    // Query Europe PMC directly: static preview has no /api/literature-search backend.
-   const normalized=/^(?:الحبة السوداء|حبة البركة|الحبة السوداء او حبة البركة|الحبة السوداء أو حبة البركة)$/.test(query)?'Nigella sativa':query;
+   const normalized=window.hakimResolveSearchTerm(query).query;
    const epmcQuery=normalized+(oa.checked?' AND OPEN_ACCESS:y':'');
    const epmcParams=new URLSearchParams({query:epmcQuery,format:'json',pageSize:count.value,resultType:'core'});
    const controller=new AbortController();
@@ -351,6 +351,18 @@ select.addEventListener("change",()=>apply(select.value));apply(select.value);
 <script id="hakim-static-preview">
 (function(){const statusText={ar:'هذه معاينة ثابتة: البحث العلمي يتصل مباشرة بـ Europe PMC. أزرار تحليل الذكاء الاصطناعي تحتاج إلى خادم API منفصل.',en:'Static preview: scientific search connects directly to Europe PMC. AI analysis buttons require a separate API server.',he:'תצוגה סטטית: החיפוש מתחבר ישירות ל-Europe PMC. ניתוח AI דורש שרת API נפרד.',de:'Statische Vorschau: Die Recherche nutzt Europe PMC direkt. KI-Analyse benötigt einen separaten API-Server.'};const bar=document.createElement('p');bar.className='hint';bar.style.cssText='padding:10px 14px;border:1px solid #b9d9d3;border-radius:12px;background:#eff8f5;margin:14px 0';bar.setAttribute('role','status');const nav=document.querySelector('.hakim-cards');nav?.after(bar);const sel=document.getElementById('uiLanguage');function update(){bar.textContent=statusText[sel?.value]||statusText.ar}sel?.addEventListener('change',update);update()})();
 </script>
+<script id="hakim-medical-term-resolver">
+window.hakimResolveSearchTerm=function(value){
+ const input=String(value||'').trim();
+ const normalized=input.replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ـ/g,'').replace(/[ًٌٍَُِّْ]/g,'').replace(/\s+/g,' ').toLowerCase();
+ const terms=[
+ {patterns:['الحبة السوداء','حبة البركة','الحبة السوداء او حبة البركة'],query:'Nigella sativa',label:'Nigella sativa'},
+ {patterns:['رعشة اليدين','رعشه اليدين','رعشة اليد','رعشه اليد','رجفة اليدين','رجفه اليدين','رجفة اليد','رجفه اليد','رعاش اليدين','رعاش اليد','ريشة اليدين','ريشه اليدين'],query:'(hand tremor OR hand tremors OR tremor)',label:'hand tremor / tremor'}
+ ];
+ const found=terms.find(t=>t.patterns.some(p=>normalized===p.replace(/[أإآ]/g,'ا').replace(/ى/g,'ي')));
+ return found?{query:found.query,label:found.label,expanded:true}:{query:input,label:input,expanded:false};
+};
+</script>
 <script id="hakim-research-sources">
 (function(){
 const q=document.getElementById('literatureQuery'),sel=document.getElementById('uiLanguage');
@@ -362,7 +374,7 @@ en:['Search other research databases','Europe PMC results appear inside HAKIM. O
 he:['חיפוש גם במאגרי מידע נוספים','תוצאות Europe PMC מוצגות בתוך HAKIM. הקישורים האחרים פותחים חיפוש באתר המקור.','זוהה השם העממי של קצח. ניתן להשתמש ב-Nigella sativa לחיפוש מדעי רחב יותר.'],
 de:['Weitere Forschungsdatenbanken durchsuchen','Europe PMC zeigt Ergebnisse in HAKIM. Andere Links öffnen die Suche auf den Originalseiten.','Der Trivialname für Schwarzkümmel wurde erkannt. Mit Nigella sativa finden Sie mehr wissenschaftliche Ergebnisse.']};
 const header=document.getElementById('hakimSourceHeading'),note=document.getElementById('hakimSourceNote'),hint=document.getElementById('hakimQueryHint');
-function update(){const lang=sel?.value||'ar',t=i18n[lang]||i18n.ar;header.textContent=t[0];note.textContent=t[1];const value=q.value.trim();const normalized=/^(?:الحبة السوداء|حبة البركة|الحبة السوداء او حبة البركة|الحبة السوداء أو حبة البركة)$/.test(value)?'Nigella sativa':value;hint.textContent=normalized!==value?t[2]:'';for(const [id,base] of Object.entries(ids)){document.getElementById(id).href=base+encodeURIComponent(normalized||'medical research');}}
+function update(){const lang=sel?.value||'ar',t=i18n[lang]||i18n.ar;header.textContent=t[0];note.textContent=t[1];const value=q.value.trim();const resolved=window.hakimResolveSearchTerm(value);const normalized=resolved.query;hint.textContent=resolved.expanded?(lang==='ar'?'سيُبحث عن المصطلح الطبي: '+resolved.label:lang==='he'?'חיפוש לפי מונח רפואי: '+resolved.label:lang==='de'?'Medizinischer Suchbegriff: '+resolved.label:'Medical search term: '+resolved.label):'';for(const [id,base] of Object.entries(ids)){document.getElementById(id).href=base+encodeURIComponent(normalized||'medical research');}}
 q.addEventListener('input',update);sel?.addEventListener('change',update);update();
 })();
 </script>
