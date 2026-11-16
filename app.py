@@ -169,6 +169,7 @@ async def research(req: ResearchRequest):
 class ImagingVisionRequest(BaseModel):
     images: list[str] = Field(min_length=1, max_length=4)
     context: str = Field(default="", max_length=4000)
+    language: str = Field(default="ar", pattern="^(ar|en|he|de)$")
 
 @app.post("/api/imaging-analyze")
 def imaging_analyze(req: ImagingVisionRequest):
@@ -195,8 +196,8 @@ def imaging_analyze(req: ImagingVisionRequest):
         "Describe visible anatomy and observations, image quality, limitations, and possible explanations. "
         "Do not claim a definitive diagnosis, do not exclude disease from screenshots, "
         "do not invent measurements or patient details. State whether images are insufficient "
-        "and recommend formal radiologist interpretation. Reply in Arabic. "
-        "Clinical context: " + req.context
+        "and recommend formal radiologist interpretation. "
+        "Respond in the requested language (" + req.language + "). Clinical context: " + req.context
     )}]
     content.extend({"type":"input_image","image_url":img,"detail":"high"} for img in req.images)
     try:
