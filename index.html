@@ -348,7 +348,7 @@ document.getElementById('buildLecture').addEventListener('click',()=>document.ge
    // Query Europe PMC directly: static preview has no /api/literature-search backend.
    const resolved=window.hakimResolveSearchTerm(query);const normalized=resolved.query;
    const epmcQuery=normalized+(oa.checked?' AND OPEN_ACCESS:y':'');
-   const epmcParams=new URLSearchParams({query:epmcQuery,format:'json',pageSize:resolved.requirePeripheral?'100':count.value,resultType:'core'});
+   const epmcParams=new URLSearchParams({query:epmcQuery,format:'json',pageSize:(resolved.requirePeripheral||resolved.type==='compound'&&resolved.concepts?.includes('peripheral neuropathy'))?'100':count.value,resultType:'core'});
    const controller=new AbortController();
    const timeout=setTimeout(()=>controller.abort(),18000);
    let response;
@@ -371,6 +371,18 @@ document.getElementById('buildLecture').addEventListener('click',()=>document.ge
      if(offTopic.test(title)&&!positive.test(title))return false;
      return positive.test(title)||(positive.test(abstract)&&!offTopic.test(title));
     }).slice(0,Number(count.value)||10);
+   }
+   // For herbal peripheral neuropathy questions, require BOTH clinical topic and intervention.
+   // Abstract-only coincidences are insufficient if the title is explicitly about a different CNS disease.
+   if(resolved.concepts?.includes('peripheral neuropathy')&&resolved.concepts?.includes('phytotherapy')){
+    const nerve=/peripheral neuropath|peripheral neuritis|polyneuropath|diabetic neuropath|chemotherapy.induced peripheral neuropath|peripheral nerve/i;
+    const plant=/herbal|phytotherap|medicinal plant|botanical|plant extract|herb medicine|traditional chinese medicine|curcumin|turmeric|ginkgo/i;
+    const wrongDisease=/neuromyelitis optica|NMOSD|optic neuritis|multiple sclerosis|depression|liver.brain/i;
+    records=records.filter(x=>{
+     const title=x.title||'',abstract=x.abstractText||'';
+     if(wrongDisease.test(title))return false;
+     return nerve.test(title)&&plant.test(title+' '+abstract);
+    });
    }
    // Guard against unrelated records returned by broad index matching.
    if(resolved.strictDisease){
