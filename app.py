@@ -66,6 +66,20 @@ def health():
         "europe_pmc_search_available": True,
     }
 
+@app.get("/api/free-sources")
+def free_sources():
+    """Describe key-free research capabilities without claiming live upstream health."""
+    return {
+        "ok": True,
+        "requires_paid_api": False,
+        "sources": [
+            {"id": "europe_pmc", "name": "Europe PMC", "mode": "integrated", "endpoint": "/api/literature-search", "requires_key": False},
+            {"id": "pubmed", "name": "PubMed / NCBI", "mode": "planned", "requires_key": False},
+            {"id": "crossref", "name": "Crossref", "mode": "planned", "requires_key": False},
+        ],
+        "notice": "Integrated means an application endpoint exists, not that the external source is currently reachable. Planned sources are not yet connected.",
+    }
+
 @app.get("/")
 def home():
     return FileResponse(BASE_DIR / "index.html")
@@ -144,8 +158,12 @@ async def run_agent(kind: str, text: str) -> dict:
         kwargs["tools"] = [{"type": "web_search_preview"}]
     try:
         response = client.responses.create(**kwargs)
-        output = (response.output_text or "").strip() or "لم يُرجع النموذج نصًا. أعد المحاولة أو قلّل حجم المدخلات."
+        output = (response.output_text or "").strip()
+        if not output:
+            raise HTTPException(status_code=502, detail="لم يُرجع مزود الذكاء الاصطناعي نصًا صالحًا؛ لم يكتمل التحليل.")
         return {"ok": True, "kind": kind, "model": model, "result": output, "web_search_requested": bool(kwargs.get("tools"))}
+    except HTTPException:
+        raise
     except Exception as exc:
         raise HTTPException(status_code=502, detail=f"تعذر إكمال الطلب عبر مزود الذكاء الاصطناعي ({type(exc).__name__}). تحقق من الاتصال وإعدادات الحساب ثم أعد المحاولة.") from exc
 
