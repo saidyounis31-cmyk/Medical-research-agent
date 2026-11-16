@@ -186,7 +186,7 @@ def imaging_analyze(req: ImagingVisionRequest):
             raw = base64.b64decode(img.split(",", 1)[1], validate=True)
         except Exception:
             raise HTTPException(status_code=400, detail="بيانات الصورة غير صالحة.")
-        if not (raw.startswith(b"\\xff\\xd8\\xff") if img.startswith("data:image/jpeg;") else raw.startswith(b"\\x89PNG\\r\\n\\x1a\\n")):
+        if not (raw.startswith(bytes.fromhex('ffd8ff')) if img.startswith("data:image/jpeg;") else raw.startswith(bytes.fromhex('89504e470d0a1a0a'))):
             raise HTTPException(status_code=400, detail="محتوى الملف لا يطابق نوع الصورة المعلن.")
         if len(raw) > 4 * 1024 * 1024:
             raise HTTPException(status_code=413, detail="الحد الأقصى 4 MB لكل صورة.")
