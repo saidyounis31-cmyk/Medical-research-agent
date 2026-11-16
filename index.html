@@ -386,9 +386,12 @@ document.getElementById('buildLecture').addEventListener('click',()=>document.ge
    const unrelated=/optic neuritis|optic neuropath|optic nerve|visual acuity|visual loss|retinal|ophthalm/i;
    const scoreRecord=x=>{
     const title=x.title||'',abstract=x.abstractText||'';
-    let score=(relevant.test(title)?8:0)+(relevant.test(abstract)?3:0);
+    let score=0;
+    if(resolved.requirePeripheral){
+     score+=(relevant.test(title)?8:0)+(relevant.test(abstract)?3:0);
+     if(unrelated.test(title))score-=15;
+    }
     if(pubmedIds.has(String(x.pmid||'')))score+=2;
-    if(unrelated.test(title))score-=15;
     if(!resolved.requirePeripheral)score+=(title.toLowerCase().includes(query.toLowerCase())?3:0);
     return score;
    };
