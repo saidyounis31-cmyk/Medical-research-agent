@@ -131,10 +131,10 @@ html{scroll-behavior:smooth}body{background:#edf4f3}.wrap{max-width:1240px}.haki
   <div class="row"><div class="field"><label for="imagingType">نوع الفحص</label><select id="imagingType"><option>X-ray — أشعة سينية</option><option>MRI — رنين مغناطيسي</option><option>MRA — تصوير الأوعية بالرنين</option><option>CT — تصوير مقطعي</option><option>CTA — تصوير الأوعية المقطعي</option><option>Ultrasound — ألتراساوند</option><option>Doppler — دوبلر</option><option>فحص آخر</option></select></div><div class="field"><label for="imagingRegion">منطقة الجسم / الجهة</label><input id="imagingRegion" type="text" placeholder="مثال: الدماغ، الشريان السباتي الأيمن..." /></div></div>
   <div class="row"><div class="field"><label for="imagingDate">تاريخ الفحص (إن عُرف)</label><input id="imagingDate" type="date" /></div><div class="field"><label for="imagingFormat">نوع المادة المرفقة</label><select id="imagingFormat"><option>صور منتقاة / لقطات</option><option>تقرير اختصاصي الأشعة</option><option>صور وتقرير معًا</option><option>دراسة DICOM عبر نظام متوافق</option></select></div></div>
   <div class="field"><label for="imagingFiles">إرفاق صور أو تقرير تصوير</label><input id="imagingFiles" type="file" multiple accept="image/*,.pdf,.dcm,.dicom,.zip" /><div class="hint">يتم اختيار الملفات ومعاينتها محليًا دون إرسالها. لا تُرسل صور JPEG/PNG إلى مزود الذكاء الاصطناعي إلا عند الضغط على «تحليل الصور المرفقة» بعد الموافقة. ملفات DICOM والدراسات متعددة المقاطع تحتاج قارئًا وخدمة متخصصة غير موصولين بهذه النسخة.</div><div id="imagingFileList" class="file-list">لم تُحدّد ملفات.</div></div>
-  <div class="field"><label for="radiologistReport">تقرير اختصاصي الأشعة الأصلي</label><textarea id="radiologistReport" placeholder="ألصق نص التقرير كما ورد، بما فيه النتائج والانطباع والتوصيات..."></textarea></div>
+  <div class="field"><label for="imagingReferralQuestion">هدف الفحص / سؤال الإحالة إلى معهد الأشعة (Clinical indication)</label><textarea id="imagingReferralQuestion" placeholder="مثال: ألم متكرر في الركبتين؛ هل توجد علامات تنكس مفصلي أو إصابة عظمية؟ اكتب سؤال الطبيب المُحيل دون افتراض التشخيص."></textarea></div>\n  <div class="field" id="imagingRadiologistStage" hidden><label for="radiologistReport">تقرير اختصاصي الأشعة الأصلي</label><textarea id="radiologistReport" placeholder="ألصق نص التقرير كما ورد، بما فيه النتائج والانطباع والتوصيات..."></textarea></div>
   <div class="field"><label for="aiObservations">ملاحظات قراءة مساعدة / مخرجات نظام تصوير خارجي (إن وجدت)</label><textarea id="aiObservations" placeholder="أدخل مخرجات نظام موثوق أو ملاحظات تمت مراجعتها. لا تكتب أن الوكيل قرأ الصور إذا لم يحدث ذلك."></textarea></div>
   <div class="field"><label for="clinicalContextImaging">السياق السريري والسؤال المطلوب مراجعته</label><textarea id="clinicalContextImaging" placeholder="الأعراض، سبب طلب الفحص، المقارنة بفحوصات سابقة، والسؤال المحدد..."></textarea></div>
-  <div class="btns"><button class="btn primary" id="buildImaging">إنشاء مسودة مقارنة</button><button class="btn secondary" id="copyImaging">نسخ المسودة</button><button class="btn secondary" id="downloadImaging">تنزيل TXT</button></div>
+  <div class="btns"><button class="btn primary" id="buildImaging" disabled title="يتاح بعد اكتمال قراءة الصور وإدخال تقرير اختصاصي الأشعة">إنشاء مستند المقارنة</button><button class="btn secondary" id="copyImaging">نسخ المسودة</button><button class="btn secondary" id="downloadImaging">تنزيل TXT</button></div>
   <div id="imagingOutput" class="preview" aria-live="polite">تُنشأ هنا مسودة مقارنة بين الملاحظات المدخلة وتقرير اختصاصي الأشعة.</div>
   <div class="note"><strong>تنبيه:</strong> لا تعتبر هذه المسودة قراءة ثانية طبية أو تشخيصًا. أي اختلاف مهم أو احتمال نتيجة حرجة يتطلب مسار المراجعة السريرية المناسب؛ لا تؤخر الرعاية العاجلة لإكمال المقارنة.</div>
 </section>
@@ -204,7 +204,13 @@ function downloadText(text,filename){const blob=new Blob(['\ufeff'+text],{type:'
 function copyText(text){if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(()=>alert('تم النسخ.')).catch(()=>fallbackCopy(text))}else fallbackCopy(text)}function fallbackCopy(text){const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();const ok=document.execCommand('copy');ta.remove();alert(ok?'تم النسخ.':'تعذر النسخ؛ حدد النص وانسخه يدويًا.')}
 document.getElementById('buildClinical').addEventListener('click',()=>{document.getElementById('clinicalOutput').textContent=makeClinicalText()});document.getElementById('copyClinical').addEventListener('click',()=>copyText(document.getElementById('clinicalOutput').textContent));document.getElementById('downloadClinical').addEventListener('click',()=>downloadText(document.getElementById('clinicalOutput').textContent,'clinical_brainstorm_request.txt'));document.getElementById('clearClinical').addEventListener('click',()=>{['chiefComplaint','symptoms','historyMeds','labValues'].forEach(id=>document.getElementById(id).value='');document.getElementById('clinicalFiles').value='';fileNames('clinicalFiles','clinicalFileList');document.querySelectorAll('.redflag').forEach(x=>x.checked=false);document.getElementById('clinicalOutput').textContent='أدخل المعلومات ثم اختر «إنشاء ملخص الحالة وطلب البحث».'});
 function makeImagingText(){const files=Array.from(document.getElementById('imagingFiles').files||[]).map(f=>f.name);return ['طلب مقارنة تصوير طبي — مسودة للمراجعة البشرية','نوع الفحص: '+document.getElementById('imagingType').value,'المنطقة/الجهة: '+(document.getElementById('imagingRegion').value.trim()||'غير محددة'),'تاريخ الفحص: '+(document.getElementById('imagingDate').value||'غير محدد'),'نوع المرفقات: '+document.getElementById('imagingFormat').value,'أسماء الملفات فقط (لم تُحلّل): '+(files.join('؛ ')||'لا توجد ملفات'),'السياق السريري: '+(document.getElementById('clinicalContextImaging').value.trim()||'لم يُقدّم'),'تقرير اختصاصي الأشعة الأصلي:\n'+(document.getElementById('radiologistReport').value.trim()||'لم يُقدّم'),'ملاحظات قراءة مساعدة مدخلة يدويًا/من أداة خارجية:\n'+(document.getElementById('aiObservations').value.trim()||'لم تُقدّم'),'','تعليمات المقارنة عند توفر خدمة تصوير متخصصة:','1. لا تدّعِ قراءة الصور إذا لم تتم معالجتها فعليًا بواسطة أداة مناسبة.','2. افصل القراءة المساعدة الأولية عن تقرير اختصاصي الأشعة متى أمكن لتقليل الانحياز.','3. قارن كل ملاحظة بمصدرها، وحدد الاتفاق والاختلاف والبيانات غير القابلة للمقارنة.','4. لا تصدر حكمًا تلقائيًا بأن أحد الطرفين مخطئ؛ اشرح القيود واطلب مراجعة اختصاصية عند الاختلاف المهم.','5. لا تؤخر الرعاية العاجلة إذا كان هناك احتمال نتيجة حرجة.','6. سجّل الأداة والإصدار وحدود الأداء والمراجع المستخدمة.','7. هذه المسودة ليست تشخيصًا ولا تقرير أشعة معتمدًا.'].join('\n')}
-document.getElementById('buildImaging').addEventListener('click',()=>document.getElementById('imagingOutput').textContent=makeImagingText());document.getElementById('copyImaging').addEventListener('click',()=>copyText(document.getElementById('imagingOutput').textContent));document.getElementById('downloadImaging').addEventListener('click',()=>downloadText(document.getElementById('imagingOutput').textContent,'imaging_comparison_request.txt'));
+document.getElementById('buildImaging').addEventListener('click',()=>{
+ if(!window.hakimImagingReview?.answer)return;
+ const report=document.getElementById('radiologistReport').value.trim();
+ if(!report){document.getElementById('radiologistReport').focus();return;}
+ const review=window.hakimImagingReview;
+ document.getElementById('imagingOutput').textContent=makeImagingText()+'\n\nهدف الفحص / سؤال الإحالة إلى معهد الأشعة:\n'+(document.getElementById('imagingReferralQuestion')?.value.trim()||'غير محدد')+'\n\nالقراءة التعليمية الأولية للصور (غير تشخيصية):\n'+review.answer+'\n\nتنبيه: المقارنة النصية لا تثبت صحة أي قراءة ولا تحل محل مراجعة اختصاصي الأشعة.';
+});document.getElementById('copyImaging').addEventListener('click',()=>copyText(document.getElementById('imagingOutput').textContent));document.getElementById('downloadImaging').addEventListener('click',()=>downloadText(document.getElementById('imagingOutput').textContent,'imaging_comparison_request.txt'));
 function youtubeId(raw){try{const u=new URL(raw);if(u.hostname==='youtu.be')return u.pathname.slice(1).split('/')[0];if(u.hostname.endsWith('youtube.com')){if(u.pathname==='/watch')return u.searchParams.get('v');const m=u.pathname.match(/^\/(embed|shorts|live)\/([^/?]+)/);return m?m[2]:null}}catch(e){}return null}
 document.getElementById('openLecture').addEventListener('click',()=>{const raw=document.getElementById('lectureUrl').value.trim();const id=youtubeId(raw);if(!id){alert('أدخل رابط YouTube صالحًا.');return}window.open('https://www.youtube.com/watch?v='+encodeURIComponent(id),'_blank','noopener')});document.getElementById('embedLecture').addEventListener('click',()=>{const id=youtubeId(document.getElementById('lectureUrl').value.trim());const box=document.getElementById('lectureEmbed');if(!id){box.textContent='الرابط غير معروف أو غير صالح.';return}box.textContent='';const iframe=document.createElement('iframe');iframe.src='https://www.youtube-nocookie.com/embed/'+encodeURIComponent(id);iframe.title='مشغل محاضرة YouTube';iframe.loading='lazy';iframe.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';iframe.allowFullscreen=true;box.appendChild(iframe)});
 function makeLectureText(){const tasks=Array.from(document.querySelectorAll('.lectureTask:checked')).map(x=>x.value);return ['طلب تحليل محاضرة طبية/علمية','رابط المحاضرة: '+(document.getElementById('lectureUrl').value.trim()||'لم يُقدّم'),'المهام المطلوبة: '+(tasks.join('؛ ')||'لم تحدد'),'نص المحاضرة المتاح:',''+(document.getElementById('lectureTranscript').value.trim()||'لا يوجد نص مرفق؛ يجب الحصول على تفريغ قبل الادعاء بتحليل المحتوى.'),'','التعليمات:','1. افصل ما يقوله المحاضر عن التقييم العلمي المستقل.','2. لا تختلق نصًا أو توقيتات أو مراجع غير متاحة.','3. تحقق من الادعاءات الطبية المهمة عبر مصادر أصلية وإرشادات موثوقة.','4. ميّز بين الأدلة البشرية والقبل سريرية والرأي الشخصي.','5. سجّل الروابط وحالة التحقق من كل مرجع، واذكر ما تعذر التحقق منه.','6. لا تدّعِ أن نص الفيديو استُخرج آليًا؛ النص أعلاه هو فقط ما أُدخل في هذه الواجهة.'].join('\n')}
@@ -659,8 +665,8 @@ function translatePicker(){
  const u=local[lang]||local.ar;const info=document.getElementById('imagingVisionInfo'),consentLabel=document.getElementById('imagingConsentLabel'),analyze=document.getElementById('analyzeImaging');if(info)info.textContent=u[0];if(consentLabel)consentLabel.textContent=u[1];if(analyze)analyze.textContent=u[2];
 }
 translatePicker();document.getElementById('uiLanguage')?.addEventListener('change',translatePicker);
-cameraInput.addEventListener('change',()=>{if(!cameraInput.files?.length)return;selectedFiles=Array.from(cameraInput.files);files.value='';updateVisionPreview()});
-files.addEventListener('change',()=>{if(!files.files?.length)return;selectedFiles=Array.from(files.files);cameraInput.value='';updateVisionPreview()});
+cameraInput.addEventListener('change',()=>{if(!cameraInput.files?.length)return;selectedFiles=Array.from(cameraInput.files);files.value='';invalidateReview();updateVisionPreview()});
+files.addEventListener('change',()=>{if(!files.files?.length)return;selectedFiles=Array.from(files.files);cameraInput.value='';invalidateReview();updateVisionPreview()});
 const holder=document.createElement('div');
 holder.className='field';
 holder.innerHTML='<div class="hint" id="imagingVisionInfo">قراءة بصرية تعليمية مساعدة لصور JPEG/PNG، وليست تقرير اختصاصي الأشعة. أزل بيانات الهوية قبل الرفع.</div><label style="display:block;margin:12px 0"><input type="checkbox" id="imagingConsent"> <span id="imagingConsentLabel">أوافق على إرسال الصور إلى مزود الذكاء الاصطناعي لمعالجتها، بعد إزالة بيانات الهوية. قد تنطبق سياسة احتفاظ المزود.</span></label><button type="button" class="btn primary" id="analyzeImaging">تحليل الصور المرفقة</button><div id="imagingVisionStatus" role="status" aria-live="polite"></div><div id="imagingThumbnails" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px"></div>';
@@ -676,6 +682,19 @@ if(questionField?.parentNode&&localDraftButtons){
 }
 translatePicker();
 const status=document.getElementById('imagingVisionStatus'),button=document.getElementById('analyzeImaging'),thumbs=document.getElementById('imagingThumbnails');
+const comparisonButton=document.getElementById('buildImaging');
+const specialistReport=document.getElementById('radiologistReport');
+const specialistStage=document.getElementById('imagingRadiologistStage');
+window.hakimImagingReview=null;
+function syncComparison(){
+ const ready=!!window.hakimImagingReview?.answer;
+ if(specialistStage)specialistStage.hidden=!ready;
+ comparisonButton.disabled=!(ready&&specialistReport.value.trim());
+}
+specialistReport.addEventListener('input',syncComparison);
+function invalidateReview(){window.hakimImagingReview=null;specialistReport.value='';syncComparison();}
+['imagingType','imagingRegion','imagingDate','imagingReferralQuestion','clinicalContextImaging'].forEach(id=>document.getElementById(id)?.addEventListener('input',invalidateReview));
+
 function updateVisionPreview(){
  thumbs.replaceChildren();
  for(const f of selectedFiles.slice(0,4)){
@@ -709,12 +728,12 @@ button.addEventListener('click',async()=>{
  button.disabled=true;status.textContent=m.loading;
  try{
  const images=await Promise.all(selected.map(read));
- const context=['نوع الفحص: '+document.getElementById('imagingType').value,'المنطقة: '+document.getElementById('imagingRegion').value,'السياق: '+document.getElementById('clinicalContextImaging').value].join('\n');
+ const context=['هدف الفحص / سؤال الإحالة: '+(document.getElementById('imagingReferralQuestion')?.value||'غير محدد'),'نوع الفحص: '+document.getElementById('imagingType').value,'المنطقة: '+document.getElementById('imagingRegion').value,'السياق: '+document.getElementById('clinicalContextImaging').value].join('\n');
  const response=await fetch('/api/imaging-analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({images,context,language:lang})});
  const data=await response.json();
  if(!response.ok)throw new Error(response.status===429?'429 — rate limit':response.status===503?'503 — service unavailable':response.status+' — '+m.network);
  if(!data.ok||typeof data.result!=='string'||!data.result.trim())throw new Error(m.network);
- output.textContent=m.prefix+'\n\n'+data.result;
+ output.textContent=m.prefix+'\n\n'+data.result;\n window.hakimImagingReview={answer:data.result,files:selected.map(f=>f.name)};syncComparison();
  status.textContent=m.done;
  }catch(e){status.textContent=m.failed+(e.message||m.network)}finally{button.disabled=false}
 });
