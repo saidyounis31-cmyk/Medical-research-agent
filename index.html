@@ -130,7 +130,7 @@ html{scroll-behavior:smooth}body{background:#edf4f3}.wrap{max-width:1240px}.haki
   <div class="module-title"><div><div class="eyebrow dark">وحدة التصوير الطبي • قراءة تعليمية تجريبية</div><h2>🩻 مختبر التصوير الطبي ومقارنة التقارير</h2><p class="hint">يُنظم ملفات الصور وتقرير اختصاصي الأشعة والملاحظات المساعدة في نموذج للمراجعة. لا تُجرى قراءة تصويرية آلية في هذه النسخة.</p></div><span class="status">لا يوجد تحليل صور آلي</span></div>
   <div class="row"><div class="field"><label for="imagingType">نوع الفحص</label><select id="imagingType"><option>X-ray — أشعة سينية</option><option>MRI — رنين مغناطيسي</option><option>MRA — تصوير الأوعية بالرنين</option><option>CT — تصوير مقطعي</option><option>CTA — تصوير الأوعية المقطعي</option><option>Ultrasound — ألتراساوند</option><option>Doppler — دوبلر</option><option>فحص آخر</option></select></div><div class="field"><label for="imagingRegion">منطقة الجسم / الجهة</label><input id="imagingRegion" type="text" placeholder="مثال: الدماغ، الشريان السباتي الأيمن..." /></div></div>
   <div class="row"><div class="field"><label for="imagingDate">تاريخ الفحص (إن عُرف)</label><input id="imagingDate" type="date" /></div><div class="field"><label for="imagingFormat">نوع المادة المرفقة</label><select id="imagingFormat"><option>صور منتقاة / لقطات</option><option>تقرير اختصاصي الأشعة</option><option>صور وتقرير معًا</option><option>دراسة DICOM عبر نظام متوافق</option></select></div></div>
-  <div class="field"><label for="imagingFiles">إرفاق صور أو تقرير تصوير</label><input id="imagingFiles" type="file" multiple accept="image/*,.pdf,.dcm,.dicom,.zip" /><div class="hint">تُعرض أسماء الملفات محليًا فقط. ملفات DICOM والدراسات متعددة المقاطع تحتاج قارئًا وخدمة متخصصة غير موصولين بهذه النسخة.</div><div id="imagingFileList" class="file-list">لم تُحدّد ملفات.</div></div>
+  <div class="field"><label for="imagingFiles">إرفاق صور أو تقرير تصوير</label><input id="imagingFiles" type="file" multiple accept="image/*,.pdf,.dcm,.dicom,.zip" /><div class="hint">يتم اختيار الملفات ومعاينتها محليًا دون إرسالها. لا تُرسل صور JPEG/PNG إلى مزود الذكاء الاصطناعي إلا عند الضغط على «تحليل الصور المرفقة» بعد الموافقة. ملفات DICOM والدراسات متعددة المقاطع تحتاج قارئًا وخدمة متخصصة غير موصولين بهذه النسخة.</div><div id="imagingFileList" class="file-list">لم تُحدّد ملفات.</div></div>
   <div class="field"><label for="radiologistReport">تقرير اختصاصي الأشعة الأصلي</label><textarea id="radiologistReport" placeholder="ألصق نص التقرير كما ورد، بما فيه النتائج والانطباع والتوصيات..."></textarea></div>
   <div class="field"><label for="aiObservations">ملاحظات قراءة مساعدة / مخرجات نظام تصوير خارجي (إن وجدت)</label><textarea id="aiObservations" placeholder="أدخل مخرجات نظام موثوق أو ملاحظات تمت مراجعتها. لا تكتب أن الوكيل قرأ الصور إذا لم يحدث ذلك."></textarea></div>
   <div class="field"><label for="clinicalContextImaging">السياق السريري والسؤال المطلوب مراجعته</label><textarea id="clinicalContextImaging" placeholder="الأعراض، سبب طلب الفحص، المقارنة بفحوصات سابقة، والسؤال المحدد..."></textarea></div>
@@ -664,7 +664,16 @@ files.addEventListener('change',()=>{if(!files.files?.length)return;selectedFile
 const holder=document.createElement('div');
 holder.className='field';
 holder.innerHTML='<div class="hint" id="imagingVisionInfo">قراءة بصرية تعليمية مساعدة لصور JPEG/PNG، وليست تقرير اختصاصي الأشعة. أزل بيانات الهوية قبل الرفع.</div><label style="display:block;margin:12px 0"><input type="checkbox" id="imagingConsent"> <span id="imagingConsentLabel">أوافق على إرسال الصور إلى مزود الذكاء الاصطناعي لمعالجتها، بعد إزالة بيانات الهوية. قد تنطبق سياسة احتفاظ المزود.</span></label><button type="button" class="btn primary" id="analyzeImaging">تحليل الصور المرفقة</button><div id="imagingVisionStatus" role="status" aria-live="polite"></div><div id="imagingThumbnails" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px"></div>';
-output.parentNode.insertBefore(holder,output);
+// Keep the explicit AI-send consent and action immediately after the clinical question,
+// before unrelated local comparison/draft controls.
+const clinicalQuestion=document.getElementById('clinicalContextImaging');
+const questionField=clinicalQuestion?.closest('.field');
+const localDraftButtons=document.getElementById('buildImaging')?.parentElement;
+if(questionField?.parentNode&&localDraftButtons){
+ questionField.parentNode.insertBefore(holder,localDraftButtons);
+}else{
+ output.parentNode.insertBefore(holder,output);
+}
 translatePicker();
 const status=document.getElementById('imagingVisionStatus'),button=document.getElementById('analyzeImaging'),thumbs=document.getElementById('imagingThumbnails');
 function updateVisionPreview(){
