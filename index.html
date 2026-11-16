@@ -740,5 +740,61 @@ button.addEventListener('click',async()=>{
 });
 })();
 </script>
+<script>
+/* HAKIM PubMed in-app search: never navigate away on the database button. */
+(function(){
+ const link=document.getElementById('hakimPubmed');
+ const input=document.getElementById('literatureQuery');
+ const status=document.getElementById('literatureStatus');
+ const results=document.getElementById('literatureResults');
+ const count=document.getElementById('literatureCount');
+ if(!link||!input||!status||!results)return;
+ link.removeAttribute('target');
+ link.removeAttribute('href');
+ link.setAttribute('role','button');
+ link.setAttribute('tabindex','0');
+ link.setAttribute('aria-label','Search PubMed within HAKIM');
+ const terms=[
+  [/الأعصاب الطرفية|اعتلال الأعصاب المحيطية|peripheral neuropathy/i,'peripheral neuropathy'],
+  [/الأعشاب|النباتات الطبية|herbal|medicinal plants/i,'herbal medicine'],
+  [/علاج|معالجة|therapy|treatment/i,'treatment']
+ ];
+ function normalize(q){
+  if(!/[\u0600-\u06ff]/.test(q))return q;
+  const found=terms.filter(t=>t[0].test(q)).map(t=>t[1]);
+  return found.length?found.join(' AND '):q;
+ }
+ async function runPubmed(e){
+  if(e)e.preventDefault();
+  const query=input.value.trim();
+  if(query.length<2){status.textContent='أدخل موضوع البحث أولاً.';input.focus();return;}
+  const normalized=normalize(query);
+  status.textContent='جارٍ البحث في PubMed داخل HAKIM…';
+  results.replaceChildren();
+  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),22000);
+  try{
+   const response=await fetch('/api/pubmed-search?'+new URLSearchParams({q:normalized,page_size:count?.value||10}),{signal:controller.signal});
+   if(!response.ok)throw Error('HTTP '+response.status);
+   const data=await response.json();
+   if(!data.ok||!Array.isArray(data.results))throw Error('Invalid response');
+   status.textContent='PubMed: '+data.hit_count+' سجلًا؛ المعروض '+data.returned+'. الاستعلام: '+normalized+'.';
+   if(!data.results.length){status.textContent+=' لم تُرجع قاعدة البيانات نتائج لهذا الاستعلام؛ جرّب مصطلحات أكثر تحديداً.';return;}
+   data.results.forEach(item=>{
+    const card=document.createElement('article');card.className='literature-card';
+    const title=document.createElement('h3');title.textContent=item.title||'عنوان غير متاح';card.appendChild(title);
+    const meta=document.createElement('p');meta.className='hint';meta.textContent=[item.authors,item.journal,item.year,item.pmid?'PMID: '+item.pmid:'',item.doi?'DOI: '+item.doi:''].filter(Boolean).join(' | ');card.appendChild(meta);
+    const note=document.createElement('p');note.className='hint';note.textContent='بيانات فهرسة من PubMed؛ الملخص غير مسترجع في هذه المرحلة.';card.appendChild(note);
+    const original=document.createElement('a');original.href=item.url;original.target='_blank';original.rel='noopener noreferrer';original.textContent='فتح المقال الأصلي (اختياري)';card.appendChild(original);
+    results.appendChild(card);
+   });
+  }catch(err){status.textContent='تعذر البحث داخل PubMed: '+(err.name==='AbortError'?'انتهت مهلة الاتصال.':err.message);}
+  finally{clearTimeout(timer);}
+ }
+ link.addEventListener('click',runPubmed);
+ link.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();runPubmed();}});
+ const note=document.getElementById('hakimSourceNote');
+ if(note)note.textContent='PubMed وEurope PMC يعرضان نتائج البحث داخل HAKIM. الروابط الأخرى قد تفتح مواقع خارجية.';
+})();
+</script>
 </body>
 </html>
