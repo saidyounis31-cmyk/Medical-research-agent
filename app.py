@@ -177,6 +177,8 @@ def imaging_analyze(req: ImagingVisionRequest):
     key = os.getenv("OPENAI_API_KEY", "").strip()
     if not key:
         raise HTTPException(status_code=503, detail="محرك تحليل الصور غير مهيأ على الخادم.")
+    if sum(len(img) for img in req.images) > 23 * 1024 * 1024:
+        raise HTTPException(status_code=413, detail="حجم الصور الإجمالي أكبر من الحد المسموح.")
     for img in req.images:
         if not img.startswith(("data:image/jpeg;base64,", "data:image/png;base64,")):
             raise HTTPException(status_code=400, detail="يُقبل JPEG وPNG فقط.")
@@ -184,6 +186,8 @@ def imaging_analyze(req: ImagingVisionRequest):
             raw = base64.b64decode(img.split(",", 1)[1], validate=True)
         except Exception:
             raise HTTPException(status_code=400, detail="بيانات الصورة غير صالحة.")
+        if not (raw.startswith(b"\\xff\\xd8\\xff") if img.startswith("data:image/jpeg;") else raw.startswith(b"\\x89PNG\\r\\n\\x1a\\n")):
+            raise HTTPException(status_code=400, detail="محتوى الملف لا يطابق نوع الصورة المعلن.")
         if len(raw) > 4 * 1024 * 1024:
             raise HTTPException(status_code=413, detail="الحد الأقصى 4 MB لكل صورة.")
     content = [{"type":"input_text","text":(
