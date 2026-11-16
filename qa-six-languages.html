@@ -81,17 +81,34 @@ function showGlossaryResult(i){
  box.append(heading,category,detail,status,note);
  box.scrollIntoView({behavior:"smooth",block:"nearest"});
 }
+const SEARCH_MESSAGES={
+ ar:{empty:"اكتب مصطلحاً أولاً. لم تُحذف النتيجة السابقة.",none:"لم يُعثر على تطابق في القاموس التجريبي. النتيجة السابقة محفوظة.",multiple:"نتائج مطابقة"},
+ en:{empty:"Enter a search term. The previous result is preserved.",none:"No match in the demonstration glossary. Previous result preserved.",multiple:"Matching results"},
+ he:{empty:"יש להזין מונח. התוצאה הקודמת נשמרה.",none:"לא נמצאה התאמה במילון ההדגמה. התוצאה הקודמת נשמרה.",multiple:"תוצאות מתאימות"},
+ de:{empty:"Suchbegriff eingeben. Das vorherige Ergebnis bleibt erhalten.",none:"Kein Treffer im Testglossar. Das vorherige Ergebnis bleibt erhalten.",multiple:"Passende Ergebnisse"},
+ fr:{empty:"Saisissez un terme. Le résultat précédent est conservé.",none:"Aucune correspondance dans le glossaire de démonstration. Le résultat précédent est conservé.",multiple:"Résultats correspondants"},
+ es:{empty:"Introduzca un término. Se conserva el resultado anterior.",none:"No hay coincidencias en el glosario de prueba. Se conserva el resultado anterior.",multiple:"Resultados coincidentes"}
+};
+function searchMessage(message){
+ let el=$("searchMessage");
+ if(!el){el=document.createElement("p");el.id="searchMessage";el.setAttribute("role","status");$("result").insertAdjacentElement("beforebegin",el);}
+ el.textContent=message;
+}
+function normalizeSearch(value){return value.normalize("NFKC").toLocaleLowerCase().trim();}
 $("lookup").onclick=()=>{
- const lang=$("lang").value,q=$("query").value.trim().toLowerCase();
- if(!q){$("result").textContent="";return;}
- const foundPlant=Object.entries(P).find(([key,p])=>p.latin.toLowerCase().includes(q)||p.en.toLowerCase().includes(q)||Object.values(p.names).some(v=>v.toLowerCase().includes(q)));
+ const lang=$("lang").value,q=normalizeSearch($("query").value),msg=SEARCH_MESSAGES[lang];
+ if(!q){searchMessage(msg.empty);return;}
+ const matches=G.map((g,i)=>({g,i})).filter(o=>normalizeSearch(o.g.id).includes(q)||normalizeSearch(LOCALIZED_CATEGORIES[lang][o.i]).includes(q));
+ if(matches.length){showGlossaryResult(matches[0].i);searchMessage(matches.length>1?msg.multiple+": "+matches.map(o=>o.g.id).join(" · "):"");return;}
+ const foundPlant=Object.entries(P).find(([key,p])=>normalizeSearch(p.latin).includes(q)||normalizeSearch(p.en).includes(q)||Object.values(p.names).some(v=>normalizeSearch(v).includes(q)));
  if(foundPlant){
   $("plantSelect").value=foundPlant[0];render();
-  const box=$("result"),h=document.createElement("h3"),p=document.createElement("p");h.textContent=foundPlant[1].names[lang]+" — "+foundPlant[1].latin;p.textContent=LOCALIZED_EXTRA[lang].plantOnly;box.append(h,p);return;
+  const box=$("result"),h=document.createElement("h3"),p=document.createElement("p");h.textContent=foundPlant[1].names[lang]+" — "+foundPlant[1].latin;p.textContent=LOCALIZED_EXTRA[lang].plantOnly;box.append(h,p);searchMessage("");return;
  }
- const matches=G.map((g,i)=>({g,i})).filter(o=>o.g.id.toLowerCase().includes(q));
- if(matches.length){showGlossaryResult(matches[0].i);}else{$("result").textContent="";}
+ searchMessage(msg.none);
 };
-$("lang").onchange=render;$("plantSelect").onchange=render;$("query").addEventListener("input",()=>{$("result").textContent="";});$("query").addEventListener("keydown",e=>{if(e.key==="Enter")$("lookup").click();});
+$("lang").onchange=render;$("plantSelect").onchange=render;
+$("query").addEventListener("input",()=>{searchMessage("");});
+$("query").addEventListener("keydown",e=>{if(e.key==="Enter")$("lookup").click();});
 render();
 </script></body></html>
