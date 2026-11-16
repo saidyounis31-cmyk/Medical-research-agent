@@ -663,10 +663,18 @@ function updateVisionPreview(){
 const read=f=>new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=reject;reader.readAsDataURL(f)});
 button.addEventListener('click',async()=>{
  const selected=selectedFiles;
- if(!document.getElementById('imagingConsent').checked){status.textContent=({ar:'الموافقة على إرسال الصور مطلوبة.',en:'Consent is required before uploading images.',he:'נדרשת הסכמה לפני שליחת תמונות.',de:'Vor dem Hochladen ist eine Einwilligung erforderlich.'})[document.getElementById('uiLanguage')?.value]||'الموافقة على إرسال الصور مطلوبة.';return}
+ const language=document.getElementById('uiLanguage')?.value||'ar';
+ const preflight={
+ ar:{consent:'الموافقة على إرسال الصور مطلوبة.',invalid:'اختر 1–4 صور JPEG/PNG حتى 4 MB للصورة. ملفات DICOM وPDF غير مدعومة.'},
+ en:{consent:'Consent is required before uploading images.',invalid:'Select 1–4 JPEG/PNG images up to 4 MB each. DICOM and PDF are unsupported.'},
+ he:{consent:'נדרשת הסכמה לפני שליחת תמונות.',invalid:'בחרו 1–4 תמונות JPEG/PNG עד 4 MB כל אחת. DICOM ו-PDF אינם נתמכים.'},
+ de:{consent:'Vor dem Hochladen ist eine Einwilligung erforderlich.',invalid:'1–4 JPEG/PNG-Bilder bis 4 MB auswählen. DICOM und PDF werden nicht unterstützt.'}
+ };
+ const checks=preflight[language]||preflight.ar;
+ if(!document.getElementById('imagingConsent').checked){status.textContent=checks.consent;return}
  if(!selected.length||selected.length>4||selected.some(f=>!['image/jpeg','image/png'].includes(f.type)||f.size>4*1024*1024)){
- status.textContent=({ar:'اختر 1–4 صور JPEG/PNG حتى 4 MB للصورة. DICOM وPDF غير مدعومين.',en:'Select 1–4 JPEG/PNG images up to 4 MB each. DICOM and PDF are unsupported.',he:'בחרו 1–4 תמונות JPEG/PNG עד 4 MB כל אחת. DICOM ו-PDF אינם נתמכים.',de:'1–4 JPEG/PNG-Bilder bis 4 MB auswählen. DICOM und PDF werden nicht unterstützt.'})[document.getElementById('uiLanguage')?.value]||'اختر 1–4 صور JPEG/PNG.';return}
- const lang=document.getElementById('uiLanguage')?.value||'ar';
+ status.textContent=checks.invalid;return}
+ const lang=language;
  const messages={
  ar:{loading:'جارٍ تحليل الصور...',done:'اكتملت القراءة التعليمية. راجع اختصاصي الأشعة للتفسير الطبي المعتمد.',failed:'لم يكتمل التحليل: ',consent:'الموافقة على إرسال الصور مطلوبة.',invalid:'اختر من صورة واحدة إلى أربع صور JPEG/PNG، لا تتجاوز كل منها 4 MB.',prefix:'قراءة بصرية تعليمية — ليست تشخيصًا أو تقرير أشعة معتمدًا',network:'تعذر الاتصال بخادم التحليل.'},
  en:{loading:'Analyzing images...',done:'Educational review complete. Consult a radiologist for formal interpretation.',failed:'Analysis failed: ',consent:'Consent is required before uploading images.',invalid:'Select 1–4 JPEG/PNG images, each up to 4 MB.',prefix:'Educational image review — not a diagnosis or radiology report',network:'Unable to reach the analysis server.'},
@@ -680,7 +688,8 @@ button.addEventListener('click',async()=>{
  const context=['نوع الفحص: '+document.getElementById('imagingType').value,'المنطقة: '+document.getElementById('imagingRegion').value,'السياق: '+document.getElementById('clinicalContextImaging').value].join('\n');
  const response=await fetch('/api/imaging-analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({images,context})});
  const data=await response.json();
- if(!response.ok)throw new Error(typeof data.detail==='string'?data.detail:'فشل الاتصال بالمحرك');
+ if(!response.ok)throw new Error(response.status===429?'429 — AI provider rate limit':response.status===503?'503 — AI service not configured':response.status+' — '+(typeof data.detail==='string'?data.detail:m.network));
+ if(!data.ok||typeof data.result!=='string'||!data.result.trim())throw new Error(m.network);
  output.textContent=m.prefix+'\n\n'+data.result;
  status.textContent=m.done;
  }catch(e){status.textContent=m.failed+(e.message||m.network)}finally{button.disabled=false}
