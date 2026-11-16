@@ -516,6 +516,12 @@ aliases.sort((a,b)=>b.key.length-a.key.length);
 function boundary(text,start,end){const word=/[\\p{L}\\p{N}]/u;return (start===0||!word.test(text[start-1]))&&(end===text.length||!word.test(text[end]));}
 window.hakimResolveSearchTerm=function(value){
  const input=String(value||'').trim(),normalized=norm(input);
+ // Preserve the symptom in compound herbal-treatment questions; never search only for 'herbal medicine'.
+ const cough=/(سعال|كحه|كحة|كحه|cough|husten|שיעול)/i.test(normalized);
+ const botanical=/(اعشاب|عشبي|عشبية|طبية|نباتات|herbal|phytotherap|medicinal plant|צמחי מרפא)/i.test(normalized);
+ if(cough&&botanical){
+  return {query:'(cough AND (herbal OR phytotherapy OR "medicinal plants"))',label:'cough + herbal medicine',expanded:true,type:'compound',matched:true,concepts:['cough','phytotherapy'],requirePeripheral:false};
+ }
  // High-precision peripheral nerve + vascular intent. Do not conflate optic neuritis with peripheral neuropathy.
  const peripheralNerve=/(اعصاب|عصب|neuropathy|neuritis|neuropathie|nerven|עצבים|נוירופתיה)/i.test(normalized);
  const vessels=/(اوعيه|دمويه|دموية|وعائي|vascular|vasculitis|blood vessels|gefäß|gefäss|כלי דם)/i.test(normalized);
@@ -774,6 +780,7 @@ button.addEventListener('click',async()=>{
  link.setAttribute('tabindex','0');
  link.setAttribute('aria-label','Search PubMed within HAKIM');
  const terms=[
+  [/السعال|سعال|الكحة|كحة|كحه|cough/i,'cough'],
   [/الأعصاب الطرفية|اعتلال الأعصاب المحيطية|peripheral neuropathy/i,'peripheral neuropathy'],
   [/الأعشاب|النباتات الطبية|herbal|medicinal plants/i,'herbal medicine'],
   [/علاج|معالجة|therapy|treatment/i,'treatment']
@@ -787,7 +794,8 @@ button.addEventListener('click',async()=>{
   if(e)e.preventDefault();
   const query=input.value.trim();
   if(query.length<2){status.textContent='أدخل موضوع البحث أولاً.';input.focus();return;}
-  const normalized=normalize(query);
+  const resolved=window.hakimResolveSearchTerm(query);
+  const normalized=resolved?.concepts?.includes('cough')?'cough AND (herbal OR phytotherapy OR medicinal plants)':normalize(query);
   status.textContent='جارٍ البحث في PubMed داخل HAKIM…';
   results.replaceChildren();
   const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),22000);
