@@ -616,5 +616,42 @@ for(const p of plants){const option=document.createElement(&quot;option&quot;);o
 $(&quot;evidenceSearch&quot;).oninput=renderEvidence;$(&quot;evidencePlant&quot;).onchange=()=>{renderEvidence();const id=$(&quot;evidencePlant&quot;).value;if(id!==&quot;all&quot;&amp;&amp;(!current||current.id!==id))openPlant(id,false)};$(&quot;evidenceType&quot;).onchange=renderEvidence;renderEvidence();
 renderIndex();let saved=null;try{saved=JSON.parse(sessionStorage.getItem(savedKey)||&quot;null&quot;)}catch(e){}const param=new URLSearchParams(location.search).get(&quot;plant&quot;);const valid=id=>plants.some(p=>p.id===id);if(saved&amp;&amp;valid(saved.plant)){restoring=true;if(locale[saved.language])$(&quot;language&quot;).value=saved.language;if([&quot;public&quot;,&quot;advanced&quot;].includes(saved.mode))$(&quot;mode&quot;).value=saved.mode;renderIndex();openPlant(saved.plant,false);active=Math.max(0,Math.min(current.sections.length-1,Number(saved.section)||0));syncNav();restoring=false;requestAnimationFrame(()=>{if(!param)document.getElementById(&quot;section-&quot;+active)?.scrollIntoView({block:&quot;start&quot;})})}else openPlant(&quot;sage&quot;,false);if(param&amp;&amp;valid(param))openPlant(param,false);$(&quot;backToPlants&quot;).onclick=()=>{$(&quot;monograph&quot;).classList.remove(&quot;hide&quot;)};window.addEventListener(&quot;pagehide&quot;,savePlace);window.addEventListener(&quot;pageshow&quot;,()=>{if(current)$(&quot;monograph&quot;).classList.remove(&quot;hide&quot;)});
 &lt;/script>&lt;/body>&lt;/html>"></iframe></section>
+
+<script id="hakim-imaging-vision">
+(function(){
+const section=document.getElementById('imaging-lab'), files=document.getElementById('imagingFiles'), output=document.getElementById('imagingOutput');
+if(!section||!files||!output)return;
+const holder=document.createElement('div');
+holder.className='field';
+holder.innerHTML='<div class="hint">قراءة بصرية تعليمية مساعدة لصور JPEG/PNG فقط، وليست تقرير اختصاصي الأشعة. تُرسل الصور إلى مزود الذكاء الاصطناعي عند الضغط على التحليل فقط. يُرجى إزالة بيانات الهوية من الصور قبل رفعها.</div><label style="display:block;margin:12px 0"><input type="checkbox" id="imagingConsent"> أوافق على إرسال الصور المختارة للتحليل وأؤكد إزالة البيانات الشخصية الظاهرة عليها.</label><button type="button" class="btn primary" id="analyzeImaging">تحليل الصور المرفقة</button><div id="imagingVisionStatus" role="status" aria-live="polite"></div><div id="imagingThumbnails" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px"></div>';
+output.parentNode.insertBefore(holder,output);
+const status=document.getElementById('imagingVisionStatus'),button=document.getElementById('analyzeImaging'),thumbs=document.getElementById('imagingThumbnails');
+files.addEventListener('change',()=>{
+ thumbs.replaceChildren();
+ for(const f of Array.from(files.files||[]).slice(0,4)){
+  if(!['image/jpeg','image/png'].includes(f.type))continue;
+  const img=document.createElement('img');img.alt='معاينة: '+f.name;img.style.cssText='max-width:140px;max-height:140px;object-fit:contain;border:1px solid #ddd;border-radius:8px';
+  const url=URL.createObjectURL(f);img.onload=()=>URL.revokeObjectURL(url);img.src=url;thumbs.appendChild(img);
+ }
+});
+const read=f=>new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=reject;reader.readAsDataURL(f)});
+button.addEventListener('click',async()=>{
+ const selected=Array.from(files.files||[]);
+ if(!document.getElementById('imagingConsent').checked){status.textContent='الموافقة على إرسال الصور مطلوبة.';return}
+ if(!selected.length||selected.length>4||selected.some(f=>!['image/jpeg','image/png'].includes(f.type)||f.size>4*1024*1024)){
+ status.textContent='اختر من صورة واحدة إلى أربع صور JPEG/PNG، لا تتجاوز كل منها 4 MB. ملفات DICOM وPDF غير مدعومة هنا.';return}
+ button.disabled=true;status.textContent='جارٍ تحليل الصور...';output.textContent='';
+ try{
+ const images=await Promise.all(selected.map(read));
+ const context=['نوع الفحص: '+document.getElementById('imagingType').value,'المنطقة: '+document.getElementById('imagingRegion').value,'السياق: '+document.getElementById('clinicalContextImaging').value].join('\n');
+ const response=await fetch('/api/imaging-analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({images,context})});
+ const data=await response.json();
+ if(!response.ok)throw new Error(typeof data.detail==='string'?data.detail:'فشل الاتصال بالمحرك');
+ output.textContent='قراءة بصرية تعليمية — ليست تشخيصًا أو تقرير أشعة معتمدًا\n\n'+data.result;
+ status.textContent='اكتملت القراءة التعليمية. راجع اختصاصي الأشعة للتفسير الطبي المعتمد.';
+ }catch(e){status.textContent='لم يكتمل التحليل: '+e.message}finally{button.disabled=false}
+});
+})();
+</script>
 </body>
 </html>
