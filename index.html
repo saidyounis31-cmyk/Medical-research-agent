@@ -27,7 +27,7 @@ textarea{min-height:94px;resize:vertical}.row{display:grid;grid-template-columns
 .status{display:inline-block;border-radius:999px;padding:4px 10px;background:var(--warn);color:#765313;font-size:.82rem;font-weight:700}
 .status.ok{background:var(--teal2);color:var(--teal)}
 .note{background:var(--warn);border:1px solid #ead8a7;border-radius:12px;padding:12px;font-size:.88rem;color:#614c1d;margin-top:14px}
-.smallhead{font-size:.98rem;margin:18px 0 8px}.checks{display:grid;grid-template-columns:1fr 1fr;gap:8px}.foot{color:var(--muted);font-size:.82rem;text-align:center;margin-top:20px}
+.checks{display:grid;grid-template-columns:1fr 1fr;gap:8px}.foot{color:var(--muted);font-size:.82rem;text-align:center;margin-top:20px}
 .module-nav{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.module-nav a{display:inline-block;padding:10px 13px;border:1px solid var(--line);border-radius:11px;background:#fff;color:var(--ink);text-decoration:none;font-weight:700}.module-nav a:hover{background:var(--teal2);border-color:var(--teal)}
 .module{margin-top:18px;scroll-margin-top:14px}.module-title{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.module-title h2{margin:2px 0 4px}.module-title p{margin:0 0 10px}.eyebrow.dark{color:var(--teal);opacity:1}
 .file-list{margin-top:8px;padding:9px 11px;background:#f7faf9;border:1px dashed var(--line);border-radius:10px;font-size:.86rem;white-space:pre-wrap;overflow-wrap:anywhere}
@@ -46,9 +46,9 @@ textarea{min-height:94px;resize:vertical}.row{display:grid;grid-template-columns
 <div class="wrap">
 <header class="hero">
   <div class="hero-top">
-    <div class="eyebrow" id="heroEyebrow">HAKIM • الوكيل الطبي والعلمي الذكي • 6 لغات + لهجات</div>
+    <div class="eyebrow" data-i18n="heroEyebrow">HAKIM • الوكيل الطبي والعلمي الذكي • 6 لغات + لهجات</div>
     <div class="lang-box">
-      <label for="globalLang" id="globalLangLabel">اللغة / Language:</label>
+      <label for="globalLang" data-i18n="globalLangLabel">اللغة / Language:</label>
       <select id="globalLang">
         <option value="ar" selected>العربية (فصحى ولهجات)</option>
         <option value="en">English</option>
@@ -59,36 +59,54 @@ textarea{min-height:94px;resize:vertical}.row{display:grid;grid-template-columns
       </select>
     </div>
   </div>
-  <h1 id="heroTitle">HAKIM — الوكيل الطبي والعلمي</h1>
-  <p id="heroDesc">منصة بحثية وطبية متكاملة تدعم 6 لغات واللهجات المحكية، وتتيح البحث المباشر في Europe PMC وPubMed، وترجمة وتلخيص الأبحاث، والعصف الذهني السريري، وتحليل صور الأشعة بالذكاء الاصطناعي. لا تُدخل بيانات تعريفية للمرضى.</p>
+  <h1 data-i18n="heroTitle">HAKIM — الوكيل الطبي والعلمي</h1>
+  <p data-i18n="heroDesc">منصة بحثية وطبية متكاملة تدعم 6 لغات واللهجات المحكية، وتتيح البحث المباشر في Europe PMC وPubMed، وترجمة وتلخيص الأبحاث، والعصف الذهني السريري، وتحليل صور الأشعة بالذكاء الاصطناعي. لا تُدخل بيانات تعريفية للمرضى.</p>
   <div class="hero-credit">ANEMONE SLN.LTD • إعداد وتصميم سعيد يونس</div>
 </header>
 
-<nav class="module-nav" aria-label="وحدات الوكيل">
-  <a href="#literature-lab" id="navLit">🔎 البحث العلمي</a>
-  <a href="#imaging-lab" id="navImg">🩻 مختبر الأشعة والصور</a>
-  <a href="#clinical-lab" id="navClin">🧠 العصف الذهني الطبي</a>
-  <a href="#lecture-lab" id="navLec">▶ المحاضرات الطبية</a>
-  <a href="#builder" id="navBuild">📋 منشئ المونوغراف والبحث</a>
+<nav class="module-nav" aria-label="Navigation">
+  <a href="#literature-lab" data-i18n="navLit">🔎 البحث العلمي</a>
+  <a href="#imaging-lab" data-i18n="navImg">🩻 مختبر الأشعة والصور</a>
+  <a href="#clinical-lab" data-i18n="navClin">🧠 العصف الذهني الطبي</a>
+  <a href="#lecture-lab" data-i18n="navLec">▶ المحاضرات الطبية</a>
+  <a href="#builder" data-i18n="navBuild">📋 منشئ المونوغراف والبحث</a>
 </nav>
 
 <section class="module panel" id="literature-lab">
   <div class="module-title">
     <div>
       <div class="eyebrow dark">Europe PMC & PubMed • Gemini Query Optimizer</div>
-      <h2 id="litHeading">🔎 البحث في الدراسات العلمية والترجمة الفورية</h2>
-      <p class="hint" id="litHint">اكتب سؤالك بأي لغة أو لهجة، وسيحوله الذكاء الاصطناعي تلقائياً إلى مصطلحات بحث علمية دقيقة ويجلب الدراسات مع إمكانية ترجمتها وتلخيصها.</p>
+      <h2 data-i18n="litHeading">🔎 البحث في الدراسات العلمية والترجمة الفورية</h2>
+      <p class="hint" data-i18n="litHint">اكتب سؤالك بأي لغة أو لهجة، وسيحوله الذكاء الاصطناعي تلقائياً إلى مصطلحات بحث علمية دقيقة ويجلب الدراسات مع إمكانية ترجمتها وتلخيصها.</p>
     </div>
-    <span class="status ok" id="litBadge">متصل بالذكاء الاصطناعي</span>
+    <span class="status ok" data-i18n="badgeConnected">متصل بالذكاء الاصطناعي</span>
   </div>
-  <div class="field"><label for="literatureQuery" id="litQueryLabel">موضوع البحث أو السؤال العلمي (بأي لغة أو لهجة)</label><input id="literatureQuery" type="text" placeholder="مثال: هل يوجد علاج بالأعشاب للبهاق؟ أو Nigella sativa asthma" autocomplete="off" /></div>
+  <div class="field">
+    <label for="literatureQuery" data-i18n="litQueryLabel">موضوع البحث أو السؤال العلمي (بأي لغة أو لهجة)</label>
+    <input id="literatureQuery" type="text" data-i18n-ph="litQueryPh" placeholder="مثال: هل يوجد علاج بالأعشاب للبهاق؟ أو Nigella sativa asthma" autocomplete="off" />
+  </div>
   <div class="row">
-    <div class="field"><label for="literatureSource" id="litSourceLabel">قاعدة البيانات</label><select id="literatureSource"><option value="europe_pmc" selected>Europe PMC (مع الملخصات)</option><option value="pubmed">PubMed / NCBI</option></select></div>
-    <div class="field"><label for="literatureCount" id="litCountLabel">عدد النتائج</label><select id="literatureCount"><option value="5">5</option><option value="10" selected>10</option><option value="20">20</option></select></div>
+    <div class="field">
+      <label for="literatureSource" data-i18n="litSourceLabel">قاعدة البيانات</label>
+      <select id="literatureSource">
+        <option value="europe_pmc" selected data-i18n="optEpmc">Europe PMC (مع الملخصات)</option>
+        <option value="pubmed">PubMed / NCBI</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="literatureCount" data-i18n="litCountLabel">عدد النتائج</label>
+      <select id="literatureCount"><option value="5">5</option><option value="10" selected>10</option><option value="20">20</option></select>
+    </div>
   </div>
-  <div class="field" style="display:flex;align-items:center;gap:9px"><input id="literatureOA" type="checkbox" style="width:auto"><label for="literatureOA" id="litOALabel" style="margin:0">المقالات مفتوحة الوصول فقط (Open Access)</label></div>
-  <div class="btns"><button class="btn primary" id="searchLiterature">🔎 البحث في الدراسات</button><button class="btn secondary" id="clearLiterature">مسح البحث</button></div>
-  <p id="literatureStatus" class="hint" aria-live="polite">أدخل سؤالك أو موضوع البحث ثم اضغط «البحث في الدراسات».</p>
+  <div class="field" style="display:flex;align-items:center;gap:9px">
+    <input id="literatureOA" type="checkbox" style="width:auto">
+    <label for="literatureOA" data-i18n="litOALabel" style="margin:0">المقالات مفتوحة الوصول فقط (Open Access)</label>
+  </div>
+  <div class="btns">
+    <button class="btn primary" id="searchLiterature" data-i18n="searchBtn">🔎 البحث في الدراسات</button>
+    <button class="btn secondary" id="clearLiterature" data-i18n="clearBtn">مسح البحث</button>
+  </div>
+  <p id="literatureStatus" class="hint" data-i18n="litStatusInit" aria-live="polite">أدخل سؤالك أو موضوع البحث ثم اضغط «البحث في الدراسات».</p>
   <div id="literatureResults" class="literature-results" aria-live="polite"></div>
 </section>
 
@@ -96,115 +114,237 @@ textarea{min-height:94px;resize:vertical}.row{display:grid;grid-template-columns
   <div class="module-title">
     <div>
       <div class="eyebrow dark">Gemini Vision • 6 Languages</div>
-      <h2 id="imgHeading">🩻 مختبر التصوير الطبي وقراءة صور الأشعة</h2>
-      <p class="hint" id="imgHint">ارفع لقطات صور الأشعة (JPEG/PNG) لتحليلها بصرياً وتعليمياً باللغة المختارة، أو قارن تقرير اختصاصي الأشعة بالملاحظات السريرية.</p>
+      <h2 data-i18n="imgHeading">🩻 مختبر التصوير الطبي وقراءة صور الأشعة</h2>
+      <p class="hint" data-i18n="imgHint">ارفع لقطات صور الأشعة (JPEG/PNG) لتحليلها بصرياً وتعليمياً باللغة المختارة، أو قارن تقرير اختصاصي الأشعة بالملاحظات السريرية.</p>
     </div>
-    <span class="status ok" id="imgBadge">Gemini Vision مفعّل</span>
+    <span class="status ok" data-i18n="badgeVision">Gemini Vision مفعّل</span>
   </div>
   <div class="row">
-    <div class="field"><label for="imagingType" id="imgTypeLabel">نوع الفحص</label><select id="imagingType"><option>X-ray</option><option>MRI</option><option>MRA</option><option>CT</option><option>CTA</option><option>Ultrasound</option><option>Doppler</option><option>Other</option></select></div>
-    <div class="field"><label for="imagingRegion" id="imgRegionLabel">منطقة الجسم / الجهة</label><input id="imagingRegion" type="text" placeholder="مثال: الركبتين، الصدر، الدماغ..." /></div>
+    <div class="field">
+      <label for="imagingType" data-i18n="imgTypeLabel">نوع الفحص</label>
+      <select id="imagingType"><option>X-ray</option><option>MRI</option><option>MRA</option><option>CT</option><option>CTA</option><option>Ultrasound</option><option>Doppler</option><option>Other</option></select>
+    </div>
+    <div class="field">
+      <label for="imagingRegion" data-i18n="imgRegionLabel">منطقة الجسم / الجهة</label>
+      <input id="imagingRegion" type="text" data-i18n-ph="imgRegionPh" placeholder="مثال: الركبتين، الصدر، الدماغ..." />
+    </div>
   </div>
   <div class="field">
-    <label for="imagingFiles" id="imgFilesLabel">إرفاق صور الأشعة (JPEG / PNG — حتى 4 صور)</label>
+    <label for="imagingFiles" data-i18n="imgFilesLabel">إرفاق صور الأشعة (JPEG / PNG — حتى 4 صور)</label>
     <input id="imagingFiles" type="file" multiple accept="image/jpeg,image/png,image/*" />
-    <div class="hint" id="imgDeidHint">أزل أي اسم أو رقم هوية عن الصورة قبل الرفع.</div>
-    <div id="imagingFileList" class="file-list">لم تُحدّد صور بعد.</div>
+    <div class="hint" data-i18n="imgDeidHint">أزل أي اسم أو رقم هوية عن الصورة قبل الرفع.</div>
+    <div id="imagingFileList" class="file-list" data-i18n="imgNoFiles">لم تُحدّد صور بعد.</div>
     <div id="imagingThumbs" class="thumb-grid"></div>
   </div>
-  <div class="field"><label for="clinicalContextImaging" id="imgCtxLabel">السياق السريري والسؤال المطلوب (بأي لغة أو لهجة)</label><textarea id="clinicalContextImaging" placeholder="مثال: ألم متكرر في الركبتين، هل توجد علامات تنكس مفصلي أو إصابة عظمية؟"></textarea></div>
+  <div class="field">
+    <label for="clinicalContextImaging" data-i18n="imgCtxLabel">السياق السريري والسؤال المطلوب (بأي لغة أو لهجة)</label>
+    <textarea id="clinicalContextImaging" data-i18n-ph="imgCtxPh" placeholder="مثال: ألم متكرر في الركبتين، هل توجد علامات تنكس مفصلي أو إصابة عظمية؟"></textarea>
+  </div>
   <div class="field" style="display:flex;align-items:flex-start;gap:9px">
     <input id="imagingConsent" type="checkbox" style="width:auto;margin-top:5px" checked>
-    <label for="imagingConsent" id="imgConsentLabel" style="margin:0">أوافق على إرسال الصور إلى محرك الذكاء الاصطناعي للمراجعة التعليمية بعد إزالة بيانات الهوية.</label>
+    <label for="imagingConsent" data-i18n="imgConsentLabel" style="margin:0">أوافق على إرسال الصور إلى محرك الذكاء الاصطناعي للمراجعة التعليمية بعد إزالة بيانات الهوية.</label>
   </div>
   <div class="btns">
-    <button class="btn primary" id="analyzeImagesBtn">🩻 تحليل الصور المرفقة بالذكاء الاصطناعي</button>
-    <button class="btn secondary" id="buildImaging">إنشاء مسودة مقارنة نصية</button>
-    <button class="btn secondary" id="copyImaging">نسخ النتيجة</button>
-    <button class="btn secondary" id="downloadImaging">تنزيل TXT</button>
+    <button class="btn primary" id="analyzeImagesBtn" data-i18n="analyzeImgBtn">🩻 تحليل الصور المرفقة بالذكاء الاصطناعي</button>
+    <button class="btn secondary" id="buildImaging" data-i18n="buildImgDraftBtn">إنشاء مسودة مقارنة نصية</button>
+    <button class="btn secondary" id="copyImaging" data-i18n="copyBtn">نسخ النتيجة</button>
+    <button class="btn secondary" id="downloadImaging" data-i18n="downloadBtn">تنزيل TXT</button>
   </div>
   <p id="imagingVisionStatus" class="hint" aria-live="polite"></p>
-  <div class="field"><label for="radiologistReport" id="imgRepLabel">تقرير اختصاصي الأشعة الأصلي (اختياري للمقارنة)</label><textarea id="radiologistReport" placeholder="ألصق نص تقرير الأشعة هنا إذا أردت مقارنته..."></textarea></div>
-  <div class="field"><label for="aiObservations" id="imgObsLabel">ملاحظات إضافية (اختياري)</label><textarea id="aiObservations" placeholder="أي ملاحظات سريرية أو فحوصات سابقة..."></textarea></div>
-  <div id="imagingOutput" class="preview" aria-live="polite">ستظهر هنا قراءة صور الأشعة أو مسودة المقارنة باللغة المختارة.</div>
-  <div class="note" id="imgDisclaimer"><strong>تنبيه طبي:</strong> هذه القراءة تعليمية مساعدة وليست بديلاً عن تقرير اختصاصي الأشعة المعتمد أو الفحص السريري العاجل.</div>
+  <div class="field">
+    <label for="radiologistReport" data-i18n="imgRepLabel">تقرير اختصاصي الأشعة الأصلي (اختياري للمقارنة)</label>
+    <textarea id="radiologistReport" data-i18n-ph="imgRepPh" placeholder="ألصق نص تقرير الأشعة هنا إذا أردت مقارنته..."></textarea>
+  </div>
+  <div class="field">
+    <label for="aiObservations" data-i18n="imgObsLabel">ملاحظات إضافية (اختياري)</label>
+    <textarea id="aiObservations" data-i18n-ph="imgObsPh" placeholder="أي ملاحظات سريرية أو فحوصات سابقة..."></textarea>
+  </div>
+  <div id="imagingOutput" class="preview" data-i18n="imgOutInit" aria-live="polite">ستظهر هنا قراءة صور الأشعة أو مسودة المقارنة باللغة المختارة.</div>
+  <div class="note" data-i18n="imgDisclaimer"><strong>تنبيه طبي:</strong> هذه القراءة تعليمية مساعدة وليست بديلاً عن تقرير اختصاصي الأشعة المعتمد أو الفحص السريري العاجل.</div>
 </section>
 
 <section class="module panel" id="clinical-lab">
   <div class="module-title">
     <div>
       <div class="eyebrow dark">Clinical Brainstorming • 6 Languages</div>
-      <h2 id="clinHeading">🧠 العصف الذهني الطبي والبحث العلاجي</h2>
-      <p class="hint" id="clinHint">أدخل الأعراض والتاريخ المرضي بأي لغة أو لهجة، ثم اضغط زر التحليل بالذكاء الاصطناعي.</p>
+      <h2 data-i18n="clinHeading">🧠 العصف الذهني الطبي والبحث العلاجي</h2>
+      <p class="hint" data-i18n="clinHint">أدخل الأعراض والتاريخ المرضي بأي لغة أو لهجة، ثم اضغط زر التحليل بالذكاء الاصطناعي.</p>
     </div>
-    <span class="status ok" id="clinBadge">متصل بالمحرك</span>
+    <span class="status ok" data-i18n="badgeConnected">متصل بالمحرك</span>
   </div>
   <div class="row">
-    <div class="field"><label for="clinicalAge" id="clinAgeLabel">الفئة العمرية</label><select id="clinicalAge"><option>بالغ / Adult</option><option>طفل / Pediatric</option><option>كبير السن / Elderly</option><option>حمل أو رضاعة / Pregnancy</option></select></div>
-    <div class="field"><label for="clinicalSetting" id="clinSetLabel">مكان الرعاية</label><select id="clinicalSetting"><option>عيادة خارجية / Outpatient</option><option>مستشفى / Hospital</option><option>قسم الطوارئ / Emergency</option><option>حالة بحثية / Research</option></select></div>
+    <div class="field">
+      <label for="clinicalAge" data-i18n="clinAgeLabel">الفئة العمرية</label>
+      <select id="clinicalAge">
+        <option data-i18n="ageAdult">بالغ / Adult</option>
+        <option data-i18n="agePed">طفل / Pediatric</option>
+        <option data-i18n="ageEld">كبير السن / Elderly</option>
+        <option data-i18n="agePreg">حمل أو رضاعة / Pregnancy</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="clinicalSetting" data-i18n="clinSetLabel">مكان الرعاية</label>
+      <select id="clinicalSetting">
+        <option data-i18n="setOut">عيادة خارجية / Outpatient</option>
+        <option data-i18n="setHosp">مستشفى / Hospital</option>
+        <option data-i18n="setEmerg">قسم الطوارئ / Emergency</option>
+        <option data-i18n="setRes">حالة بحثية / Research</option>
+      </select>
+    </div>
   </div>
-  <div class="field"><label for="chiefComplaint" id="clinCompLabel">الشكوى الرئيسية</label><input id="chiefComplaint" type="text" placeholder="مثال: تعب مستمر، صداع، دوخة..." /></div>
+  <div class="field">
+    <label for="chiefComplaint" data-i18n="clinCompLabel">الشكوى الرئيسية</label>
+    <input id="chiefComplaint" type="text" data-i18n-ph="clinCompPh" placeholder="مثال: تعب مستمر، صداع، دوخة..." />
+  </div>
   <div class="row">
-    <div class="field"><label for="symptomDuration" id="clinDurLabel">مدة الأعراض</label><select id="symptomDuration"><option>ساعات / Hours</option><option>أيام / Days</option><option selected>أسابيع / Weeks</option><option>أشهر أو سنوات / Months-Years</option><option>نوبات متكررة / Recurrent</option></select></div>
-    <div class="field"><label for="clinicalGoal" id="clinGoalLabel">هدف التحليل</label><select id="clinicalGoal"><option>توسيع الاحتمالات التشخيصية / Differential</option><option>مراجعة تشخيص قائم / Review</option><option>بحث خيارات علاجية / Treatment options</option><option>حالة لم تستجب للعلاج / Refractory</option><option>مقارنة الطب السريري والتكميلي / Integrative</option></select></div>
+    <div class="field">
+      <label for="symptomDuration" data-i18n="clinDurLabel">مدة الأعراض</label>
+      <select id="symptomDuration">
+        <option data-i18n="durHrs">ساعات / Hours</option>
+        <option data-i18n="durDays">أيام / Days</option>
+        <option selected data-i18n="durWks">أسابيع / Weeks</option>
+        <option data-i18n="durMos">أشهر أو سنوات / Months-Years</option>
+        <option data-i18n="durRec">نوبات متكررة / Recurrent</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="clinicalGoal" data-i18n="clinGoalLabel">هدف التحليل</label>
+      <select id="clinicalGoal">
+        <option data-i18n="goalDiff">توسيع الاحتمالات التشخيصية / Differential</option>
+        <option data-i18n="goalRev">مراجعة تشخيص قائم / Review</option>
+        <option data-i18n="goalTx">بحث خيارات علاجية / Treatment options</option>
+        <option data-i18n="goalRef">حالة لم تستجب للعلاج / Refractory</option>
+        <option data-i18n="goalInt">مقارنة الطب السريري والتكميلي / Integrative</option>
+      </select>
+    </div>
   </div>
-  <div class="field"><label for="symptoms" id="clinSympLabel">الأعراض وتطورها والفحص السريري</label><textarea id="symptoms" placeholder="اشرح الأعراض بطريقتك..."></textarea></div>
-  <div class="field"><label for="historyMeds" id="clinHistLabel">التاريخ المرضي والأدوية والأعشاب والحساسية</label><textarea id="historyMeds" placeholder="الأمراض السابقة، الأدوية، المكملات والأعشاب، الحساسية..."></textarea></div>
-  <div class="field"><label for="labValues" id="clinLabLabel">نتائج المختبر (إن وجدت)</label><textarea id="labValues" placeholder="أدخل القيم والوحدات..."></textarea></div>
-  <div class="field"><span class="label" id="clinRedLabel">علامات إنذار تستوجب الرعاية العاجلة</span><div class="checks"><label class="choice"><input type="checkbox" class="redflag" value="ألم صدر شديد / Chest pain"><span>ألم صدر شديد</span></label><label class="choice"><input type="checkbox" class="redflag" value="صعوبة تنفس حادة / Dyspnea"><span>صعوبة تنفس حادة</span></label><label class="choice"><input type="checkbox" class="redflag" value="ضعف مفاجئ أو اضطراب كلام / Focal deficit"><span>ضعف مفاجئ أو اضطراب كلام</span></label><label class="choice"><input type="checkbox" class="redflag" value="اضطراب وعي أو إغماء / Syncope"><span>اضطراب وعي أو إغماء</span></label></div></div>
-  <div class="btns"><button class="btn primary" id="buildClinical">تجهيز الملخص</button><button class="btn secondary" id="clearClinical">مسح الحقول</button><button class="btn secondary" id="copyClinical">نسخ</button><button class="btn secondary" id="downloadClinical">تنزيل TXT</button></div>
-  <div id="clinicalOutput" class="preview" aria-live="polite">أدخل المعلومات ثم اضغط «تجهيز الملخص» أو زر التحليل بالمحرك أدناه.</div>
+  <div class="field">
+    <label for="symptoms" data-i18n="clinSympLabel">الأعراض وتطورها والفحص السريري</label>
+    <textarea id="symptoms" data-i18n-ph="clinSympPh" placeholder="اشرح الأعراض بطريقتك..."></textarea>
+  </div>
+  <div class="field">
+    <label for="historyMeds" data-i18n="clinHistLabel">التاريخ المرضي والأدوية والأعشاب والحساسية</label>
+    <textarea id="historyMeds" data-i18n-ph="clinHistPh" placeholder="الأمراض السابقة، الأدوية، المكملات والأعشاب، الحساسية..."></textarea>
+  </div>
+  <div class="field">
+    <label for="labValues" data-i18n="clinLabLabel">نتائج المختبر (إن وجدت)</label>
+    <textarea id="labValues" data-i18n-ph="clinLabPh" placeholder="أدخل القيم والوحدات..."></textarea>
+  </div>
+  <div class="field">
+    <span class="label" data-i18n="clinRedLabel">علامات إنذار تستوجب الرعاية العاجلة</span>
+    <div class="checks">
+      <label class="choice"><input type="checkbox" class="redflag" value="Chest pain"><span data-i18n="rfChest">ألم صدر شديد</span></label>
+      <label class="choice"><input type="checkbox" class="redflag" value="Dyspnea"><span data-i18n="rfDysp">صعوبة تنفس حادة</span></label>
+      <label class="choice"><input type="checkbox" class="redflag" value="Focal deficit"><span data-i18n="rfFocal">ضعف مفاجئ أو اضطراب كلام</span></label>
+      <label class="choice"><input type="checkbox" class="redflag" value="Syncope"><span data-i18n="rfSync">اضطراب وعي أو إغماء</span></label>
+    </div>
+  </div>
+  <div class="btns">
+    <button class="btn primary" id="buildClinical" data-i18n="buildClinBtn">تجهيز الملخص</button>
+    <button class="btn secondary" id="clearClinical" data-i18n="clearBtn">مسح الحقول</button>
+    <button class="btn secondary" id="copyClinical" data-i18n="copyBtn">نسخ</button>
+    <button class="btn secondary" id="downloadClinical" data-i18n="downloadBtn">تنزيل TXT</button>
+  </div>
+  <div id="clinicalOutput" class="preview" data-i18n="clinOutInit" aria-live="polite">أدخل المعلومات ثم اضغط «تجهيز الملخص» أو زر التحليل بالمحرك أدناه.</div>
 </section>
 
 <section class="module panel" id="lecture-lab">
   <div class="module-title">
     <div>
       <div class="eyebrow dark">Lecture & Transcript Analysis</div>
-      <h2 id="lecHeading">▶ مراجعة وتلخيص المحاضرات الطبية</h2>
-      <p class="hint" id="lecHint">ألصق نص المحاضرة أو التفريغ بأي لغة ليتم تلخيصه والتحقق من ادعاءاته العلمية.</p>
+      <h2 data-i18n="lecHeading">▶ مراجعة وتلخيص المحاضرات الطبية</h2>
+      <p class="hint" data-i18n="lecHint">ألصق نص المحاضرة أو التفريغ بأي لغة ليتم تلخيصه والتحقق من ادعاءاته العلمية.</p>
     </div>
-    <span class="status ok" id="lecBadge">متصل بالمحرك</span>
+    <span class="status ok" data-i18n="badgeConnected">متصل بالمحرك</span>
   </div>
-  <div class="field"><label for="lectureUrl" id="lecUrlLabel">رابط المحاضرة (اختياري)</label><input id="lectureUrl" type="text" placeholder="https://www.youtube.com/watch?v=..." /></div>
-  <div class="btns"><button class="btn secondary" id="openLecture">فتح المحاضرة</button><button class="btn secondary" id="embedLecture">عرض المشغل</button></div><div id="lectureEmbed" class="video-wrap">أدخل رابط YouTube صالحًا لعرض المشغل.</div>
-  <div class="field"><label for="lectureTranscript" id="lecTransLabel">نص المحاضرة / التفريغ النصي</label><textarea id="lectureTranscript" placeholder="ألصق نص المحاضرة هنا..."></textarea></div>
-  <div class="field"><label id="lecTasksLabel">المهام المطلوبة</label><div class="checks"><label class="choice"><input type="checkbox" class="lectureTask" value="تلخيص علمي منظم" checked><span>تلخيص علمي</span></label><label class="choice"><input type="checkbox" class="lectureTask" value="التحقق من الادعاءات الطبية" checked><span>التحقق من الادعاءات</span></label><label class="choice"><input type="checkbox" class="lectureTask" value="استخراج المراجع والتحقق منها" checked><span>المراجع</span></label><label class="choice"><input type="checkbox" class="lectureTask" value="تقسيم المحاضرة إلى موضوعات"><span>الموضوعات</span></label></div></div>
-  <div class="btns"><button class="btn primary" id="buildLecture">تجهيز نص الطلب</button><button class="btn secondary" id="copyLecture">نسخ</button><button class="btn secondary" id="downloadLecture">تنزيل TXT</button></div>
-  <div id="lectureOutput" class="preview" aria-live="polite">سيظهر تحليل المحاضرة هنا.</div>
+  <div class="field">
+    <label for="lectureUrl" data-i18n="lecUrlLabel">رابط المحاضرة (اختياري)</label>
+    <input id="lectureUrl" type="text" placeholder="https://www.youtube.com/watch?v=..." />
+  </div>
+  <div class="btns">
+    <button class="btn secondary" id="openLecture" data-i18n="lecOpenBtn">فتح المحاضرة</button>
+    <button class="btn secondary" id="embedLecture" data-i18n="lecEmbedBtn">عرض المشغل</button>
+  </div>
+  <div id="lectureEmbed" class="video-wrap" data-i18n="lecEmbedHint">أدخل رابط YouTube صالحًا لعرض المشغل.</div>
+  <div class="field">
+    <label for="lectureTranscript" data-i18n="lecTransLabel">نص المحاضرة / التفريغ النصي</label>
+    <textarea id="lectureTranscript" data-i18n-ph="lecTransPh" placeholder="ألصق نص المحاضرة هنا..."></textarea>
+  </div>
+  <div class="field">
+    <label data-i18n="lecTasksLabel">المهام المطلوبة</label>
+    <div class="checks">
+      <label class="choice"><input type="checkbox" class="lectureTask" value="Scientific summary" checked><span data-i18n="taskSum">تلخيص علمي</span></label>
+      <label class="choice"><input type="checkbox" class="lectureTask" value="Claim verification" checked><span data-i18n="taskVer">التحقق من الادعاءات</span></label>
+      <label class="choice"><input type="checkbox" class="lectureTask" value="Extract references" checked><span data-i18n="taskRef">المراجع</span></label>
+      <label class="choice"><input type="checkbox" class="lectureTask" value="Topic segmentation"><span data-i18n="taskTop">الموضوعات</span></label>
+    </div>
+  </div>
+  <div class="btns">
+    <button class="btn primary" id="buildLecture" data-i18n="buildLecBtn">تجهيز نص الطلب</button>
+    <button class="btn secondary" id="copyLecture" data-i18n="copyBtn">نسخ</button>
+    <button class="btn secondary" id="downloadLecture" data-i18n="downloadBtn">تنزيل TXT</button>
+  </div>
+  <div id="lectureOutput" class="preview" data-i18n="lecOutInit" aria-live="polite">سيظهر تحليل المحاضرة هنا.</div>
 </section>
 
 <div class="layout" id="builder">
 <section class="panel form-panel">
-  <h2 id="buildHeading">📋 منشئ المونوغراف وخطة البحث</h2>
+  <h2 data-i18n="buildHeading">📋 منشئ المونوغراف وخطة البحث</h2>
   <div class="field">
-    <span class="label" id="buildTempLabel">القوالب العلمية</span>
+    <span class="label" data-i18n="buildTempLabel">القوالب العلمية</span>
     <div class="choices" id="templates">
-      <label class="choice"><input type="checkbox" value="مونوغراف نبات طبي" checked><span><strong>مونوغراف نبات طبي</strong><small>الهوية النباتية والكيمياء والاستعمالات والسلامة.</small></span></label>
-      <label class="choice"><input type="checkbox" value="مراجعة الأدلة العلمية" checked><span><strong>مراجعة الأدلة العلمية</strong><small>الدراسات، قوة الدليل، النتائج والقيود.</small></span></label>
-      <label class="choice"><input type="checkbox" value="تحليل دراسة علمية"><span><strong>تحليل دراسة علمية</strong><small>التصميم والمنهجية والنتائج والانحياز.</small></span></label>
-      <label class="choice"><input type="checkbox" value="التداخلات والسلامة"><span><strong>التداخلات والسلامة</strong><small>التداخلات وموانع الاستعمال والفئات الخاصة.</small></span></label>
-      <label class="choice"><input type="checkbox" value="التركيب الكيميائي والآليات"><span><strong>التركيب الكيميائي والآليات</strong><small>المركبات وآليات التأثير ودرجة إثباتها.</small></span></label>
-      <label class="choice"><input type="checkbox" value="جدول مقارنة"><span><strong>جدول مقارنة</strong><small>مقارنة منظمة بين الدراسات أو المستحضرات.</small></span></label>
+      <label class="choice"><input type="checkbox" value="Medicinal Plant Monograph" checked><span><strong data-i18n="tplMono">مونوغراف نبات طبي</strong><small data-i18n="tplMonoDesc">الهوية النباتية والكيمياء والاستعمالات والسلامة.</small></span></label>
+      <label class="choice"><input type="checkbox" value="Scientific Evidence Review" checked><span><strong data-i18n="tplEv">مراجعة الأدلة العلمية</strong><small data-i18n="tplEvDesc">الدراسات، قوة الدليل، النتائج والقيود.</small></span></label>
+      <label class="choice"><input type="checkbox" value="Study Appraisal"><span><strong data-i18n="tplApp">تحليل دراسة علمية</strong><small data-i18n="tplAppDesc">التصميم والمنهجية والنتائج والانحياز.</small></span></label>
+      <label class="choice"><input type="checkbox" value="Interactions & Safety"><span><strong data-i18n="tplSaf">التداخلات والسلامة</strong><small data-i18n="tplSafDesc">التداخلات وموانع الاستعمال والفئات الخاصة.</small></span></label>
+      <label class="choice"><input type="checkbox" value="Phytochemistry & Mechanisms"><span><strong data-i18n="tplChem">التركيب الكيميائي والآليات</strong><small data-i18n="tplChemDesc">المركبات وآليات التأثير ودرجة إثباتها.</small></span></label>
+      <label class="choice"><input type="checkbox" value="Comparison Table"><span><strong data-i18n="tplTab">جدول مقارنة</strong><small data-i18n="tplTabDesc">مقارنة منظمة بين الدراسات أو المستحضرات.</small></span></label>
     </div>
   </div>
   <div class="row">
-    <div class="field"><label for="detail" id="buildDetLabel">مستوى التفصيل</label><select id="detail"><option>مختصر ومباشر / Concise</option><option selected>جامعي متقدم / Academic</option><option>بحثي متخصص وموسع / Specialist</option></select></div>
-    <div class="field"><label for="citation" id="buildCitLabel">التوثيق</label><select id="citation"><option>المراجع الأساسية / Basic</option><option selected>موثق مع حالة التحقق / Verified</option></select></div>
+    <div class="field">
+      <label for="detail" data-i18n="buildDetLabel">مستوى التفصيل</label>
+      <select id="detail">
+        <option data-i18n="detCon">مختصر ومباشر / Concise</option>
+        <option selected data-i18n="detAc">جامعي متقدم / Academic</option>
+        <option data-i18n="detSp">بحثي متخصص وموسع / Specialist</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="citation" data-i18n="buildCitLabel">التوثيق</label>
+      <select id="citation">
+        <option data-i18n="citBas">المراجع الأساسية / Basic</option>
+        <option selected data-i18n="citVer">موثق مع حالة التحقق / Verified</option>
+      </select>
+    </div>
   </div>
-  <div class="field"><label for="topic" id="buildTopLabel">موضوع النبات أو السؤال العلمي</label><input id="topic" type="text" placeholder="مثال: Salvia officinalis — الميرمية"></div>
-  <div class="field"><label for="question" id="buildQLabel">التعليمات الإضافية (اختياري)</label><textarea id="question" placeholder="اكتب السؤال السريري أو نطاق المراجعة..."></textarea></div>
-  <div class="field"><label for="signature" id="buildSigLabel">التوقيع على العمل الأصلي</label><input id="signature" type="text" value="إعداد وتصميم سعيد يونس — saidy4613@gmail.com"></div>
+  <div class="field">
+    <label for="topic" data-i18n="buildTopLabel">موضوع النبات أو السؤال العلمي</label>
+    <input id="topic" type="text" data-i18n-ph="buildTopPh" placeholder="مثال: Salvia officinalis — الميرمية">
+  </div>
+  <div class="field">
+    <label for="question" data-i18n="buildQLabel">التعليمات الإضافية (اختياري)</label>
+    <textarea id="question" data-i18n-ph="buildQPh" placeholder="اكتب السؤال السريري أو نطاق المراجعة..."></textarea>
+  </div>
+  <div class="field">
+    <label for="signature" data-i18n="buildSigLabel">التوقيع على العمل الأصلي</label>
+    <input id="signature" type="text" value="إعداد وتصميم سعيد يونس — saidy4613@gmail.com">
+  </div>
   <div class="btns">
-    <button class="btn primary" id="runResearchAI">✨ تنفيذ البحث مباشرة بالذكاء الاصطناعي</button>
-    <button class="btn secondary" id="build">عرض مسودة الطلب</button>
-    <button class="btn secondary" id="reset">إعادة ضبط</button>
+    <button class="btn primary" id="runResearchAI" data-i18n="runResearchBtn">✨ تنفيذ البحث مباشرة بالذكاء الاصطناعي</button>
+    <button class="btn secondary" id="build" data-i18n="showDraftBtn">عرض مسودة الطلب</button>
+    <button class="btn secondary" id="reset" data-i18n="resetBtn">إعادة ضبط</button>
   </div>
 </section>
 <section class="panel">
-  <h2 id="buildOutHeading">مخرجات المونوغراف / البحث</h2>
-  <span class="status ok" id="state">جاهز للتنفيذ باللغات الست</span>
-  <div id="preview" class="preview" aria-live="polite">اختر الموضوع واضغط «تنفيذ البحث مباشرة بالذكاء الاصطناعي» للحصول على التقرير باللغة المختارة في أعلى الصفحة.</div>
-  <div class="btns"><button class="btn primary" id="copy">نسخ النتيجة</button><button class="btn secondary" id="download">تنزيل TXT</button><button class="btn secondary" id="print">طباعة / PDF</button></div>
+  <h2 data-i18n="buildOutHeading">مخرجات المونوغراف / البحث</h2>
+  <span class="status ok" id="state" data-i18n="stateReady">جاهز للتنفيذ باللغات الست</span>
+  <div id="preview" class="preview" data-i18n="buildOutInit" aria-live="polite">اختر الموضوع واضغط «تنفيذ البحث مباشرة بالذكاء الاصطناعي» للحصول على التقرير باللغة المختارة في أعلى الصفحة.</div>
+  <div class="btns">
+    <button class="btn primary" id="copy" data-i18n="copyBtn">نسخ النتيجة</button>
+    <button class="btn secondary" id="download" data-i18n="downloadBtn">تنزيل TXT</button>
+    <button class="btn secondary" id="print" data-i18n="printBtn">طباعة / PDF</button>
+  </div>
 </section>
 </div>
 
@@ -214,387 +354,143 @@ textarea{min-height:94px;resize:vertical}.row{display:grid;grid-template-columns
 <script>
 const $=s=>document.querySelector(s); const $$=s=>Array.from(document.querySelectorAll(s));
 
-const UI_STRINGS = {
+const I18N = {
   ar: {
-    dir:'rtl', title:'HAKIM — الوكيل الطبي والعلمي',
-    desc:'منصة بحثية وطبية متكاملة تدعم 6 لغات واللهجات المحكية، وتتيح البحث المباشر في Europe PMC وPubMed، وترجمة وتلخيص الأبحاث، والعصف الذهني السريري، وتحليل صور الأشعة بالذكاء الاصطناعي.',
-    navLit:'🔎 البحث العلمي', navImg:'🩻 مختبر الأشعة والصور', navClin:'🧠 العصف الذهني الطبي', navLec:'▶ المحاضرات الطبية', navBuild:'📋 منشئ المونوغراف',
+    dir:'rtl',
+    heroEyebrow:'HAKIM • الوكيل الطبي والعلمي الذكي • 6 لغات + لهجات',
+    globalLangLabel:'اللغة / Language:',
+    heroTitle:'HAKIM — الوكيل الطبي والعلمي',
+    heroDesc:'منصة بحثية وطبية متكاملة تدعم 6 لغات واللهجات المحكية، وتتيح البحث المباشر في Europe PMC وPubMed، وترجمة وتلخيص الأبحاث، والعصف الذهني السريري، وتحليل صور الأشعة بالذكاء الاصطناعي. لا تُدخل بيانات تعريفية للمرضى.',
+    navLit:'🔎 البحث العلمي', navImg:'🩻 مختبر الأشعة والصور', navClin:'🧠 العصف الذهني الطبي', navLec:'▶ المحاضرات الطبية', navBuild:'📋 منشئ المونوغراف والبحث',
+    badgeConnected:'متصل بالذكاء الاصطناعي', badgeVision:'Gemini Vision مفعّل',
     litHeading:'🔎 البحث في الدراسات العلمية والترجمة الفورية',
     litHint:'اكتب سؤالك بأي لغة أو لهجة، وسيحوله الذكاء الاصطناعي تلقائياً إلى مصطلحات بحث علمية دقيقة ويجلب الدراسات مع إمكانية ترجمتها وتلخيصها.',
     litQueryLabel:'موضوع البحث أو السؤال العلمي (بأي لغة أو لهجة)',
-    litSourceLabel:'قاعدة البيانات', litCountLabel:'عدد النتائج', litOALabel:'المقالات مفتوحة الوصول فقط (Open Access)',
-    searchBtn:'🔎 البحث في الدراسات', clearBtn:'مسح البحث', translateBtn:'🌐 ترجمة الملخص', sumBtn:'📝 ترجمة وتلخيص',
+    litQueryPh:'مثال: هل يوجد علاج بالأعشاب للبهاق؟ أو Nigella sativa asthma',
+    litSourceLabel:'قاعدة البيانات', optEpmc:'Europe PMC (مع الملخصات)', litCountLabel:'عدد النتائج',
+    litOALabel:'المقالات مفتوحة الوصول فقط (Open Access)',
+    searchBtn:'🔎 البحث في الدراسات', clearBtn:'مسح',
+    litStatusInit:'أدخل سؤالك أو موضوع البحث ثم اضغط «البحث في الدراسات».',
+    translateBtn:'🌐 ترجمة الملخص', sumBtn:'📝 ترجمة وتلخيص', openSourceLink:'فتح المقال في المصدر الأصلي ↗',
     imgHeading:'🩻 مختبر التصوير الطبي وقراءة صور الأشعة',
     imgHint:'ارفع لقطات صور الأشعة (JPEG/PNG) لتحليلها بصرياً وتعليمياً باللغة المختارة، أو قارن تقرير اختصاصي الأشعة بالملاحظات السريرية.',
-    imgTypeLabel:'نوع الفحص', imgRegionLabel:'منطقة الجسم / الجهة', imgFilesLabel:'إرفاق صور الأشعة (JPEG / PNG — حتى 4 صور)',
-    imgCtxLabel:'السياق السريري والسؤال المطلوب', imgConsentLabel:'أوافق على إرسال الصور إلى محرك الذكاء الاصطناعي للمراجعة التعليمية بعد إزالة بيانات الهوية.',
-    analyzeImgBtn:'🩻 تحليل الصور المرفقة بالذكاء الاصطناعي',
+    imgTypeLabel:'نوع الفحص', imgRegionLabel:'منطقة الجسم / الجهة', imgRegionPh:'مثال: الركبتين، الصدر، الدماغ...',
+    imgFilesLabel:'إرفاق صور الأشعة (JPEG / PNG — حتى 4 صور)', imgDeidHint:'أزل أي اسم أو رقم هوية عن الصورة قبل الرفع.',
+    imgNoFiles:'لم تُحدّد صور بعد.', imgCtxLabel:'السياق السريري والسؤال المطلوب',
+    imgCtxPh:'مثال: ألم متكرر في الركبتين، هل توجد علامات تنكس مفصلي أو إصابة عظمية؟',
+    imgConsentLabel:'أوافق على إرسال الصور إلى محرك الذكاء الاصطناعي للمراجعة التعليمية بعد إزالة بيانات الهوية.',
+    analyzeImgBtn:'🩻 تحليل الصور المرفقة بالذكاء الاصطناعي', buildImgDraftBtn:'إنشاء مسودة مقارنة نصية',
+    copyBtn:'نسخ النتيجة', downloadBtn:'تنزيل TXT', printBtn:'طباعة / PDF',
+    imgRepLabel:'تقرير اختصاصي الأشعة الأصلي (اختياري للمقارنة)', imgRepPh:'ألصق نص تقرير الأشعة هنا إذا أردت مقارنته...',
+    imgObsLabel:'ملاحظات إضافية (اختياري)', imgObsPh:'أي ملاحظات سريرية أو فحوصات سابقة...',
+    imgOutInit:'ستظهر هنا قراءة صور الأشعة أو مسودة المقارنة باللغة المختارة.',
+    imgDisclaimer:'تنبيه طبي: هذه القراءة تعليمية مساعدة وليست بديلاً عن تقرير اختصاصي الأشعة المعتمد أو الفحص السريري العاجل.',
     clinHeading:'🧠 العصف الذهني الطبي والبحث العلاجي',
+    clinHint:'أدخل الأعراض والتاريخ المرضي بأي لغة أو لهجة، ثم اضغط زر التحليل بالذكاء الاصطناعي.',
+    clinAgeLabel:'الفئة العمرية', ageAdult:'بالغ', agePed:'طفل', ageEld:'كبير السن', agePreg:'حمل أو رضاعة',
+    clinSetLabel:'مكان الرعاية', setOut:'عيادة خارجية', setHosp:'مستشفى', setEmerg:'قسم الطوارئ', setRes:'حالة بحثية',
+    clinCompLabel:'الشكوى الرئيسية', clinCompPh:'مثال: تعب مستمر، صداع، دوخة...',
+    clinDurLabel:'مدة الأعراض', durHrs:'ساعات', durDays:'أيام', durWks:'أسابيع', durMos:'أشهر أو سنوات', durRec:'نوبات متكررة',
+    clinGoalLabel:'هدف التحليل', goalDiff:'توسيع الاحتمالات التشخيصية', goalRev:'مراجعة تشخيص قائم', goalTx:'بحث خيارات علاجية', goalRef:'حالة لم تستجب للعلاج', goalInt:'مقارنة الطب السريري والتكميلي',
+    clinSympLabel:'الأعراض وتطورها والفحص السريري', clinSympPh:'اشرح الأعراض بطريقتك...',
+    clinHistLabel:'التاريخ المرضي والأدوية والأعشاب والحساسية', clinHistPh:'الأمراض السابقة، الأدوية، المكملات والأعشاب، الحساسية...',
+    clinLabLabel:'نتائج المختبر (إن وجدت)', clinLabPh:'أدخل القيم والوحدات...',
+    clinRedLabel:'علامات إنذار تستوجب الرعاية العاجلة',
+    rfChest:'ألم صدر شديد', rfDysp:'صعوبة تنفس حادة', rfFocal:'ضعف مفاجئ أو اضطراب كلام', rfSync:'اضطراب وعي أو إغماء',
+    buildClinBtn:'تجهيز الملخص', clinOutInit:'أدخل المعلومات ثم اضغط «تجهيز الملخص» أو زر التحليل بالمحرك أدناه.',
     lecHeading:'▶ مراجعة وتلخيص المحاضرات الطبية',
-    buildHeading:'📋 منشئ المونوغراف وخطة البحث',
-    runResearchBtn:'✨ تنفيذ البحث مباشرة بالذكاء الاصطناعي'
+    lecHint:'ألصق نص المحاضرة أو التفريغ بأي لغة ليتم تلخيصه والتحقق من ادعاءاته العلمية.',
+    lecUrlLabel:'رابط المحاضرة (اختياري)', lecOpenBtn:'فتح المحاضرة', lecEmbedBtn:'عرض المشغل',
+    lecEmbedHint:'أدخل رابط YouTube صالحًا لعرض المشغل.',
+    lecTransLabel:'نص المحاضرة / التفريغ النصي', lecTransPh:'ألصق نص المحاضرة هنا...',
+    lecTasksLabel:'المهام المطلوبة', taskSum:'تلخيص علمي', taskVer:'التحقق من الادعاءات', taskRef:'المراجع', taskTop:'الموضوعات',
+    buildLecBtn:'تجهيز نص الطلب', lecOutInit:'سيظهر تحليل المحاضرة هنا.',
+    buildHeading:'📋 منشئ المونوغراف وخطة البحث', buildTempLabel:'القوالب العلمية',
+    tplMono:'مونوغراف نبات طبي', tplMonoDesc:'الهوية النباتية والكيمياء والاستعمالات والسلامة.',
+    tplEv:'مراجعة الأدلة العلمية', tplEvDesc:'الدراسات، قوة الدليل، النتائج والقيود.',
+    tplApp:'تحليل دراسة علمية', tplAppDesc:'التصميم والمنهجية والنتائج والانحياز.',
+    tplSaf:'التداخلات والسلامة', tplSafDesc:'التداخلات وموانع الاستعمال والفئات الخاصة.',
+    tplChem:'التركيب الكيميائي والآليات', tplChemDesc:'المركبات وآليات التأثير ودرجة إثباتها.',
+    tplTab:'جدول مقارنة', tplTabDesc:'مقارنة منظمة بين الدراسات أو المستحضرات.',
+    buildDetLabel:'مستوى التفصيل', detCon:'مختصر ومباشر', detAc:'جامعي متقدم', detSp:'بحثي متخصص وموسع',
+    buildCitLabel:'التوثيق', citBas:'المراجع الأساسية', citVer:'موثق مع حالة التحقق',
+    buildTopLabel:'موضوع النبات أو السؤال العلمي', buildTopPh:'مثال: Salvia officinalis — الميرمية',
+    buildQLabel:'التعليمات الإضافية (اختياري)', buildQPh:'اكتب السؤال السريري أو نطاق المراجعة...',
+    buildSigLabel:'التوقيع على العمل الأصلي',
+    runResearchBtn:'✨ تنفيذ البحث مباشرة بالذكاء الاصطناعي', showDraftBtn:'عرض مسودة الطلب', resetBtn:'إعادة ضبط',
+    buildOutHeading:'مخرجات المونوغراف / البحث', stateReady:'جاهز للتنفيذ باللغات الست',
+    buildOutInit:'اختر الموضوع واضغط «تنفيذ البحث مباشرة بالذكاء الاصطناعي» للحصول على التقرير باللغة المختارة في أعلى الصفحة.',
+    bridgeClinBtn:'🧠 تحليل الحالة بالذكاء الاصطناعي', bridgeImgBtn:'⚖️ مقارنة التقرير والملاحظات بالمحرك', bridgeLecBtn:'▶ تحليل المحاضرة بالذكاء الاصطناعي',
+    bridgeHint:'يُرسل البيانات إلى المحرك ويعيد التحليل باللغة المختارة في أعلى الصفحة.'
   },
   en: {
-    dir:'ltr', title:'HAKIM — Medical & Scientific AI Agent',
-    desc:'Integrated medical and scientific platform supporting 6 languages and dialects, live Europe PMC & PubMed search, instant abstract translation/summarization, clinical brainstorming, and educational radiology vision review.',
-    navLit:'🔎 Literature Search', navImg:'🩻 Radiology & Vision Lab', navClin:'🧠 Clinical Brainstorming', navLec:'▶ Medical Lectures', navBuild:'📋 Monograph Builder',
+    dir:'ltr',
+    heroEyebrow:'HAKIM • Intelligent Medical & Scientific Agent • 6 Languages + Dialects',
+    globalLangLabel:'Language:',
+    heroTitle:'HAKIM — Medical & Scientific AI Agent',
+    heroDesc:'Integrated medical and scientific platform supporting 6 languages and dialects, live Europe PMC & PubMed search, instant abstract translation/summarization, clinical brainstorming, and educational radiology vision review. Do not enter patient-identifying data.',
+    navLit:'🔎 Literature Search', navImg:'🩻 Radiology & Vision Lab', navClin:'🧠 Clinical Brainstorming', navLec:'▶ Medical Lectures', navBuild:'📋 Monograph & Research Builder',
+    badgeConnected:'AI Connected', badgeVision:'Gemini Vision Active',
     litHeading:'🔎 Scientific Literature Search & Instant Translation',
     litHint:'Enter your question in any language or dialect; AI automatically translates it into precise scientific search terms and retrieves studies with instant translation and summarization.',
     litQueryLabel:'Search Topic or Scientific Question (any language/dialect)',
-    litSourceLabel:'Database', litCountLabel:'Results Count', litOALabel:'Open Access articles only',
-    searchBtn:'🔎 Search Studies', clearBtn:'Clear', translateBtn:'🌐 Translate Abstract', sumBtn:'📝 Translate & Summarize',
+    litQueryPh:'Example: Herbal treatment for vitiligo or Nigella sativa asthma',
+    litSourceLabel:'Database', optEpmc:'Europe PMC (with abstracts)', litCountLabel:'Results Count',
+    litOALabel:'Open Access articles only',
+    searchBtn:'🔎 Search Studies', clearBtn:'Clear',
+    litStatusInit:'Enter your topic or question, then click "Search Studies".',
+    translateBtn:'🌐 Translate Abstract', sumBtn:'📝 Translate & Summarize', openSourceLink:'Open article in original source ↗',
     imgHeading:'🩻 Medical Imaging & Radiology Vision Lab',
     imgHint:'Upload radiology snapshots (JPEG/PNG) for educational visual review in your selected language, or compare a radiologist report with clinical notes.',
-    imgTypeLabel:'Modality', imgRegionLabel:'Body Region / Side', imgFilesLabel:'Attach Images (JPEG / PNG — up to 4)',
-    imgCtxLabel:'Clinical Context & Question', imgConsentLabel:'I consent to sending de-identified images to the AI engine for educational review.',
-    analyzeImgBtn:'🩻 Analyze Attached Images with AI',
+    imgTypeLabel:'Modality', imgRegionLabel:'Body Region / Side', imgRegionPh:'Example: Bilateral knees, Chest, Brain...',
+    imgFilesLabel:'Attach Radiology Images (JPEG / PNG — up to 4)', imgDeidHint:'Remove any name or ID from the image before uploading.',
+    imgNoFiles:'No images selected yet.', imgCtxLabel:'Clinical Context & Question',
+    imgCtxPh:'Example: Recurrent knee pain, are there signs of osteoarthritis or bone injury?',
+    imgConsentLabel:'I consent to sending de-identified images to the AI engine for educational review.',
+    analyzeImgBtn:'🩻 Analyze Attached Images with AI', buildImgDraftBtn:'Create Text Comparison Draft',
+    copyBtn:'Copy Result', downloadBtn:'Download TXT', printBtn:'Print / PDF',
+    imgRepLabel:'Original Radiologist Report (optional for comparison)', imgRepPh:'Paste the radiology report text here to compare...',
+    imgObsLabel:'Additional Notes (optional)', imgObsPh:'Any clinical notes or prior imaging...',
+    imgOutInit:'Radiology image reading or comparison draft will appear here in your selected language.',
+    imgDisclaimer:'Medical Notice: This reading is for educational assistance only and does not replace a certified radiologist report or urgent clinical evaluation.',
     clinHeading:'🧠 Clinical Brainstorming & Therapeutic Research',
+    clinHint:'Enter symptoms and medical history in any language or dialect, then click the AI analysis button.',
+    clinAgeLabel:'Age Group', ageAdult:'Adult', agePed:'Pediatric', ageEld:'Elderly', agePreg:'Pregnancy / Lactation',
+    clinSetLabel:'Care Setting', setOut:'Outpatient Clinic', setHosp:'Hospital', setEmerg:'Emergency Department', setRes:'Research Case',
+    clinCompLabel:'Chief Complaint', clinCompPh:'Example: Persistent fatigue, headache, dizziness...',
+    clinDurLabel:'Symptom Duration', durHrs:'Hours', durDays:'Days', durWks:'Weeks', durMos:'Months or Years', durRec:'Recurrent episodes',
+    clinGoalLabel:'Analysis Goal', goalDiff:'Expand Differential Diagnosis', goalRev:'Review Existing Diagnosis', goalTx:'Explore Treatment Options', goalRef:'Refractory Case', goalInt:'Integrative Clinical & Herbal Comparison',
+    clinSympLabel:'Symptoms, Course & Physical Exam', clinSympPh:'Describe the symptoms in your own words...',
+    clinHistLabel:'Medical History, Medications, Herbs & Allergies', clinHistPh:'Past conditions, medications, supplements/herbs, allergies...',
+    clinLabLabel:'Lab Results (if available)', clinLabPh:'Enter values and units...',
+    clinRedLabel:'Red Flags Requiring Urgent Care',
+    rfChest:'Severe chest pain', rfDysp:'Acute shortness of breath', rfFocal:'Sudden weakness or speech deficit', rfSync:'Altered consciousness or syncope',
+    buildClinBtn:'Prepare Summary', clinOutInit:'Enter case details, then click "Prepare Summary" or the AI analysis button below.',
     lecHeading:'▶ Medical Lecture & Transcript Review',
-    buildHeading:'📋 Monograph & Research Plan Builder',
-    runResearchBtn:'✨ Run AI Research Directly'
+    lecHint:'Paste the lecture text or transcript in any language to summarize and verify its scientific claims.',
+    lecUrlLabel:'Lecture URL (optional)', lecOpenBtn:'Open Lecture', lecEmbedBtn:'Show Player',
+    lecEmbedHint:'Enter a valid YouTube link to display the player.',
+    lecTransLabel:'Lecture Text / Transcript', lecTransPh:'Paste the lecture transcript here...',
+    lecTasksLabel:'Requested Tasks', taskSum:'Scientific Summary', taskVer:'Verify Claims', taskRef:'References', taskTop:'Topic Breakdown',
+    buildLecBtn:'Prepare Prompt Text', lecOutInit:'Lecture analysis will appear here.',
+    buildHeading:'📋 Monograph & Research Plan Builder', buildTempLabel:'Scientific Templates',
+    tplMono:'Medicinal Plant Monograph', tplMonoDesc:'Botanical identity, phytochemistry, uses, and safety.',
+    tplEv:'Scientific Evidence Review', tplEvDesc:'Studies, strength of evidence, outcomes, and limitations.',
+    tplApp:'Study Appraisal', tplAppDesc:'Design, methodology, results, and bias.',
+    tplSaf:'Interactions & Safety', tplSafDesc:'Drug-herb interactions, contraindications, and special populations.',
+    tplChem:'Phytochemistry & Mechanisms', tplChemDesc:'Active compounds, mechanisms of action, and evidence level.',
+    tplTab:'Comparison Table', tplTabDesc:'Structured comparison across studies or formulations.',
+    buildDetLabel:'Detail Level', detCon:'Concise & Direct', detAc:'Advanced Academic', detSp:'Comprehensive Specialist',
+    buildCitLabel:'Citation Style', citBas:'Basic References', citVer:'Verified with Evidence Status',
+    buildTopLabel:'Plant Topic or Scientific Question', buildTopPh:'Example: Salvia officinalis — Sage',
+    buildQLabel:'Additional Instructions (optional)', buildQPh:'Write the clinical question or review scope...',
+    buildSigLabel:'Author Attribution Signature',
+    runResearchBtn:'✨ Run AI Research Directly', showDraftBtn:'Show Request Draft', resetBtn:'Reset',
+    buildOutHeading:'Monograph / Research Output', stateReady:'Ready in 6 Languages',
+    buildOutInit:'Select a topic and click "Run AI Research Directly" to generate the report in your selected language.',
+    bridgeClinBtn:'🧠 Analyze Case with AI', bridgeImgBtn:'⚖️ Compare Report & Notes with AI', bridgeLecBtn:'▶ Analyze Lecture with AI',
+    bridgeHint:'Sends data to the AI engine and returns the analysis in the language selected at the top.'
   },
   he: {
-    dir:'rtl', title:'HAKIM — הסוכן הרפואי והמדעי החכם',
-    desc:'פלטפורמה רפואית ומדעית התומכת ב-6 שפות וניבים, חיפוש ישיר ב-Europe PMC ו-PubMed, תרגום וסיכום מחקרים, סיעור מוחות קליני וניתוח הדמיות רפואיות.',
-    navLit:'🔎 חיפוש מחקרים', navImg:'🩻 מעבדת הדמיה ורנטגן', navClin:'🧠 חשיבה קלינית', navLec:'▶ הרצאות רפואיות', navBuild:'📋 מחולל מונוגרפיות',
-    litHeading:'🔎 חיפוש מחקרים מדעיים ותרגום מיידי',
-    litHint:'הזינו שאלה בכל שפה או ניב; הבינה המלאכותית תתרגם אותה למונחי חיפוש מדעיים ותאפשר תרגום וסיכום מיידי של התקצירים.',
-    litQueryLabel:'נושא החיפוש או השאלה המדעית',
-    litSourceLabel:'מאגר מידע', litCountLabel:'מספר תוצאות', litOALabel:'מאמרים בגישה פתוחה בלבד (Open Access)',
-    searchBtn:'🔎 חיפוש מחקרים', clearBtn:'ניקוי', translateBtn:'🌐 תרגום תקציר', sumBtn:'📝 תרגום וסיכום',
-    imgHeading:'🩻 מעבדת דימות רפואי ופענוח תמונות',
-    imgHint:'העלו צילומי דימות (JPEG/PNG) לסקירה חזותית לימודית בשפה שנבחרה, או השוו דוח רדיולוג להערות קליניות.',
-    imgTypeLabel:'סוג הבדיקה', imgRegionLabel:'אזור בגוף / צד', imgFilesLabel:'צירוף תמונות דימות (JPEG / PNG — עד 4)',
-    imgCtxLabel:'הקשר קליני ושאלה', imgConsentLabel:'אני מאשר/ת שליחת תמונות ללא פרטים מזהים למנוע ה-AI לצורך סקירה לימודית.',
-    analyzeImgBtn:'🩻 ניתוח תמונות מצורפות ב-AI',
-    clinHeading:'🧠 חשיבה קלינית ומחקר טיפולי',
-    lecHeading:'▶ סקירת הרצאות רפואיות ותמלולים',
-    buildHeading:'📋 מחולל מונוגרפיות ותוכנית מחקר',
-    runResearchBtn:'✨ הפעלת מחקר ישירות ב-AI'
-  },
-  de: {
-    dir:'ltr', title:'HAKIM — Medizinischer & Wissenschaftlicher KI-Agent',
-    desc:'Integrierte medizinische Forschungsplattform mit Unterstützung für 6 Sprachen, direkter Europe PMC- & PubMed-Suche, Zusammenfassung, klinischem Brainstorming und bildgebender Analyse.',
-    navLit:'🔎 Literatursuche', navImg:'🩻 Radiologie & Bildlabor', navClin:'🧠 Klinisches Brainstorming', navLec:'▶ Fachvorträge', navBuild:'📋 Monographie-Generator',
-    litHeading:'🔎 Wissenschaftliche Literatursuche & Sofortübersetzung',
-    litHint:'Geben Sie Ihre Frage in einer beliebigen Sprache ein; die KI wandelt sie in präzise Suchbegriffe um und ermöglicht sofortige Übersetzung und Zusammenfassung.',
-    litQueryLabel:'Suchthema oder wissenschaftliche Frage',
-    litSourceLabel:'Datenbank', litCountLabel:'Anzahl der Ergebnisse', litOALabel:'Nur Open-Access-Artikel',
-    searchBtn:'🔎 Studien suchen', clearBtn:'Löschen', translateBtn:'🌐 Abstract übersetzen', sumBtn:'📝 Übersetzen & Zusammenfassen',
-    imgHeading:'🩻 Medizinische Bildgebung & KI-Bildanalyse',
-    imgHint:'Laden Sie Röntgen-/MRT-Bilder (JPEG/PNG) zur lehrreichen Analyse in der gewählten Sprache hoch.',
-    imgTypeLabel:'Untersuchungsart', imgRegionLabel:'Körperregion / Seite', imgFilesLabel:'Bilder anhängen (JPEG / PNG — bis zu 4)',
-    imgCtxLabel:'Klinischer Kontext & Fragestellung', imgConsentLabel:'Ich stimme der Übermittlung anonymisierter Bilder zur lehrreichen KI-Analyse zu.',
-    analyzeImgBtn:'🩻 Angehängte Bilder mit KI analysieren',
-    clinHeading:'🧠 Klinisches Brainstorming & Therapieforschung',
-    lecHeading:'▶ Analyse medizinischer Vorlesungen',
-    buildHeading:'📋 Monographie- & Forschungsplan-Generator',
-    runResearchBtn:'✨ KI-Recherche direkt starten'
-  },
-  fr: {
-    dir:'ltr', title:'HAKIM — Agent Médical et Scientifique IA',
-    desc:'Plateforme médicale et scientifique prenant en charge 6 langues et dialectes, recherche en direct sur Europe PMC et PubMed, traduction/résumé d’articles, réflexion clinique et analyse d’imagerie.',
-    navLit:'🔎 Recherche Scientifique', navImg:'🩻 Laboratoire d’Imagerie', navClin:'🧠 Réflexion Clinique', navLec:'▶ Conférences Médicales', navBuild:'📋 Générateur de Monographie',
-    litHeading:'🔎 Recherche Scientifique & Traduction Instantanée',
-    litHint:'Posez votre question dans n’importe quelle langue ; l’IA la convertit en termes scientifiques précis et permet de traduire et résumer les résumés.',
-    litQueryLabel:'Sujet de recherche ou question scientifique',
-    litSourceLabel:'Base de données', litCountLabel:'Nombre de résultats', litOALabel:'Articles en libre accès uniquement (Open Access)',
-    searchBtn:'🔎 Rechercher des études', clearBtn:'Effacer', translateBtn:'🌐 Traduire le résumé', sumBtn:'📝 Traduire et résumer',
-    imgHeading:'🩻 Laboratoire d’Imagerie Médicale & Vision IA',
-    imgHint:'Téléchargez des images radiologiques (JPEG/PNG) pour une analyse éducative dans la langue sélectionnée.',
-    imgTypeLabel:'Modalité d’examen', imgRegionLabel:'Région anatomique / Côté', imgFilesLabel:'Joindre des images (JPEG / PNG — max 4)',
-    imgCtxLabel:'Contexte clinique et question', imgConsentLabel:'J’accepte d’envoyer des images anonymisées au moteur d’IA pour une revue éducative.',
-    analyzeImgBtn:'🩻 Analyser les images avec l’IA',
-    clinHeading:'🧠 Réflexion Clinique & Recherche Thérapeutique',
-    lecHeading:'▶ Analyse de Conférences Médicales',
-    buildHeading:'📋 Générateur de Monographie & Plan de Recherche',
-    runResearchBtn:'✨ Lancer la recherche IA directement'
-  },
-  es: {
-    dir:'ltr', title:'HAKIM — Agente Médico y Científico con IA',
-    desc:'Plataforma médica y científica con soporte para 6 idiomas y dialectos, búsqueda directa en Europe PMC y PubMed, traducción y resumen de estudios, análisis clínico e imagenología.',
-    navLit:'🔎 Búsqueda Científica', navImg:'🩻 Laboratorio de Imagen', navClin:'🧠 Razonamiento Clínico', navLec:'▶ Conferencias Médicas', navBuild:'📋 Generador de Monografías',
-    litHeading:'🔎 Búsqueda Científica y Traducción Instantánea',
-    litHint:'Escriba su pregunta en cualquier idioma; la IA la convertirá en términos científicos precisos y permitirá traducir y resumir los estudios.',
-    litQueryLabel:'Tema de búsqueda o pregunta científica',
-    litSourceLabel:'Base de datos', litCountLabel:'Número de resultados', litOALabel:'Solo artículos de acceso abierto (Open Access)',
-    searchBtn:'🔎 Buscar estudios', clearBtn:'Limpiar', translateBtn:'🌐 Traducir resumen', sumBtn:'📝 Traducir y resumir',
-    imgHeading:'🩻 Laboratorio de Imagen Médica y Visión IA',
-    imgHint:'Suba imágenes radiológicas (JPEG/PNG) para una revisión visual educativa en el idioma seleccionado.',
-    imgTypeLabel:'Tipo de estudio', imgRegionLabel:'Región anatómica / Lado', imgFilesLabel:'Adjuntar imágenes (JPEG / PNG — hasta 4)',
-    imgCtxLabel:'Contexto clínico y pregunta', imgConsentLabel:'Acepto enviar imágenes anonimizadas al motor de IA para revisión educativa.',
-    analyzeImgBtn:'🩻 Analizar imágenes con IA',
-    clinHeading:'🧠 Razonamiento Clínico e Investigación Terapéutica',
-    lecHeading:'▶ Revisión de Conferencias Médicas',
-    buildHeading:'📋 Generador de Monografías y Plan de Investigación',
-    runResearchBtn:'✨ Ejecutar investigación IA directamente'
-  }
-};
-
-function currentLang(){ return $('#globalLang').value || 'ar'; }
-function applyUILanguage(){
-  const lang = currentLang();
-  const s = UI_STRINGS[lang] || UI_STRINGS.ar;
-  document.documentElement.lang = lang;
-  document.documentElement.dir = s.dir;
-  $('#heroTitle').textContent = s.title;
-  $('#heroDesc').textContent = s.desc;
-  $('#navLit').textContent = s.navLit;
-  $('#navImg').textContent = s.navImg;
-  $('#navClin').textContent = s.navClin;
-  $('#navLec').textContent = s.navLec;
-  $('#navBuild').textContent = s.navBuild;
-  $('#litHeading').textContent = s.litHeading;
-  $('#litHint').textContent = s.litHint;
-  $('#litQueryLabel').textContent = s.litQueryLabel;
-  $('#litSourceLabel').textContent = s.litSourceLabel;
-  $('#litCountLabel').textContent = s.litCountLabel;
-  $('#litOALabel').textContent = s.litOALabel;
-  $('#searchLiterature').textContent = s.searchBtn;
-  $('#clearLiterature').textContent = s.clearBtn;
-  $('#imgHeading').textContent = s.imgHeading;
-  $('#imgHint').textContent = s.imgHint;
-  $('#imgTypeLabel').textContent = s.imgTypeLabel;
-  $('#imgRegionLabel').textContent = s.imgRegionLabel;
-  $('#imgFilesLabel').textContent = s.imgFilesLabel;
-  $('#imgCtxLabel').textContent = s.imgCtxLabel;
-  $('#imgConsentLabel').textContent = s.imgConsentLabel;
-  $('#analyzeImagesBtn').textContent = s.analyzeImgBtn;
-  $('#clinHeading').textContent = s.clinHeading;
-  $('#lecHeading').textContent = s.lecHeading;
-  $('#buildHeading').textContent = s.buildHeading;
-  $('#runResearchAI').textContent = s.runResearchBtn;
-}
-$('#globalLang').addEventListener('change', applyUILanguage);
-
-function selected(group){return $$(group+' input[type="checkbox"]:checked').map(x=>x.value)}
-function makeRequest(){
- const templates=selected('#templates');
- const topic=$('#topic').value.trim()||'يُحدَّد موضوع البحث قبل التنفيذ';
- const question=$('#question').value.trim()||'لا توجد تعليمات إضافية.';
- const signature=$('#signature').value.trim();
- const lines=[
- 'الموضوع: '+topic,
- 'القوالب المختارة: '+(templates.join('؛ ')||'مراجعة شاملة'),
- 'لغة المخرجات المطلوبة: '+$('#globalLang').selectedOptions[0].textContent,
- 'مستوى التفصيل: '+$('#detail').value,
- 'التوثيق: '+$('#citation').value,
- 'التعليمات الإضافية: '+question,
- signature ? 'التوقيع: '+signature : ''
- ].filter(Boolean);
- return lines.join('\n');
-}
-$('#build').addEventListener('click',()=>{$('#preview').textContent=makeRequest()});
-$('#runResearchAI').addEventListener('click',async()=>{
-  const topic=$('#topic').value.trim();
-  if(topic.length<2){alert('أدخل موضوع النبات أو السؤال العلمي أولاً.');$('#topic').focus();return;}
-  const btn=$('#runResearchAI'); btn.disabled=true;
-  $('#state').textContent='جارٍ إعداد التقرير العلمي بالذكاء الاصطناعي...';
-  try{
-    const res=await fetch('/api/research',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({topic,instructions:makeRequest(),language:currentLang()})});
-    const data=await res.json();
-    if(!res.ok)throw new Error(data.detail||'تعذر إكمال البحث.');
-    $('#preview').textContent=data.result;
-    $('#state').textContent='اكتمل التقرير ('+data.model+')';
-  }catch(e){$('#state').textContent='خطأ: '+e.message;}
-  finally{btn.disabled=false;}
-});
-
-function copyText(text){if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(()=>alert('تم النسخ.')).catch(()=>fallbackCopy(text))}else fallbackCopy(text)}
-function fallbackCopy(text){const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();alert('تم النسخ.')}
-function downloadText(text,filename){const blob=new Blob(['\ufeff'+text],{type:'text/plain;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
-
-$('#copy').addEventListener('click',()=>copyText($('#preview').textContent));
-$('#download').addEventListener('click',()=>downloadText($('#preview').textContent,'hakim_monograph.txt'));
-$('#print').addEventListener('click',()=>window.print());
-$('#reset').addEventListener('click',()=>{$('#topic').value='';$('#question').value='';$('#preview').textContent='اختر الموضوع واضغط «تنفيذ البحث مباشرة بالذكاء الاصطناعي».';});
-
-// Imaging preview & Gemini Vision analysis
-let selectedImageDataUrls = [];
-$('#imagingFiles').addEventListener('change', async (e) => {
-  const files = Array.from(e.target.files || []).slice(0, 4);
-  selectedImageDataUrls = [];
-  const listEl = $('#imagingFileList');
-  const thumbsEl = $('#imagingThumbs');
-  thumbsEl.replaceChildren();
-  if (!files.length) { listEl.textContent = 'لم تُحدّد صور بعد.'; return; }
-  listEl.textContent = files.map(f => `• ${f.name} — ${(f.size/1024).toFixed(1)} KB`).join('\n');
-  for (const file of files) {
-    const dataUrl = await new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.readAsDataURL(file);
-    });
-    if (typeof dataUrl === 'string' && dataUrl.startsWith('data:image/')) {
-      selectedImageDataUrls.push(dataUrl);
-      const img = document.createElement('img');
-      img.src = dataUrl;
-      img.alt = file.name;
-      thumbsEl.appendChild(img);
-    }
-  }
-});
-
-$('#analyzeImagesBtn').addEventListener('click', async () => {
-  const statusEl = $('#imagingVisionStatus');
-  if (!selectedImageDataUrls.length) {
-    statusEl.textContent = 'اختر صورة أشعة واحدة على الأقل (JPEG/PNG) أولاً.';
-    return;
-  }
-  if (!$('#imagingConsent').checked) {
-    statusEl.textContent = 'يرجى تحديد مربع الموافقة قبل إرسال الصور.';
-    return;
-  }
-  const btn = $('#analyzeImagesBtn');
-  btn.disabled = true;
-  statusEl.textContent = 'جارٍ تحليل صور الأشعة عبر Gemini Vision باللغة المختارة...';
-  const context = [
-    'نوع الفحص: ' + $('#imagingType').value,
-    'المنطقة: ' + ($('#imagingRegion').value.trim() || 'غير محددة'),
-    'السياق السريري: ' + ($('#clinicalContextImaging').value.trim() || 'غير محدد')
-  ].join(' | ');
-  try {
-    const res = await fetch('/api/imaging-analyze', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ images: selectedImageDataUrls, context, language: currentLang() })
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.detail || 'تعذر تحليل الصور.');
-    $('#imagingOutput').textContent = data.result;
-    statusEl.textContent = 'اكتملت القراءة التعليمية للصور (' + data.model + ').';
-  } catch (err) {
-    statusEl.textContent = 'لم يكتمل التحليل: ' + err.message;
-  } finally {
-    btn.disabled = false;
-  }
-});
-
-function makeImagingText(){
-  return ['طلب مقارنة تصوير طبي','نوع الفحص: '+$('#imagingType').value,'المنطقة: '+($('#imagingRegion').value.trim()||'غير محددة'),'السياق السريري: '+($('#clinicalContextImaging').value.trim()||'لم يُقدّم'),'تقرير اختصاصي الأشعة:\n'+($('#radiologistReport').value.trim()||'لم يُقدّم'),'ملاحظات إضافية:\n'+($('#aiObservations').value.trim()||'لم تُقدّم')].join('\n');
-}
-$('#buildImaging').addEventListener('click',()=>{$('#imagingOutput').textContent=makeImagingText()});
-$('#copyImaging').addEventListener('click',()=>copyText($('#imagingOutput').textContent));
-$('#downloadImaging').addEventListener('click',()=>downloadText($('#imagingOutput').textContent,'imaging_review.txt'));
-
-// Clinical & Lecture builders
-function makeClinicalText(){
-  const flags=Array.from(document.querySelectorAll('.redflag:checked')).map(x=>x.value);
-  return ['الفئة العمرية: '+$('#clinicalAge').value,'مكان الرعاية: '+$('#clinicalSetting').value,'الشكوى الرئيسية: '+($('#chiefComplaint').value.trim()||'غير محددة'),'مدة الأعراض: '+$('#symptomDuration').value,'هدف التحليل: '+$('#clinicalGoal').value,'الأعراض والفحص: '+($('#symptoms').value.trim()||'لم تُقدّم'),'التاريخ المرضي والأدوية: '+($('#historyMeds').value.trim()||'لم تُقدّم'),'نتائج المختبر: '+($('#labValues').value.trim()||'لم تُقدّم'),'علامات إنذار: '+(flags.join('؛ ')||'لا يوجد')].join('\n');
-}
-$('#buildClinical').addEventListener('click',()=>{$('#clinicalOutput').textContent=makeClinicalText()});
-$('#copyClinical').addEventListener('click',()=>copyText($('#clinicalOutput').textContent));
-$('#downloadClinical').addEventListener('click',()=>downloadText($('#clinicalOutput').textContent,'clinical_summary.txt'));
-$('#clearClinical').addEventListener('click',()=>{['chiefComplaint','symptoms','historyMeds','labValues'].forEach(id=>$('#'+id).value='');$$('.redflag').forEach(x=>x.checked=false);$('#clinicalOutput').textContent='أدخل المعلومات ثم اضغط «تجهيز الملخص».';});
-
-function youtubeId(raw){try{const u=new URL(raw);if(u.hostname==='youtu.be')return u.pathname.slice(1).split('/')[0];if(u.hostname.endsWith('youtube.com')){if(u.pathname==='/watch')return u.searchParams.get('v');const m=u.pathname.match(/^\/(embed|shorts|live)\/([^/?]+)/);return m?m[2]:null}}catch(e){}return null}
-$('#openLecture').addEventListener('click',()=>{const id=youtubeId($('#lectureUrl').value.trim());if(!id){alert('أدخل رابط YouTube صالحًا.');return}window.open('https://www.youtube.com/watch?v='+encodeURIComponent(id),'_blank','noopener')});
-$('#embedLecture').addEventListener('click',()=>{const id=youtubeId($('#lectureUrl').value.trim());const box=$('#lectureEmbed');if(!id){box.textContent='الرابط غير صالح.';return}box.textContent='';const iframe=document.createElement('iframe');iframe.src='https://www.youtube-nocookie.com/embed/'+encodeURIComponent(id);iframe.allowFullscreen=true;box.appendChild(iframe)});
-function makeLectureText(){const tasks=Array.from(document.querySelectorAll('.lectureTask:checked')).map(x=>x.value);return ['رابط المحاضرة: '+($('#lectureUrl').value.trim()||'غير محدد'),'المهام: '+tasks.join('؛ '),'نص المحاضرة:\n'+($('#lectureTranscript').value.trim()||'لا يوجد نص مرفق.')].join('\n');}
-$('#buildLecture').addEventListener('click',()=>{$('#lectureOutput').textContent=makeLectureText()});
-$('#copyLecture').addEventListener('click',()=>copyText($('#lectureOutput').textContent));
-$('#downloadLecture').addEventListener('click',()=>downloadText($('#lectureOutput').textContent,'lecture_notes.txt'));
-
-// Backend bridge for Clinical, Imaging Compare & Lecture with selected language
-(function(){
- const configs = [
-  {id:'clinical-lab', button:'🧠 تحليل الحالة بالذكاء الاصطناعي', out:'clinicalOutput', endpoint:'/api/clinical', builder:makeClinicalText},
-  {id:'imaging-lab', button:'⚖️ مقارنة التقرير والملاحظات بالمحرك', out:'imagingOutput', endpoint:'/api/imaging-compare', builder:makeImagingText},
-  {id:'lecture-lab', button:'▶ تحليل المحاضرة بالذكاء الاصطناعي', out:'lectureOutput', endpoint:'/api/lecture', builder:makeLectureText}
- ];
- configs.forEach(c => {
-  const section=document.getElementById(c.id), output=document.getElementById(c.out); if(!section||!output)return;
-  const bar=document.createElement('div');bar.className='engine-bar';
-  const btn=document.createElement('button');btn.type='button';btn.className='btn primary';btn.textContent=c.button;
-  const status=document.createElement('span');status.className='engine-status';status.textContent='يُرسل البيانات إلى المحرك ويعيد التحليل باللغة المختارة في أعلى الصفحة.';
-  bar.append(btn,status);output.parentNode.insertBefore(bar,output);
-  btn.addEventListener('click',async()=>{
-   const text=c.builder();
-   output.textContent=text;
-   btn.disabled=true;status.textContent='جارٍ التحليل عبر Gemini...';
-   try{
-    const res=await fetch(c.endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text, language: currentLang()})});
-    const data=await res.json();
-    if(!res.ok)throw new Error(data.detail||'تعذر تنفيذ الطلب.');
-    output.textContent=data.result||'لم يصل نص.';
-    status.textContent='اكتمل التحليل ('+data.model+').';
-   }catch(e){status.textContent='لم يكتمل الطلب: '+e.message;}
-   finally{btn.disabled=false;}
-  });
- });
-})();
-
-// Smart Literature Search + Gemini Translation/Summarization
-(function(){
- const q=$('#literatureQuery'), src=$('#literatureSource'), count=$('#literatureCount'), oa=$('#literatureOA');
- const status=$('#literatureStatus'), results=$('#literatureResults'), button=$('#searchLiterature');
- function el(tag, cls, text){const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;}
-
- async function translateCard(text, summarize, btn, outBox){
-   btn.disabled = true;
-   outBox.style.display = 'block';
-   outBox.textContent = 'جارٍ المعالجة عبر Gemini باللغة المختارة...';
-   try {
-     const res = await fetch('/api/translate', {
-       method: 'POST',
-       headers: {'Content-Type': 'application/json'},
-       body: JSON.stringify({ text, target_language: currentLang(), summarize })
-     });
-     const data = await res.json();
-     if (!res.ok) throw new Error(data.detail || 'تعذرت الترجمة.');
-     outBox.textContent = data.result;
-   } catch (err) {
-     outBox.textContent = 'خطأ: ' + err.message;
-   } finally {
-     btn.disabled = false;
-   }
- }
-
- function showItem(item,index){
-  const card=el('article','literature-card');
-  card.appendChild(el('h3',null,(index+1)+'. '+item.title));
-  if(item.authors) card.appendChild(el('p','literature-meta','المؤلفون: '+item.authors));
-  if(item.journal || item.year) card.appendChild(el('p','literature-meta',[item.journal, item.year, item.pmid?'PMID: '+item.pmid:'', item.doi?'DOI: '+item.doi:''].filter(Boolean).join(' | ')));
-  const contentToTranslate = item.abstract ? (item.title + '\n\n' + item.abstract) : item.title;
-  if(item.abstract) card.appendChild(el('p',null,item.abstract));
-
-  const actionRow = el('div','btns');
-  const strings = UI_STRINGS[currentLang()] || UI_STRINGS.ar;
-  const tBtn = el('button','btn secondary', strings.translateBtn);
-  const sBtn = el('button','btn gold', strings.sumBtn);
-  const outBox = el('div','translated-box');
-  outBox.style.display = 'none';
-
-  tBtn.addEventListener('click', () => translateCard(contentToTranslate, false, tBtn, outBox));
-  sBtn.addEventListener('click', () => translateCard(contentToTranslate, true, sBtn, outBox));
-  actionRow.append(tBtn, sBtn);
-  card.appendChild(actionRow);
-  card.appendChild(outBox);
-
-  const link=el('a',null,'فتح المقال في المصدر الأصلي ↗');
-  link.href=item.url;link.target='_blank';link.rel='noopener noreferrer';
-  link.style.display='inline-block';link.style.marginTop='10px';
-  card.appendChild(link);
-  return card;
- }
-
- async function run(){
-  const query=q.value.trim();if(query.length<2){status.textContent='اكتب كلمتين أو أكثر لتحديد موضوع البحث.';q.focus();return;}
-  button.disabled=true;results.replaceChildren();status.textContent='جارٍ تحليل السؤال والبحث في القواعد العلمية...';
-  try{
-   const endpoint = src.value === 'pubmed' ? '/api/pubmed-search' : '/api/literature-search';
-   const params=new URLSearchParams({q:query,page_size:count.value,open_access_only:String(oa.checked)});
-   const response=await fetch(endpoint+'?'+params.toString(),{headers:{'Accept':'application/json'}});
-   const data=await response.json();if(!response.ok)throw new Error(data.detail||'تعذر إجراء البحث.');
-   if(!data.results||!data.results.length){status.textContent='لم تُعثر على نتائج. الاستعلام العلمي المستخدم: '+(data.effective_query||query);return;}
-   status.textContent='عُثر على '+data.hit_count+' دراسة (عُرض '+data.returned+') | الاستعلام العلمي: '+(data.effective_query||query);
-   data.results.forEach((item,i)=>results.appendChild(showItem(item,i)));
-  }catch(error){status.textContent='تعذّر البحث: '+error.message;}
-  finally{button.disabled=false;}
- }
- button.addEventListener('click',run);q.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();run();}});
- $('#clearLiterature').addEventListener('click',()=>{q.value='';results.replaceChildren();status.textContent='أدخل موضوعًا ثم اضغط «البحث في الدراسات».';oa.checked=false;});
-})();
-</script>
-</body>
-                       </html>
+    dir:'rtl',
+    heroEyebrow:'HAKIM • הסוכן הרפואי
