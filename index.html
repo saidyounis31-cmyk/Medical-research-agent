@@ -676,19 +676,19 @@ button.addEventListener('click',async()=>{
  status.textContent=checks.invalid;return}
  const lang=language;
  const messages={
- ar:{loading:'جارٍ تحليل الصور...',done:'اكتملت القراءة التعليمية. راجع اختصاصي الأشعة للتفسير الطبي المعتمد.',failed:'لم يكتمل التحليل: ',consent:'الموافقة على إرسال الصور مطلوبة.',invalid:'اختر من صورة واحدة إلى أربع صور JPEG/PNG، لا تتجاوز كل منها 4 MB.',prefix:'قراءة بصرية تعليمية — ليست تشخيصًا أو تقرير أشعة معتمدًا',network:'تعذر الاتصال بخادم التحليل.'},
- en:{loading:'Analyzing images...',done:'Educational review complete. Consult a radiologist for formal interpretation.',failed:'Analysis failed: ',consent:'Consent is required before uploading images.',invalid:'Select 1–4 JPEG/PNG images, each up to 4 MB.',prefix:'Educational image review — not a diagnosis or radiology report',network:'Unable to reach the analysis server.'},
- he:{loading:'התמונות בניתוח...',done:'הסקירה הלימודית הושלמה. יש לפנות לרדיולוג לפענוח מוסמך.',failed:'הניתוח נכשל: ',consent:'נדרשת הסכמה לפני שליחת תמונות.',invalid:'בחרו 1–4 תמונות JPEG/PNG, עד 4 MB לתמונה.',prefix:'סקירת תמונות לימודית — לא אבחון או דו״ח רדיולוגי',network:'לא ניתן להתחבר לשרת הניתוח.'},
- de:{loading:'Bilder werden analysiert...',done:'Die Lernanalyse ist abgeschlossen. Für einen Befund einen Radiologen konsultieren.',failed:'Analyse fehlgeschlagen: ',consent:'Vor dem Hochladen ist eine Einwilligung erforderlich.',invalid:'1–4 JPEG/PNG-Bilder auswählen, maximal 4 MB pro Bild.',prefix:'Bildprüfung zu Lernzwecken — keine Diagnose oder radiologischer Befund',network:'Der Analyseserver ist nicht erreichbar.'}
+ ar:{loading:'جارٍ تحليل الصور...',done:'اكتملت القراءة التعليمية. راجع اختصاصي الأشعة للتفسير الطبي المعتمد.',failed:'لم يكتمل التحليل: ',prefix:'قراءة بصرية تعليمية — ليست تشخيصًا أو تقرير أشعة معتمدًا',network:'تعذر الاتصال بخادم التحليل.'},
+ en:{loading:'Analyzing images...',done:'Educational review complete. Consult a radiologist for formal interpretation.',failed:'Analysis failed: ',prefix:'Educational image review — not a diagnosis or radiology report',network:'Unable to reach the analysis server.'},
+ he:{loading:'התמונות בניתוח...',done:'הסקירה הלימודית הושלמה. יש לפנות לרדיולוג לפענוח מוסמך.',failed:'הניתוח נכשל: ',prefix:'סקירת תמונות לימודית — לא אבחון או דו״ח רדיולוגי',network:'לא ניתן להתחבר לשרת הניתוח.'},
+ de:{loading:'Bilder werden analysiert...',done:'Die Lernanalyse ist abgeschlossen. Für einen Befund einen Radiologen konsultieren.',failed:'Analyse fehlgeschlagen: ',prefix:'Bildprüfung zu Lernzwecken — keine Diagnose oder radiologischer Befund',network:'Der Analyseserver ist nicht erreichbar.'}
  };
  const m=messages[lang]||messages.ar;
  button.disabled=true;status.textContent=m.loading;
  try{
  const images=await Promise.all(selected.map(read));
  const context=['نوع الفحص: '+document.getElementById('imagingType').value,'المنطقة: '+document.getElementById('imagingRegion').value,'السياق: '+document.getElementById('clinicalContextImaging').value].join('\n');
- const response=await fetch('/api/imaging-analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({images,context})});
+ const response=await fetch('/api/imaging-analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({images,context,language:lang})});
  const data=await response.json();
- if(!response.ok)throw new Error(response.status===429?'429 — AI provider rate limit':response.status===503?'503 — AI service not configured':response.status+' — '+(typeof data.detail==='string'?data.detail:m.network));
+ if(!response.ok)throw new Error(response.status===429?'429 — rate limit':response.status===503?'503 — service unavailable':response.status+' — '+m.network);
  if(!data.ok||typeof data.result!=='string'||!data.result.trim())throw new Error(m.network);
  output.textContent=m.prefix+'\n\n'+data.result;
  status.textContent=m.done;
