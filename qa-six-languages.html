@@ -68,7 +68,7 @@ function render(){
    tr.append(td);
   });$("terms").append(tr);
  });
- $("result").textContent="";
+ // Preserve search results when the UI language or selected plant changes.
 }
 function showGlossaryResult(i){
  const lang=$("lang").value,g=G[i],box=$("result"),ui=INTERNAL_LABELS[lang];
