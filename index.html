@@ -539,7 +539,7 @@ ar:{choose:'اختيار الملفات',none:'لم تُحدّد ملفات.',se
 en:{choose:'Choose files',none:'No files selected.',selected:'files selected',privacy:'Only filenames are displayed locally; this preview does not upload or analyze files.',clinical:'Attach relevant reports or results (optional)',imaging:'Attach images or an imaging report'},
 he:{choose:'בחירת קבצים',none:'לא נבחרו קבצים.',selected:'קבצים נבחרו',privacy:'רק שמות הקבצים מוצגים במכשיר; תצוגה זו אינה מעלה או מנתחת קבצים.',clinical:'צירוף דוחות או תוצאות (לא חובה)',imaging:'צירוף תמונות או דוח דימות'},
 de:{choose:'Dateien auswählen',none:'Keine Dateien ausgewählt.',selected:'Dateien ausgewählt',privacy:'Nur Dateinamen werden lokal angezeigt; diese Vorschau lädt keine Dateien hoch und analysiert sie nicht.',clinical:'Berichte oder Ergebnisse anhängen (optional)',imaging:'Bilder oder Bildgebungsbericht anhängen'}};
-const pickerIds=['clinicalFiles','imagingFiles'],langSelect=document.getElementById('uiLanguage');
+const pickerIds=['clinicalFiles'],langSelect=document.getElementById('uiLanguage');
 const pickers=pickerIds.map(id=>{const input=document.getElementById(id),output=document.getElementById(id==='clinicalFiles'?'clinicalFileList':'imagingFileList');if(!input||!output)return null;
 input.classList.add('hakim-visually-hidden-file');
 const control=document.createElement('button');control.type='button';control.className='btn secondary hakim-file-button';control.setAttribute('aria-controls',id);input.before(control);
