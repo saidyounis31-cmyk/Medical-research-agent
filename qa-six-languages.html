@@ -71,15 +71,15 @@ function render(){
  $("result").textContent="";
 }
 function showGlossaryResult(i){
- const lang=$("lang").value,g=G[i],box=$("result"),ui=INTERNAL_LABELS[lang];box.replaceChildren();
+ const lang=$("lang").value,g=G[i],box=$("result"),ui=INTERNAL_LABELS[lang];
+ box.replaceChildren();
  const heading=document.createElement("h3");heading.textContent=g.id+" — "+ui.summary;
+ const category=document.createElement("p");category.textContent=LOCALIZED_CATEGORIES[lang][i];
  const detail=document.createElement("p");detail.textContent=INTERNAL_CONTEXT[lang][i];
+ const status=document.createElement("p");status.textContent=LOCALIZED_STATUSES[lang][i];
  const note=document.createElement("small");note.textContent=ui.note;
- const sources=document.createElement("details");sources.style.marginTop="14px";
- const summary=document.createElement("summary");summary.textContent=ui.source;sources.append(summary);
- const p=document.createElement("p");p.textContent=ui.open+": ";
- const link=document.createElement("a");link.href=g.url;link.target="_blank";link.rel="noopener noreferrer";link.textContent=g.url;link.style.overflowWrap="anywhere";p.append(link);sources.append(p);
- box.append(heading,detail,note,sources);
+ box.append(heading,category,detail,status,note);
+ box.scrollIntoView({behavior:"smooth",block:"nearest"});
 }
 $("lookup").onclick=()=>{
  const lang=$("lang").value,q=$("query").value.trim().toLowerCase();
