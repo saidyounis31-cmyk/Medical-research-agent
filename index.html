@@ -642,11 +642,11 @@ function translatePicker(){
  const t=labels[lang]||labels.ar;deviceButton.textContent=t[0];cameraButton.textContent=t[1];
 }
 translatePicker();document.getElementById('uiLanguage')?.addEventListener('change',translatePicker);
-cameraInput.addEventListener('change',()=>{selectedFiles=Array.from(cameraInput.files||[]);updateVisionPreview()});
-files.addEventListener('change',()=>{selectedFiles=Array.from(files.files||[]);updateVisionPreview()});
+cameraInput.addEventListener('change',()=>{if(!cameraInput.files?.length)return;selectedFiles=Array.from(cameraInput.files);files.value='';updateVisionPreview()});
+files.addEventListener('change',()=>{if(!files.files?.length)return;selectedFiles=Array.from(files.files);cameraInput.value='';updateVisionPreview()});
 const holder=document.createElement('div');
 holder.className='field';
-holder.innerHTML='<div class="hint">قراءة بصرية تعليمية مساعدة لصور JPEG/PNG فقط، وليست تقرير اختصاصي الأشعة. تُرسل الصور إلى مزود الذكاء الاصطناعي عند الضغط على التحليل فقط. يُرجى إزالة بيانات الهوية من الصور قبل رفعها.</div><label style="display:block;margin:12px 0"><input type="checkbox" id="imagingConsent"> أوافق على إرسال الصور المختارة للتحليل وأؤكد إزالة البيانات الشخصية الظاهرة عليها.</label><button type="button" class="btn primary" id="analyzeImaging">تحليل الصور المرفقة</button><div id="imagingVisionStatus" role="status" aria-live="polite"></div><div id="imagingThumbnails" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px"></div>';
+holder.innerHTML='<div class="hint">قراءة بصرية تعليمية مساعدة لصور JPEG/PNG فقط، وليست تقرير اختصاصي الأشعة. تُرسل الصور إلى مزود الذكاء الاصطناعي عند الضغط على التحليل فقط. يُرجى إزالة بيانات الهوية من الصور قبل رفعها.</div><label style="display:block;margin:12px 0"><input type="checkbox" id="imagingConsent"> أوافق على إرسال الصور المختارة إلى مزود الذكاء الاصطناعي لمعالجتها، وأؤكد إزالة البيانات الشخصية الظاهرة عليها. قد تخضع البيانات لسياسة احتفاظ المزود.</label><button type="button" class="btn primary" id="analyzeImaging">تحليل الصور المرفقة</button><div id="imagingVisionStatus" role="status" aria-live="polite"></div><div id="imagingThumbnails" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px"></div>';
 output.parentNode.insertBefore(holder,output);
 const status=document.getElementById('imagingVisionStatus'),button=document.getElementById('analyzeImaging'),thumbs=document.getElementById('imagingThumbnails');
 function updateVisionPreview(){
