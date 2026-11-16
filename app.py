@@ -213,4 +213,31 @@ def imaging_analyze(req: ImagingVisionRequest):
     except HTTPException:
         raise
     except Exception as exc:
-        raise HTTPException(status_code=502, detail=f"تعذر تحليل الصور ({type(exc).__name__}).") from exc
+        # Never log image payloads, clinical context, credentials, or raw provider error messages.
+        import logging
+        from openai import (
+            AuthenticationError, PermissionDeniedError, RateLimitError,
+            BadRequestError, APITimeoutError, APIConnectionError,
+            NotFoundError, InternalServerError, APIStatusError,
+        )
+        logger = logging.getLogger("hakim.imaging")
+        error_type = type(exc).__name__
+        provider_status = getattr(exc, "status_code", None)
+        logger.warning("imaging_analyze_failed type=%s provider_status=%s", error_type, provider_status)
+        if isinstance(exc, AuthenticationError):
+            status, detail = 503, "تعذرت مصادقة خدمة تحليل الصور. يرجى مراجعة إعداد مفتاح API على الخادم."
+        elif isinstance(exc, PermissionDeniedError):
+            status, detail = 503, "ليس لدى حساب API صلاحية استخدام نموذج تحليل الصور."
+        elif isinstance(exc, RateLimitError):
+            status, detail = 429, "خدمة تحليل الصور تجاوزت حد الاستخدام أو الحصة المتاحة. تحقق من الرصيد وحدود API."
+        elif isinstance(exc, (BadRequestError, NotFoundError)):
+            status, detail = 502, "رفض مزود التحليل الطلب. تحقق من اسم النموذج وصيغة الصور وإعدادات API."
+        elif isinstance(exc, (APITimeoutError, APIConnectionError)):
+            status, detail = 504, "انتهت مهلة الاتصال بمزود تحليل الصور أو تعذر الاتصال به. حاول لاحقًا."
+        elif isinstance(exc, InternalServerError):
+            status, detail = 502, "حدث خلل مؤقت لدى مزود تحليل الصور."
+        elif isinstance(exc, APIStatusError):
+            status, detail = 502, "تعذر إكمال طلب تحليل الصور لدى المزود."
+        else:
+            status, detail = 500, "حدث خطأ داخلي غير متوقع أثناء تحليل الصور."
+        raise HTTPException(status_code=status, detail=detail) from exc
