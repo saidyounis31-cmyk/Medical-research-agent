@@ -31,13 +31,14 @@ app.add_middleware(
 logger = logging.getLogger("hakim.agent")
 
 SUPPORTED_LANGUAGES = {
-    "ar": "Modern Standard Arabic (العربية الفصحى)",
-    "en": "English",
-    "he": "Hebrew (עברית)",
-    "de": "German (Deutsch)",
-    "fr": "French (Français)",
-    "es": "Spanish (Español)",
+    "ar": "Arabic (clear, accessible Arabic — understand all regional dialects and colloquial speech, respond clearly)",
+    "en": "English (understand formal and colloquial/everyday English)",
+    "he": "Hebrew (עברית — understand formal and spoken/colloquial Hebrew)",
+    "de": "German (Deutsch — understand standard and everyday spoken German)",
+    "fr": "French (Français — understand standard and colloquial French)",
+    "es": "Spanish (Español — understand standard and regional colloquial Spanish)",
 }
+
 
 class AgentRequest(BaseModel):
     text: str = Field(min_length=3, max_length=50000)
