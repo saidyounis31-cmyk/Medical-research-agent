@@ -74,11 +74,71 @@ def free_sources():
         "requires_paid_api": False,
         "sources": [
             {"id": "europe_pmc", "name": "Europe PMC", "mode": "integrated", "endpoint": "/api/literature-search", "requires_key": False},
-            {"id": "pubmed", "name": "PubMed / NCBI", "mode": "planned", "requires_key": False},
-            {"id": "crossref", "name": "Crossref", "mode": "planned", "requires_key": False},
+            {"id": "pubmed", "name": "PubMed / NCBI", "mode": "integrated", "endpoint": "/api/pubmed-search", "requires_key": False},
+            {"id": "crossref", "name": "Crossref", "mode": "integrated", "endpoint": "/api/doi-metadata", "requires_key": False},
         ],
         "notice": "Integrated means an application endpoint exists, not that the external source is currently reachable. Planned sources are not yet connected.",
     }
+
+def _free_json(url: str, source: str) -> dict:
+    req = Request(url, headers={"User-Agent": "HAKIM-medical-research/0.4 (academic metadata)"})
+    try:
+        with urlopen(req, timeout=15) as response:
+            return json.loads(response.read(3_000_000).decode("utf-8"))
+    except (HTTPError, URLError, TimeoutError, ValueError) as exc:
+        raise HTTPException(status_code=502, detail=f"تعذر استرجاع بيانات {source} حالياً.") from exc
+
+
+@app.get("/api/pubmed-search")
+def pubmed_search(
+    q: str = Query(..., min_length=2, max_length=500),
+    page_size: int = Query(10, ge=1, le=20),
+):
+    """Key-free NCBI E-utilities search and bibliographic summaries."""
+    base = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/"
+    params = urlencode({"db": "pubmed", "term": q.strip(), "retmax": page_size, "retmode": "json", "tool": "HAKIM"})
+    search = _free_json(base + "esearch.fcgi?" + params, "PubMed")
+    ids = search.get("esearchresult", {}).get("idlist", [])
+    if not ids:
+        return {"ok": True, "source": "PubMed", "query": q, "hit_count": int(search.get("esearchresult", {}).get("count", 0)), "returned": 0, "results": []}
+    summary = _free_json(base + "esummary.fcgi?" + urlencode({"db": "pubmed", "id": ",".join(ids), "retmode": "json", "tool": "HAKIM"}), "PubMed")
+    results = []
+    for pmid in ids:
+        item = summary.get("result", {}).get(pmid, {})
+        identifiers = item.get("articleids") or []
+        doi = next((i.get("value", "") for i in identifiers if i.get("idtype") == "doi"), "")
+        results.append({
+            "title": item.get("title") or "عنوان غير متاح",
+            "authors": ", ".join(a.get("name", "") for a in item.get("authors", [])),
+            "journal": item.get("fulljournalname") or item.get("source") or "",
+            "year": (item.get("pubdate") or "")[:4],
+            "pmid": pmid,
+            "doi": doi,
+            "abstract": "",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/" + pmid + "/",
+            "source": "PubMed",
+        })
+    return {"ok": True, "source": "PubMed", "query": q, "hit_count": int(search.get("esearchresult", {}).get("count", 0)), "returned": len(results), "results": results, "notice": "ملخصات البيانات الببليوغرافية فقط؛ لا يُستنتج منها مستوى الدليل أو فعالية العلاج."}
+
+
+@app.get("/api/doi-metadata")
+def doi_metadata(doi: str = Query(..., min_length=6, max_length=250)):
+    """Crossref metadata for an explicitly supplied DOI, not clinical validation."""
+    normalized = doi.strip().removeprefix("https://doi.org/").removeprefix("http://doi.org/")
+    if not normalized.startswith("10.") or "/" not in normalized:
+        raise HTTPException(status_code=400, detail="معرّف DOI غير صالح.")
+    payload = _free_json("https://api.crossref.org/works/" + quote(normalized, safe="/"), "Crossref")
+    item = payload.get("message", {})
+    return {"ok": True, "source": "Crossref", "doi": item.get("DOI", normalized),
+            "title": (item.get("title") or [""])[0],
+            "publisher": item.get("publisher", ""),
+            "type": item.get("type", ""),
+            "published": item.get("published", {}).get("date-parts", []),
+            "relation": item.get("relation", {}),
+            "update_to": item.get("update-to", []),
+            "url": item.get("URL", "https://doi.org/" + normalized),
+            "notice": "بيانات Crossref لا تثبت صحة النتائج الطبية، وقد تكون معلومات السحب والتصحيح غير مكتملة."}
+
 
 @app.get("/")
 def home():
