@@ -96,7 +96,14 @@ def pubmed_search(
 ):
     """Key-free NCBI E-utilities search and bibliographic summaries."""
     base = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/"
-    params = urlencode({"db": "pubmed", "term": q.strip(), "retmax": page_size, "retmode": "json", "tool": "HAKIM"})
+    raw_query = q.strip()
+    specialized = "peripheral neuropathy" in raw_query.lower() and ("herbal" in raw_query.lower() or "plant" in raw_query.lower())
+    if specialized:
+        query = '("Peripheral Nervous System Diseases"[MeSH Terms] OR "peripheral neuropathy"[Title/Abstract] OR "peripheral neuritis"[Title/Abstract] OR polyneuropathy[Title/Abstract]) AND ("Phytotherapy"[MeSH Terms] OR "Plants, Medicinal"[MeSH Terms] OR herbal[Title/Abstract] OR phytotherap*[Title/Abstract] OR "plant extract"[Title/Abstract])'
+    else:
+        query = raw_query
+    candidate_count = min(80, max(page_size * 5, page_size)) if specialized else page_size
+    params = urlencode({"db": "pubmed", "term": query, "retmax": candidate_count, "retmode": "json", "sort": "relevance", "tool": "HAKIM"})
     search = _free_json(base + "esearch.fcgi?" + params, "PubMed")
     ids = search.get("esearchresult", {}).get("idlist", [])
     if not ids:
@@ -118,7 +125,13 @@ def pubmed_search(
             "url": "https://pubmed.ncbi.nlm.nih.gov/" + pmid + "/",
             "source": "PubMed",
         })
-    return {"ok": True, "source": "PubMed", "query": q, "hit_count": int(search.get("esearchresult", {}).get("count", 0)), "returned": len(results), "results": results, "notice": "ملخصات البيانات الببليوغرافية فقط؛ لا يُستنتج منها مستوى الدليل أو فعالية العلاج."}
+    if specialized:
+        import re
+        disease = re.compile(r"peripheral neuropath|peripheral neuritis|polyneuropath|diabetic neuropath|nerve injury|peripheral nerve", re.I)
+        treatment = re.compile(r"herbal|phytotherap|medicinal plant|plant extract|botanical|traditional medicine|curcumin|turmeric|ginger|ginkgo", re.I)
+        excluded = re.compile(r"depression|liver.brain|optic neuropath|optic neuritis|retinal", re.I)
+        results = [item for item in results if disease.search(item["title"]) and treatment.search(item["title"]) and not excluded.search(item["title"])][:page_size]
+    return {"ok": True, "source": "PubMed", "query": q, "effective_query": query, "hit_count": int(search.get("esearchresult", {}).get("count", 0)), "returned": len(results), "results": results, "filter": "conservative_title_only" if specialized else "none", "notice": "عدد نتائج الفهرس لا يساوي عدد الدراسات ذات الصلة. تصفية العناوين محافظة وقد تستبعد دراسات مهمة؛ لا يُستنتج من هذه البيانات فعالية العلاج."}
 
 
 @app.get("/api/doi-metadata")
