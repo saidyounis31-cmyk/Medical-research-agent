@@ -511,6 +511,13 @@ window.hakimResolveSearchTerm=function(value){
   const expression='((vasculitic neuropathy) OR (peripheral neuropathy AND vasculitis) OR (vasa nervorum AND neuropathy) OR (peripheral nerve AND vascular))';
   return {query:expression,label:'vasculitic neuropathy / peripheral neuropathy / vasa nervorum',expanded:true,type:'peripheral-vascular',matched:true,concepts:['peripheral neuropathy','vasculitis','vasa nervorum'],requirePeripheral:true};
  }
+ // Peripheral-nerve treatment intent must take precedence over the generic neuritis alias.
+ const peripheral=/(الاعصاب الطرفيه|الاعصاب المحيطيه|الاعصاب الطرفية|الاعصاب المحيطية|peripheral neuropath|peripheral neuritis|polyneuropath|עצבים היקפיים)/i.test(normalized);
+ const herbal=/(اعشاب|عشبيه|عشبية|نباتات طبيه|نباتات طبية|herbal|phytotherap|medicinal plants|צמחי מרפא)/i.test(normalized);
+ if(peripheral&&herbal){
+  const expression='("peripheral neuropathy" AND (herbal OR phytotherapy OR "medicinal plants"))';
+  return {query:expression,label:'peripheral neuropathy + phytotherapy',expanded:true,type:'compound',matched:true,concepts:['peripheral neuropathy','phytotherapy'],requirePeripheral:false};
+ }
  // Preserve the disease and intervention together; never silently drop treatment qualifiers.
  const ms=/(التصلب اللويحي|التصلب المتعدد|multiple sclerosis|טרשת נפוצה|multiple sklerose)/i.test(normalized);
  const oils=/(زيوت|الزيوت|oil|oils|essential oil|زيت|öle|שמנים)/i.test(normalized);
