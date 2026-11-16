@@ -207,6 +207,10 @@ def imaging_analyze(req: ImagingVisionRequest):
             input=[{"role":"user","content":content}],
             max_output_tokens=1300,
         )
-        return {"ok":True,"result":response.output_text or "لم تتوفر قراءة نصية.","mode":"educational_image_review"}
+        if not (response.output_text or "").strip():
+            raise HTTPException(status_code=502, detail="لم يُرجع المحرك قراءة نصية.")
+        return {"ok":True,"result":response.output_text,"mode":"educational_image_review"}
+    except HTTPException:
+        raise
     except Exception as exc:
-        raise HTTPException(status_code=502,detail=f"تعذر تحليل الصور ({type(exc).__name__}).") from exc
+        raise HTTPException(status_code=502, detail=f"تعذر تحليل الصور ({type(exc).__name__}).") from exc
