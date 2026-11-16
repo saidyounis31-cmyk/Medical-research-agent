@@ -366,6 +366,15 @@ document.getElementById('buildLecture').addEventListener('click',()=>document.ge
      return positive.test(title)||(positive.test(abstract)&&!offTopic.test(title));
     }).slice(0,Number(count.value)||10);
    }
+   // Guard against unrelated records returned by broad index matching.
+   if(resolved.strictDisease){
+    const disease=resolved.strictDisease==='knee'?/knee|patellofemoral|gonarthrosis/i:/multiple sclerosis|demyelinat/i;
+    const intervention=resolved.strictDisease==='multiple sclerosis'?/essential oil|aromatherap|plant oil|volatile oil/i:null;
+    records=records.filter(x=>{
+     const title=x.title||'',abstract=x.abstractText||'';
+     return disease.test(title+' '+abstract)&&(!intervention||intervention.test(title+' '+abstract));
+    });
+   }
    // Phase 1: rank Europe PMC candidates using transparent title/abstract relevance.
    // PubMed ESearch is a second, independent index signal, not a second abstract source.
    const pubmedIds=new Set();
@@ -496,6 +505,12 @@ window.hakimResolveSearchTerm=function(value){
   const expression='((vasculitic neuropathy) OR (peripheral neuropathy AND vasculitis) OR (vasa nervorum AND neuropathy) OR (peripheral nerve AND vascular))';
   return {query:expression,label:'vasculitic neuropathy / peripheral neuropathy / vasa nervorum',expanded:true,type:'peripheral-vascular',matched:true,concepts:['peripheral neuropathy','vasculitis','vasa nervorum'],requirePeripheral:true};
  }
+ // Preserve the disease and intervention together; never silently drop treatment qualifiers.
+ const ms=/(التصلب اللويحي|التصلب المتعدد|multiple sclerosis|טרשת נפוצה|multiple sklerose)/i.test(normalized);
+ const oils=/(زيوت|الزيوت|oil|oils|essential oil|زيت|öle|שמנים)/i.test(normalized);
+ if(ms&&oils)return {query:'(multiple sclerosis) AND (essential oils OR aromatherapy OR plant oils)',label:'multiple sclerosis + essential oils / aromatherapy',expanded:true,type:'compound',matched:true,concepts:['multiple sclerosis','essential oils'],strictDisease:'multiple sclerosis'};
+ const knee=/(ركبت|الركب|knee|knie|ברכ)/i.test(normalized);
+ if(knee)return {query:'(knee pain OR knee osteoarthritis OR patellofemoral pain)',label:'knee pain / knee osteoarthritis',expanded:true,type:'condition',matched:true,concepts:['knee pain'],strictDisease:'knee'};
  const exact=dictionary.get(normalized);
  if(exact)return {query:exact.q,label:exact.q,expanded:exact.q!==input,type:exact.type,matched:true,concepts:[exact.q]};
  const spans=[],selected=[],seen=new Set();
