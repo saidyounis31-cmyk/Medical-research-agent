@@ -384,6 +384,12 @@ document.getElementById('buildLecture').addEventListener('click',()=>document.ge
      return nerve.test(title)&&plant.test(title+' '+abstract);
     });
    }
+   if(resolved.concepts?.includes('cough')&&resolved.concepts?.includes('phytotherapy')){
+    const coughTopic=/cough|antitussive|upper respiratory tract infection|common cold|bronchitis/i;
+    const herbs=/herbal|phytotherap|medicinal plant|botanical|plant extract|thyme|ivy leaf|pelargonium|echinacea|andrographis/i;
+    const other=/coronavirus|covid.19|sars.cov|psychiatr|depression|dental|sinusitis/i;
+    records=records.filter(x=>{const title=x.title||'',abstract=x.abstractText||'';return coughTopic.test(title)&&herbs.test(title+' '+abstract)&&!other.test(title);});
+   }
    // Guard against unrelated records returned by broad index matching.
    if(resolved.strictDisease){
     const disease=resolved.strictDisease==='knee'?/knee|patellofemoral|gonarthrosis/i:/multiple sclerosis|demyelinat/i;
@@ -806,7 +812,11 @@ button.addEventListener('click',async()=>{
    if(!data.ok||!Array.isArray(data.results))throw Error('Invalid response');
    status.textContent='PubMed: '+data.hit_count+' سجلًا؛ المعروض '+data.returned+'. الاستعلام: '+normalized+'.';
    if(!data.results.length){status.textContent+=' لم تُرجع قاعدة البيانات نتائج لهذا الاستعلام؛ جرّب مصطلحات أكثر تحديداً.';return;}
-   data.results.forEach(item=>{
+   const coughIntent=/سعال|كحة|كحه|cough/i.test(query);
+   const related=data.results.filter(item=>!coughIntent||(/cough|antitussive|upper respiratory tract infection|common cold|bronchitis/i.test(item.title||'')&&!/coronavirus|covid.19|sars.cov|depression|psychiatr|dentist|sinusitis/i.test(item.title||'')));
+   status.textContent='PubMed: '+data.hit_count+' سجلًا في الفهرس؛ '+related.length+' نتائج ذات صلة من الدفعة المسترجعة. الاستعلام: '+normalized+'.';
+   if(!related.length){status.textContent+=' لم تجتز أي دراسة معيار صلة السعال؛ لا تُعرض دراسات أمراض أخرى كبديل.';return;}
+   related.forEach(item=>{
     const card=document.createElement('article');card.className='literature-card';
     const title=document.createElement('h3');title.textContent=item.title||'عنوان غير متاح';card.appendChild(title);
     const meta=document.createElement('p');meta.className='hint';meta.textContent=[item.authors,item.journal,item.year,item.pmid?'PMID: '+item.pmid:'',item.doi?'DOI: '+item.doi:''].filter(Boolean).join(' | ');card.appendChild(meta);
