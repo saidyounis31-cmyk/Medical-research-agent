@@ -733,7 +733,8 @@ button.addEventListener('click',async()=>{
  const data=await response.json();
  if(!response.ok)throw new Error(response.status===429?'429 — rate limit':response.status===503?'503 — service unavailable':response.status+' — '+m.network);
  if(!data.ok||typeof data.result!=='string'||!data.result.trim())throw new Error(m.network);
- output.textContent=m.prefix+'\n\n'+data.result;\n window.hakimImagingReview={answer:data.result,files:selected.map(f=>f.name)};syncComparison();
+ output.textContent=m.prefix+'\n\n'+data.result;
+ window.hakimImagingReview={answer:data.result,files:selected.map(f=>f.name)};syncComparison();
  status.textContent=m.done;
  }catch(e){status.textContent=m.failed+(e.message||m.network)}finally{button.disabled=false}
 });
