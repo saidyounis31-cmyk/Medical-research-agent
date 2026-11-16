@@ -621,22 +621,45 @@ renderIndex();let saved=null;try{saved=JSON.parse(sessionStorage.getItem(savedKe
 (function(){
 const section=document.getElementById('imaging-lab'), files=document.getElementById('imagingFiles'), output=document.getElementById('imagingOutput');
 if(!section||!files||!output)return;
+const picker=document.createElement('div');
+picker.className='btns';
+picker.style.cssText='display:flex;flex-wrap:wrap;gap:10px;margin:12px 0';
+const deviceButton=document.createElement('button'),cameraButton=document.createElement('button');
+deviceButton.type=cameraButton.type='button';
+deviceButton.className='btn secondary';cameraButton.className='btn secondary';
+const cameraInput=document.createElement('input');
+cameraInput.type='file';cameraInput.accept='image/jpeg,image/png';cameraInput.setAttribute('capture','environment');
+cameraInput.style.display='none';cameraInput.setAttribute('aria-label','التقاط صورة بالكاميرا');
+files.accept='.jpg,.jpeg,.png,image/jpeg,image/png';
+files.removeAttribute('capture');files.style.display='none';
+files.parentNode.insertBefore(picker,files);picker.append(deviceButton,cameraButton,cameraInput);
+let selectedFiles=[];
+deviceButton.addEventListener('click',()=>files.click());
+cameraButton.addEventListener('click',()=>cameraInput.click());
+function translatePicker(){
+ const lang=document.getElementById('uiLanguage')?.value||'ar';
+ const labels={ar:['اختيار من الجهاز','التقاط صورة'],en:['Choose from device','Take photo'],he:['בחירה מהמכשיר','צילום תמונה'],de:['Vom Gerät auswählen','Foto aufnehmen']};
+ const t=labels[lang]||labels.ar;deviceButton.textContent=t[0];cameraButton.textContent=t[1];
+}
+translatePicker();document.getElementById('uiLanguage')?.addEventListener('change',translatePicker);
+cameraInput.addEventListener('change',()=>{selectedFiles=Array.from(cameraInput.files||[]);updateVisionPreview()});
+files.addEventListener('change',()=>{selectedFiles=Array.from(files.files||[]);updateVisionPreview()});
 const holder=document.createElement('div');
 holder.className='field';
 holder.innerHTML='<div class="hint">قراءة بصرية تعليمية مساعدة لصور JPEG/PNG فقط، وليست تقرير اختصاصي الأشعة. تُرسل الصور إلى مزود الذكاء الاصطناعي عند الضغط على التحليل فقط. يُرجى إزالة بيانات الهوية من الصور قبل رفعها.</div><label style="display:block;margin:12px 0"><input type="checkbox" id="imagingConsent"> أوافق على إرسال الصور المختارة للتحليل وأؤكد إزالة البيانات الشخصية الظاهرة عليها.</label><button type="button" class="btn primary" id="analyzeImaging">تحليل الصور المرفقة</button><div id="imagingVisionStatus" role="status" aria-live="polite"></div><div id="imagingThumbnails" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px"></div>';
 output.parentNode.insertBefore(holder,output);
 const status=document.getElementById('imagingVisionStatus'),button=document.getElementById('analyzeImaging'),thumbs=document.getElementById('imagingThumbnails');
-files.addEventListener('change',()=>{
+function updateVisionPreview(){
  thumbs.replaceChildren();
- for(const f of Array.from(files.files||[]).slice(0,4)){
+ for(const f of selectedFiles.slice(0,4)){
   if(!['image/jpeg','image/png'].includes(f.type))continue;
   const img=document.createElement('img');img.alt='معاينة: '+f.name;img.style.cssText='max-width:140px;max-height:140px;object-fit:contain;border:1px solid #ddd;border-radius:8px';
   const url=URL.createObjectURL(f);img.onload=()=>URL.revokeObjectURL(url);img.src=url;thumbs.appendChild(img);
  }
-});
+}
 const read=f=>new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=reject;reader.readAsDataURL(f)});
 button.addEventListener('click',async()=>{
- const selected=Array.from(files.files||[]);
+ const selected=selectedFiles;
  if(!document.getElementById('imagingConsent').checked){status.textContent='الموافقة على إرسال الصور مطلوبة.';return}
  if(!selected.length||selected.length>4||selected.some(f=>!['image/jpeg','image/png'].includes(f.type)||f.size>4*1024*1024)){
  status.textContent='اختر من صورة واحدة إلى أربع صور JPEG/PNG، لا تتجاوز كل منها 4 MB. ملفات DICOM وPDF غير مدعومة هنا.';return}
