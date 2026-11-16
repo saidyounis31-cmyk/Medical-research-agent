@@ -165,3 +165,43 @@ async def lecture(req: AgentRequest):
 async def research(req: ResearchRequest):
     text = f"الموضوع: {req.topic}\nالتعليمات: {req.instructions or 'لا توجد تعليمات إضافية.'}"
     return await run_agent("research", text)
+
+class ImagingVisionRequest(BaseModel):
+    images: list[str] = Field(min_length=1, max_length=4)
+    context: str = Field(default="", max_length=4000)
+
+@app.post("/api/imaging-analyze")
+def imaging_analyze(req: ImagingVisionRequest):
+    """Educational visual review of selected JPEG/PNG images; not a diagnostic radiology service."""
+    import base64
+    key = os.getenv("OPENAI_API_KEY", "").strip()
+    if not key:
+        raise HTTPException(status_code=503, detail="محرك تحليل الصور غير مهيأ على الخادم.")
+    for img in req.images:
+        if not img.startswith(("data:image/jpeg;base64,", "data:image/png;base64,")):
+            raise HTTPException(status_code=400, detail="يُقبل JPEG وPNG فقط.")
+        try:
+            raw = base64.b64decode(img.split(",", 1)[1], validate=True)
+        except Exception:
+            raise HTTPException(status_code=400, detail="بيانات الصورة غير صالحة.")
+        if len(raw) > 4 * 1024 * 1024:
+            raise HTTPException(status_code=413, detail="الحد الأقصى 4 MB لكل صورة.")
+    content = [{"type":"input_text","text":(
+        "Review the provided medical image screenshots for EDUCATIONAL purposes only. "
+        "Describe visible anatomy and observations, image quality, limitations, and possible explanations. "
+        "Do not claim a definitive diagnosis, do not exclude disease from screenshots, "
+        "do not invent measurements or patient details. State whether images are insufficient "
+        "and recommend formal radiologist interpretation. Reply in Arabic. "
+        "Clinical context: " + req.context
+    )}]
+    content.extend({"type":"input_image","image_url":img,"detail":"high"} for img in req.images)
+    try:
+        response = OpenAI(api_key=key).responses.create(
+            model=os.getenv("OPENAI_VISION_MODEL", "gpt-4.1-mini"),
+            instructions=MEDICAL_RULES,
+            input=[{"role":"user","content":content}],
+            max_output_tokens=1300,
+        )
+        return {"ok":True,"result":response.output_text or "لم تتوفر قراءة نصية.","mode":"educational_image_review"}
+    except Exception as exc:
+        raise HTTPException(status_code=502,detail=f"تعذر تحليل الصور ({type(exc).__name__}).") from exc
