@@ -2,6 +2,8 @@ from __future__ import annotations
 import json
 import os
 from pathlib import Path
+from html import unescape
+from html.parser import HTMLParser
 from typing import Literal
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode, quote
@@ -70,6 +72,31 @@ def health():
 def home():
     return FileResponse(BASE_DIR / "index.html")
 
+class _AbstractTextParser(HTMLParser):
+    """Convert Europe PMC abstract markup into readable plain text."""
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.parts = []
+
+    def handle_data(self, data):
+        self.parts.append(data)
+
+    def handle_starttag(self, tag, attrs):
+        if tag in ("p", "br", "div", "li"):
+            self.parts.append(" ")
+
+    def handle_endtag(self, tag):
+        if tag in ("p", "div", "li"):
+            self.parts.append(" ")
+
+
+def clean_abstract(value: str) -> str:
+    parser = _AbstractTextParser()
+    parser.feed(value or "")
+    parser.close()
+    return " ".join(unescape("".join(parser.parts)).split())
+
+
 @app.get("/api/literature-search")
 def literature_search(
     q: str = Query(..., min_length=2, max_length=500),
@@ -106,7 +133,7 @@ def literature_search(
             article_url = f"https://doi.org/{doi}"
         else:
             article_url = "https://europepmc.org/search?query=" + quote(query)
-        abstract = " ".join((item.get("abstractText") or "").split())
+        abstract = clean_abstract(item.get("abstractText") or "")
         results.append({
             "title": item.get("title") or "عنوان غير متاح",
             "authors": item.get("authorString") or "المؤلفون غير متاحين في سجل الفهرسة",
