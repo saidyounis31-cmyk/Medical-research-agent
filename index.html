@@ -38,6 +38,11 @@ textarea{min-height:94px;resize:vertical}.row{display:grid;grid-template-columns
 .literature-card h3{font-size:1rem;line-height:1.5;margin:0 0 8px}.literature-card p{margin:6px 0;font-size:.9rem}.literature-card a{color:var(--teal);font-weight:700}.literature-meta{font-size:.82rem;color:var(--muted)}
 .translated-box{margin-top:10px;padding:11px;border-radius:10px;background:var(--teal2);border:1px solid #b9d9d3;white-space:pre-wrap;font-size:.9rem}
 .engine-bar{margin:12px 0;padding:12px;border:1px solid #b9d9d3;border-radius:12px;background:#eef8f5}.engine-bar .engine-status{display:block;margin-top:8px;font-size:.88rem;color:#425b60}
+
+/* ضبط اتجاه المحاذاة للحقول تلقائياً حسب لغة الصفحة لعدم التداخل */
+html[dir="ltr"] input, html[dir="ltr"] textarea, html[dir="ltr"] select { direction: ltr; text-align: left; }
+html[dir="rtl"] input, html[dir="rtl"] textarea, html[dir="rtl"] select { direction: rtl; text-align: right; }
+
 @media(max-width:760px){.layout{grid-template-columns:1fr}.wrap{padding:14px 10px 30px}.hero{padding:22px}.panel{padding:17px}.choices,.checks,.row{grid-template-columns:1fr}.module-title{display:block}.module-title .status{margin:6px 0;display:inline-block}.module-nav a{flex:1;text-align:center;font-size:.88rem}}
 @media print{body{background:#fff}.wrap{max-width:none;padding:0}.hero{background:#fff;color:#000;box-shadow:none;border:1px solid #aaa}.hero p{color:#222}.layout{display:block}.panel{box-shadow:none;margin-top:12px;break-inside:avoid}.form-panel,.btns,.foot,.lang-box,.engine-bar{display:none!important}.preview{min-height:0}}
 </style>
@@ -50,7 +55,7 @@ textarea{min-height:94px;resize:vertical}.row{display:grid;grid-template-columns
     <div class="lang-box">
       <label for="globalLang" data-i18n="globalLangLabel">اللغة / Language:</label>
       <select id="globalLang">
-        <option value="ar" selected>العربية (فصحى ولهجات)</option>
+        <option value="ar">العربية (فصحى ولهجات)</option>
         <option value="en">English</option>
         <option value="he">עברית</option>
         <option value="de">Deutsch</option>
@@ -89,13 +94,13 @@ textarea{min-height:94px;resize:vertical}.row{display:grid;grid-template-columns
     <div class="field">
       <label for="literatureSource" data-i18n="litSourceLabel">قاعدة البيانات</label>
       <select id="literatureSource">
-        <option value="europe_pmc" selected data-i18n="optEpmc">Europe PMC (مع الملخصات)</option>
+        <option value="europe_pmc" data-i18n="optEpmc">Europe PMC (مع الملخصات)</option>
         <option value="pubmed" data-i18n="optPubmed">PubMed / NCBI</option>
       </select>
     </div>
     <div class="field">
       <label for="literatureCount" data-i18n="litCountLabel">عدد النتائج</label>
-      <select id="literatureCount"><option value="5">5</option><option value="10" selected>10</option><option value="20">20</option></select>
+      <select id="literatureCount"><option value="5">5</option><option value="10">10</option><option value="20">20</option></select>
     </div>
   </div>
   <div class="field" style="display:flex;align-items:center;gap:9px">
@@ -176,19 +181,19 @@ textarea{min-height:94px;resize:vertical}.row{display:grid;grid-template-columns
     <div class="field">
       <label for="clinicalAge" data-i18n="clinAgeLabel">الفئة العمرية</label>
       <select id="clinicalAge">
-        <option data-i18n="ageAdult">بالغ / Adult</option>
-        <option data-i18n="agePed">طفل / Pediatric</option>
-        <option data-i18n="ageEld">كبير السن / Elderly</option>
-        <option data-i18n="agePreg">حمل أو رضاعة / Pregnancy</option>
+        <option value="adult" data-i18n="ageAdult">بالغ / Adult</option>
+        <option value="pediatric" data-i18n="agePed">طفل / Pediatric</option>
+        <option value="elderly" data-i18n="ageEld">كبير السن / Elderly</option>
+        <option value="pregnancy" data-i18n="agePreg">حمل أو رضاعة / Pregnancy</option>
       </select>
     </div>
     <div class="field">
       <label for="clinicalSetting" data-i18n="clinSetLabel">مكان الرعاية</label>
       <select id="clinicalSetting">
-        <option data-i18n="setOut">عيادة خارجية / Outpatient</option>
-        <option data-i18n="setHosp">مستشفى / Hospital</option>
-        <option data-i18n="setEmerg">قسم الطوارئ / Emergency</option>
-        <option data-i18n="setRes">حالة بحثية / Research</option>
+        <option value="outpatient" data-i18n="setOut">عيادة خارجية / Outpatient</option>
+        <option value="hospital" data-i18n="setHosp">مستشفى / Hospital</option>
+        <option value="emergency" data-i18n="setEmerg">قسم الطوارئ / Emergency</option>
+        <option value="research" data-i18n="setRes">حالة بحثية / Research</option>
       </select>
     </div>
   </div>
@@ -200,21 +205,21 @@ textarea{min-height:94px;resize:vertical}.row{display:grid;grid-template-columns
     <div class="field">
       <label for="symptomDuration" data-i18n="clinDurLabel">مدة الأعراض</label>
       <select id="symptomDuration">
-        <option data-i18n="durHrs">ساعات / Hours</option>
-        <option data-i18n="durDays">أيام / Days</option>
-        <option selected data-i18n="durWks">أسابيع / Weeks</option>
-        <option data-i18n="durMos">أشهر أو سنوات / Months-Years</option>
-        <option data-i18n="durRec">نوبات متكررة / Recurrent</option>
+        <option value="hours" data-i18n="durHrs">ساعات / Hours</option>
+        <option value="days" data-i18n="durDays">أيام / Days</option>
+        <option value="weeks" data-i18n="durWks">أسابيع / Weeks</option>
+        <option value="months" data-i18n="durMos">أشهر أو سنوات / Months-Years</option>
+        <option value="recurrent" data-i18n="durRec">نوبات متكررة / Recurrent</option>
       </select>
     </div>
     <div class="field">
       <label for="clinicalGoal" data-i18n="clinGoalLabel">هدف التحليل</label>
       <select id="clinicalGoal">
-        <option data-i18n="goalDiff">توسيع الاحتمالات التشخيصية / Differential</option>
-        <option data-i18n="goalRev">مراجعة تشخيص قائم / Review</option>
-        <option data-i18n="goalTx">بحث خيارات علاجية / Treatment options</option>
-        <option data-i18n="goalRef">حالة لم تستجب للعلاج / Refractory</option>
-        <option data-i18n="goalInt">مقارنة الطب السريري والتكميلي / Integrative</option>
+        <option value="differential" data-i18n="goalDiff">توسيع الاحتمالات التشخيصية / Differential</option>
+        <option value="review" data-i18n="goalRev">مراجعة تشخيص قائم / Review</option>
+        <option value="treatment" data-i18n="goalTx">بحث خيارات علاجية / Treatment options</option>
+        <option value="refractory" data-i18n="goalRef">حالة لم تستجب للعلاج / Refractory</option>
+        <option value="integrative" data-i18n="goalInt">مقارنة الطب السريري والتكميلي / Integrative</option>
       </select>
     </div>
   </div>
@@ -305,16 +310,16 @@ textarea{min-height:94px;resize:vertical}.row{display:grid;grid-template-columns
     <div class="field">
       <label for="detail" data-i18n="buildDetLabel">مستوى التفصيل</label>
       <select id="detail">
-        <option data-i18n="detCon">مختصر ومباشر / Concise</option>
-        <option selected data-i18n="detAc">جامعي متقدم / Academic</option>
-        <option data-i18n="detSp">بحثي متخصص وموسع / Specialist</option>
+        <option value="concise" data-i18n="detCon">مختصر ومباشر / Concise</option>
+        <option value="academic" data-i18n="detAc">جامعي متقدم / Academic</option>
+        <option value="specialist" data-i18n="detSp">بحثي متخصص وموسع / Specialist</option>
       </select>
     </div>
     <div class="field">
       <label for="citation" data-i18n="buildCitLabel">التوثيق</label>
       <select id="citation">
-        <option data-i18n="citBas">المراجع الأساسية / Basic</option>
-        <option selected data-i18n="citVer">موثق مع حالة التحقق / Verified</option>
+        <option value="basic" data-i18n="citBas">المراجع الأساسية / Basic</option>
+        <option value="verified" data-i18n="citVer">موثق مع حالة التحقق / Verified</option>
       </select>
     </div>
   </div>
@@ -753,7 +758,7 @@ const I18N = {
     litSourceLabel:'Base de datos', optEpmc:'Europe PMC (con resúmenes)', optPubmed:'PubMed / NCBI', litCountLabel:'Número de resultados',
     litOALabel:'Solo artículos de acceso abierto (Open Access)',
     searchBtn:'🔎 Buscar estudios', clearBtn:'Limpiar',
-    litStatusInit:'Escriba su pregunta o tema y presione «Buscar estudios».',
+    litStatusInit:'Escriba su pregunta o tema وpresione «Buscar estudios».',
     translateBtn:'🌐 Traducir resumen', sumBtn:'📝 Traducir y resumir', openSourceLink:'Abrir artículo en la fuente original ↗',
     imgSubTag:'Gemini Vision • 6 Languages',
     imgHeading:'🩻 Laboratorio de Imagen Médica y Visión IA',
@@ -773,7 +778,7 @@ const I18N = {
     clinHeading:'🧠 Razonamiento Clínico e Investigación Terapéutica',
     clinHint:'Ingrese síntomas y antecedentes en cualquier idioma y presione el botón de análisis con IA.',
     clinAgeLabel:'Grupo de edad', ageAdult:'Adulto', agePed:'Pediátrico', ageEld:'Adulto mayor', agePreg:'Embarazo / Lactancia',
-    clinSetLabel:'Entorno de atención', setOut:'Consulta externa', setHosp:'Hospital', setEmerg:'Urgencias', setRes:'Caso de investigación',
+    clinSetLabel:'Entorno de atención', setOut:'Consulta externa', setHosp:'Hospital', setEmerg:'Urgences', setRes:'Caso de investigación',
     clinCompLabel:'Motivo principal de consulta', clinCompPh:'Ejemplo: Fatiga persistente, cefalea, mareos...',
     clinDurLabel:'Duración de los síntomas', durHrs:'Horas', durDays:'Días', durWks:'Semanas', durMos:'Meses o años', durRec:'Episodios recurrentes',
     clinGoalLabel:'Objetivo del análisis', goalDiff:'Ampliar diagnóstico diferencial', goalRev:'Revisar diagnóstico existente', goalTx:'Explorar opciones terapéuticas', goalRef:'Caso refractario', goalInt:'Comparación clínica y fitoterapéutica',
@@ -796,20 +801,20 @@ const I18N = {
     tplMono:'Monografía de planta medicinal', tplMonoDesc:'Identidad botánica, fitoquímica, usos y seguridad.',
     tplEv:'Revisión de evidencia científica', tplEvDesc:'Estudios, nivel de evidencia, resultados y limitaciones.',
     tplApp:'Evaluación crítica de estudio', tplAppDesc:'Diseño, metodología, resultados y sesgos.',
-    tplSaf:'Interactions & Seguridad', tplSafDesc:'Interacciones, contraindicaciones y poblaciones especiales.',
+    tplSaf:'Interactions & Seguridad', tplSafDesc:'Interactions, contraindicaciones y poblaciones especiales.',
     tplChem:'Fitoquímica y Mecanismos', tplChemDesc:'Compuestos activos, mecanismos de acción y evidencia.',
     tplTab:'Tabla comparativa', tplTabDesc:'Comparación estructurada entre estudios o preparados.',
-    buildDetLabel:'Nivel de detalle', detCon:'Conciso y directo', detAc:'Académico avanzado', detSp:'Especializado exhaustivo',
+    buildDetLabel:'Niveau de détail', detCon:'Conciso y directo', detAc:'Académico avanzado', detSp:'Especializado exhaustivo',
     buildCitLabel:'Citas y referencias', citBas:'Referencias básicas', citVer:'Verificado con estado de evidencia',
     buildTopLabel:'Planta o pregunta científica', buildTopPh:'Ejemplo: Salvia officinalis — Salvia',
     buildQLabel:'Instrucciones adicionales (opcional)', buildQPh:'Escriba la pregunta clínica o alcance...',
     buildSigLabel:'Firma del autor',
-    runResearchBtn:'✨ Ejecutar investigación IA directamente', showDraftBtn:'Mostrar borrador', resetBtn:'Restablecer',
+    runResearchBtn:'✨ Ejecutar investigación IA مباشرة', showDraftBtn:'Mostrar borrador', resetBtn:'Restablecer',
     buildOutHeading:'Resultado de Monografía / Investigación', stateReady:'Listo en 6 idiomas',
     buildOutInit:'Seleccione un tema y presione «Ejecutar investigación IA directamente».',
     bridgeClinBtn:'🧠 Analizar caso con IA', bridgeImgBtn:'⚖️ Comparar informe y notas con IA', bridgeLecBtn:'▶ Analizar conferencia con IA',
     bridgeHint:'Envía los datos al motor de IA y devuelve el análisis en el idioma seleccionado arriba.',
-    authorSigText:'ANEMONE SLN.LTD • Prepared & Designed by SAID YOUNIS'
+    authorSigTest:'ANEMONE SLN.LTD • Prepared & Designed by SAID YOUNIS'
   }
 };
 
@@ -822,24 +827,25 @@ function applyUILanguage(){
   document.documentElement.lang = lang;
   document.documentElement.dir = s.dir;
   
-  // Translate all data-i18n elements
+  // تحديث كل العناصر التي تحتوي على data-i18n
   $$('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     if (s[key]) el.textContent = s[key];
   });
   
-  // Translate all placeholders dynamically
+  // تحديث النصوص المؤقتة (Placeholders) في الحقول
   $$('[data-i18n-ph]').forEach(el => {
     const key = el.getAttribute('data-i18n-ph');
     if (s[key]) el.setAttribute('placeholder', s[key]);
   });
 
-  // Update signature field default value based on language
+  // تحديث حقل التوقيع تلقائياً حسب اللغة
   const sigInput = $('#signature');
   if (sigInput && (!sigInput.value || sigInput.value.includes('سعيد يونس') || sigInput.value.includes('SAID YOUNIS') || sigInput.value.includes('סעיד יונס'))) {
     sigInput.value = s.authorSigText;
   }
 
+  // تحديث الأزرار التفاعلية الإضافية (مثل أزرار المحرك)
   const bClin = $('#bridge-clinical-lab'); if(bClin) bClin.textContent = s.bridgeClinBtn;
   const bImg = $('#bridge-imaging-lab'); if(bImg) bImg.textContent = s.bridgeImgBtn;
   const bLec = $('#bridge-lecture-lab'); if(bLec) bLec.textContent = s.bridgeLecBtn;
@@ -1066,7 +1072,7 @@ $('#downloadLecture').addEventListener('click',()=>downloadText($('#lectureOutpu
  $('#clearLiterature').addEventListener('click',()=>{q.value='';results.replaceChildren();status.textContent=t('litStatusInit');oa.checked=false;});
 })();
 
-// Initialize default language and placeholders on load
+// تنفيذ ترجمة كامل الواجهة فور تحميل الصفحة
 applyUILanguage();
 </script>
 </body>
