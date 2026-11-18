@@ -39,7 +39,7 @@ textarea{min-height:94px;resize:vertical}.row{display:grid;grid-template-columns
 .translated-box{margin-top:10px;padding:11px;border-radius:10px;background:var(--teal2);border:1px solid #b9d9d3;white-space:pre-wrap;font-size:.9rem}
 .engine-bar{margin:12px 0;padding:12px;border:1px solid #b9d9d3;border-radius:12px;background:#eef8f5}.engine-bar .engine-status{display:block;margin-top:8px;font-size:.88rem;color:#425b60}
 
-/* ضبط اتجاه المحاذاة للحقول تلقائياً حسب لغة الصفحة لعدم التداخل */
+/* فرض الاتجاه الصحيح ومحاذاة الحقول حسب لغة الواجهة لعدم حدوث أي تداخل */
 html[dir="ltr"] input, html[dir="ltr"] textarea, html[dir="ltr"] select { direction: ltr; text-align: left; }
 html[dir="rtl"] input, html[dir="rtl"] textarea, html[dir="rtl"] select { direction: rtl; text-align: right; }
 
@@ -758,27 +758,27 @@ const I18N = {
     litSourceLabel:'Base de datos', optEpmc:'Europe PMC (con resúmenes)', optPubmed:'PubMed / NCBI', litCountLabel:'Número de resultados',
     litOALabel:'Solo artículos de acceso abierto (Open Access)',
     searchBtn:'🔎 Buscar estudios', clearBtn:'Limpiar',
-    litStatusInit:'Escriba su pregunta o tema وpresione «Buscar estudios».',
+    litStatusInit:'Escriba su pregunta o tema y presione «Buscar estudios».',
     translateBtn:'🌐 Traducir resumen', sumBtn:'📝 Traducir y resumir', openSourceLink:'Abrir artículo en la fuente original ↗',
     imgSubTag:'Gemini Vision • 6 Languages',
     imgHeading:'🩻 Laboratorio de Imagen Médica y Visión IA',
     imgHint:'Suba imágenes radiológicas (JPEG/PNG) para una revisión visual educativa en el idioma seleccionado o compare un informe.',
     imgTypeLabel:'Tipo de estudio', imgRegionLabel:'Región anatómica / Lado', imgRegionPh:'Ejemplo: Rodillas bilaterales, Tórax, Cerebro...',
-    imgFilesLabel:'Adjuntar imágenes (JPEG / PNG — hasta 4)', imgDeidHint:'Elimine cualquier nombre o identificación de la imagen antes de subirla.',
+    imgFilesLabel:'Adjuntar imágenes (JPEG / PNG — hasta 4)', imgDeidHint:'Elimine cualquier nombre أو identificación de la imagen antes de subirla.',
     imgNoFiles:'Aún no se han seleccionado imágenes.', imgCtxLabel:'Contexto clínico y pregunta',
     imgCtxPh:'Ejemplo: Dolor recurrente de rodillas, ¿hay signos de artrosis o lesión ósea?',
     imgConsentLabel:'Acepto enviar imágenes anonimizadas al motor de IA para revisión educativa.',
     analyzeImgBtn:'🩻 Analizar imágenes con IA', buildImgDraftBtn:'Crear borrador de comparación',
     copyBtn:'Copiar resultado', downloadBtn:'Descargar TXT', printBtn:'Imprimir / PDF',
     imgRepLabel:'Informe radiológico original (opcional)', imgRepPh:'Pegue aquí el texto del informe radiológico para comparar...',
-    imgObsLabel:'Notas adicionales (opcional)', imgObsPh:'Notas clínicas o estudios previos...',
+    imgObsLabel:'Notas adicionales (opcional)', imgObsPh:'Notas clínicas أو estudios previos...',
     imgOutInit:'La lectura de imágenes o el borrador de comparación aparecerá aquí en el idioma seleccionado.',
     imgDisclaimer:'Aviso médico: Esta lectura es solo de apoyo educativo y no sustituye un informe radiológico certificado.',
     clinSubTag:'Clinical Brainstorming • 6 Languages',
     clinHeading:'🧠 Razonamiento Clínico e Investigación Terapéutica',
     clinHint:'Ingrese síntomas y antecedentes en cualquier idioma y presione el botón de análisis con IA.',
     clinAgeLabel:'Grupo de edad', ageAdult:'Adulto', agePed:'Pediátrico', ageEld:'Adulto mayor', agePreg:'Embarazo / Lactancia',
-    clinSetLabel:'Entorno de atención', setOut:'Consulta externa', setHosp:'Hospital', setEmerg:'Urgences', setRes:'Caso de investigación',
+    clinSetLabel:'Entorno de atención', setOut:'Consulta externa', setHosp:'Hospital', setEmerg:'Urgencias', setRes:'Caso de investigación',
     clinCompLabel:'Motivo principal de consulta', clinCompPh:'Ejemplo: Fatiga persistente, cefalea, mareos...',
     clinDurLabel:'Duración de los síntomas', durHrs:'Horas', durDays:'Días', durWks:'Semanas', durMos:'Meses o años', durRec:'Episodios recurrentes',
     clinGoalLabel:'Objetivo del análisis', goalDiff:'Ampliar diagnóstico diferencial', goalRev:'Revisar diagnóstico existente', goalTx:'Explorar opciones terapéuticas', goalRef:'Caso refractario', goalInt:'Comparación clínica y fitoterapéutica',
@@ -804,17 +804,17 @@ const I18N = {
     tplSaf:'Interactions & Seguridad', tplSafDesc:'Interactions, contraindicaciones y poblaciones especiales.',
     tplChem:'Fitoquímica y Mecanismos', tplChemDesc:'Compuestos activos, mecanismos de acción y evidencia.',
     tplTab:'Tabla comparativa', tplTabDesc:'Comparación estructurada entre estudios o preparados.',
-    buildDetLabel:'Niveau de détail', detCon:'Conciso y directo', detAc:'Académico avanzado', detSp:'Especializado exhaustivo',
+    buildDetLabel:'Nivel de detalle', detCon:'Conciso y directo', detAc:'Académico avanzado', detSp:'Especializado exhaustivo',
     buildCitLabel:'Citas y referencias', citBas:'Referencias básicas', citVer:'Verificado con estado de evidencia',
     buildTopLabel:'Planta o pregunta científica', buildTopPh:'Ejemplo: Salvia officinalis — Salvia',
     buildQLabel:'Instrucciones adicionales (opcional)', buildQPh:'Escriba la pregunta clínica o alcance...',
     buildSigLabel:'Firma del autor',
-    runResearchBtn:'✨ Ejecutar investigación IA مباشرة', showDraftBtn:'Mostrar borrador', resetBtn:'Restablecer',
+    runResearchBtn:'✨ Ejecutar investigación IA directamente', showDraftBtn:'Mostrar borrador', resetBtn:'Restablecer',
     buildOutHeading:'Resultado de Monografía / Investigación', stateReady:'Listo en 6 idiomas',
     buildOutInit:'Seleccione un tema y presione «Ejecutar investigación IA directamente».',
     bridgeClinBtn:'🧠 Analizar caso con IA', bridgeImgBtn:'⚖️ Comparar informe y notas con IA', bridgeLecBtn:'▶ Analizar conferencia con IA',
     bridgeHint:'Envía los datos al motor de IA y devuelve el análisis en el idioma seleccionado arriba.',
-    authorSigTest:'ANEMONE SLN.LTD • Prepared & Designed by SAID YOUNIS'
+    authorSigText:'ANEMONE SLN.LTD • Prepared & Designed by SAID YOUNIS'
   }
 };
 
@@ -827,25 +827,25 @@ function applyUILanguage(){
   document.documentElement.lang = lang;
   document.documentElement.dir = s.dir;
   
-  // تحديث كل العناصر التي تحتوي على data-i18n
+  // تحديث كل العناصر التي تحمل سمة data-i18n
   $$('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     if (s[key]) el.textContent = s[key];
   });
   
-  // تحديث النصوص المؤقتة (Placeholders) في الحقول
+  // تحديث النصوص المؤقتة Placeholders
   $$('[data-i18n-ph]').forEach(el => {
     const key = el.getAttribute('data-i18n-ph');
     if (s[key]) el.setAttribute('placeholder', s[key]);
   });
 
-  // تحديث حقل التوقيع تلقائياً حسب اللغة
+  // تحديث التوقيع تلقائياً حسب لغة الواجهة
   const sigInput = $('#signature');
   if (sigInput && (!sigInput.value || sigInput.value.includes('سعيد يونس') || sigInput.value.includes('SAID YOUNIS') || sigInput.value.includes('סעיד יונס'))) {
     sigInput.value = s.authorSigText;
   }
 
-  // تحديث الأزرار التفاعلية الإضافية (مثل أزرار المحرك)
+  // تحديث نصوص أزرار وعلامات المحرك الإضافية
   const bClin = $('#bridge-clinical-lab'); if(bClin) bClin.textContent = s.bridgeClinBtn;
   const bImg = $('#bridge-imaging-lab'); if(bImg) bImg.textContent = s.bridgeImgBtn;
   const bLec = $('#bridge-lecture-lab'); if(bLec) bLec.textContent = s.bridgeLecBtn;
@@ -1072,7 +1072,7 @@ $('#downloadLecture').addEventListener('click',()=>downloadText($('#lectureOutpu
  $('#clearLiterature').addEventListener('click',()=>{q.value='';results.replaceChildren();status.textContent=t('litStatusInit');oa.checked=false;});
 })();
 
-// تنفيذ ترجمة كامل الواجهة فور تحميل الصفحة
+// تنفيذ ترجمة كامل الواجهة فور التحميل
 applyUILanguage();
 </script>
 </body>
