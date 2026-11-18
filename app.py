@@ -137,7 +137,7 @@ def literature_search(
         results.append({
             "title": item.get("title") or "عنوان غير متاح",
             "authors": item.get("authorString") or "المؤلفون غير متاحين في سجل الفهرسة",
-            "journal": item.get("journalTitle") or item.get("journalInfo", {}).get("journal", {}).get("title") or "المجلة غير محددة",
+            "journal": item.get("journalTitle") or ((item.get("journalInfo") or {}).get("journal") or {}).get("title") or "المجلة غير محددة",
             "year": item.get("pubYear") or "السنة غير محددة",
             "date": item.get("firstPublicationDate") or "",
             "pmid": pmid or "",
