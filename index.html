@@ -61,7 +61,7 @@ textarea{min-height:94px;resize:vertical}.row{display:grid;grid-template-columns
   </div>
   <h1 data-i18n="heroTitle">HAKIM — الوكيل الطبي والعلمي</h1>
   <p data-i18n="heroDesc">منصة بحثية وطبية متكاملة تدعم 6 لغات واللهجات المحكية، وتتيح البحث المباشر في Europe PMC وPubMed، وترجمة وتلخيص الأبحاث، والعصف الذهني السريري، وتحليل صور الأشعة بالذكاء الاصطناعي. لا تُدخل بيانات تعريفية للمرضى.</p>
-  <div class="hero-credit">ANEMONE SLN.LTD • إعداد وتصميم سعيد يونس</div>
+  <div class="hero-credit" data-i18n="heroCredit">ANEMONE SLN.LTD • إعداد وتصميم سعيد يونس</div>
 </header>
 
 <nav class="module-nav" aria-label="Navigation">
@@ -328,7 +328,7 @@ textarea{min-height:94px;resize:vertical}.row{display:grid;grid-template-columns
   </div>
   <div class="field">
     <label for="signature" data-i18n="buildSigLabel">التوقيع على العمل الأصلي</label>
-    <input id="signature" type="text" value="إعداد وتصميم سعيد يونس — saidy4613@gmail.com">
+    <input id="signature" type="text" value="ANEMONE SLN.LTD • سعيد يونس">
   </div>
   <div class="btns">
     <button class="btn primary" id="runResearchAI" data-i18n="runResearchBtn">✨ تنفيذ البحث مباشرة بالذكاء الاصطناعي</button>
@@ -348,7 +348,7 @@ textarea{min-height:94px;resize:vertical}.row{display:grid;grid-template-columns
 </section>
 </div>
 
-<div class="foot">HAKIM Medical & Scientific Agent • ANEMONE SLN.LTD • إعداد وتصميم سعيد يونس</div>
+<div class="foot" data-i18n="footCredit">HAKIM Medical & Scientific Agent • ANEMONE SLN.LTD • سعيد يونس</div>
 </div>
 
 <script>
@@ -361,6 +361,8 @@ const I18N = {
     globalLangLabel:'اللغة / Language:',
     heroTitle:'HAKIM — الوكيل الطبي والعلمي',
     heroDesc:'منصة بحثية وطبية متكاملة تدعم 6 لغات واللهجات المحكية، وتتيح البحث المباشر في Europe PMC وPubMed، وترجمة وتلخيص الأبحاث، والعصف الذهني السريري، وتحليل صور الأشعة بالذكاء الاصطناعي. لا تُدخل بيانات تعريفية للمرضى.',
+    heroCredit:'ANEMONE SLN.LTD • إعداد وتصميم سعيد يونس',
+    footCredit:'HAKIM Medical & Scientific Agent • ANEMONE SLN.LTD • سعيد يونس',
     navLit:'🔎 البحث العلمي', navImg:'🩻 مختبر الأشعة والصور', navClin:'🧠 العصف الذهني الطبي', navLec:'▶ المحاضرات الطبية', navBuild:'📋 منشئ المونوغراف والبحث',
     badgeConnected:'متصل بالذكاء الاصطناعي', badgeVision:'Gemini Vision مفعّل',
     litHeading:'🔎 البحث في الدراسات العلمية والترجمة الفورية',
@@ -429,6 +431,8 @@ const I18N = {
     globalLangLabel:'Language:',
     heroTitle:'HAKIM — Medical & Scientific AI Agent',
     heroDesc:'Integrated medical and scientific platform supporting 6 languages and dialects, live Europe PMC & PubMed search, instant abstract translation/summarization, clinical brainstorming, and educational radiology vision review. Do not enter patient-identifying data.',
+    heroCredit:'ANEMONE SLN.LTD • Prepared & Designed by SAID YOUNIS',
+    footCredit:'HAKIM Medical & Scientific Agent • ANEMONE SLN.LTD • SAID YOUNIS',
     navLit:'🔎 Literature Search', navImg:'🩻 Radiology & Vision Lab', navClin:'🧠 Clinical Brainstorming', navLec:'▶ Medical Lectures', navBuild:'📋 Monograph & Research Builder',
     badgeConnected:'AI Connected', badgeVision:'Gemini Vision Active',
     litHeading:'🔎 Scientific Literature Search & Instant Translation',
@@ -493,4 +497,526 @@ const I18N = {
   },
   he: {
     dir:'rtl',
-    heroEyebrow:'HAKIM • הסוכן הרפואי
+    heroEyebrow:'HAKIM • הסוכן הרפואי והמדעי החכם • 6 שפות + ניבים',
+    globalLangLabel:'שפה / Language:',
+    heroTitle:'HAKIM — הסוכן הרפואי והמדעי',
+    heroDesc:'פלטפורמה רפואית ומדעית התומכת ב-6 שפות וניבים, חיפוש ישיר ב-Europe PMC ו-PubMed, תרגום וסיכום מחקרים, סיעור מוחות קליני וניתוח הדמיות רפואיות. אין להזין פרטים מזהים של מטופלים.',
+    heroCredit:'ANEMONE SLN.LTD • פותח ועוצב ע"י סעיד יونس',
+    footCredit:'HAKIM Medical & Scientific Agent • ANEMONE SLN.LTD • סעיד יونس',
+    navLit:'🔎 חיפוש מחקרים', navImg:'🩻 מעבדת הדמיה ורנטגן', navClin:'🧠 חשיבה קלינית', navLec:'▶ הרצאות רפואיות', navBuild:'📋 מחולל מונוגרפיות',
+    badgeConnected:'מחובר ל-AI', badgeVision:'Gemini Vision פעיל',
+    litHeading:'🔎 חיפוש מחקרים מדעיים ותרגום מיידי',
+    litHint:'הזינו שאלה בכל שפה או ניב; הבינה המלאכותית תתרגם אותה למונחי חיפוש מדעיים ותאפשר תרגום וסיכום מיידי של התקצירים.',
+    litQueryLabel:'נושא החיפוש או השאלה המדעית (בכל שפה או ניב)',
+    litQueryPh:'לדוגמה: טיפול צמחי בוויטיליגו או Nigella sativa asthma',
+    litSourceLabel:'מאגר מידע', optEpmc:'Europe PMC (כולל תקצירים)', litCountLabel:'מספר תוצאות',
+    litOALabel:'מאמרים בגישה פתוחה בלבד (Open Access)',
+    searchBtn:'🔎 חיפוש מחקרים', clearBtn:'ניקוי',
+    litStatusInit:'הזינו שאלה או נושא חיפוש ולחצו על «חיפוש מחקרים».',
+    translateBtn:'🌐 תרגום תקציר', sumBtn:'📝 תרגום וסיכום', openSourceLink:'פתיחת המאמר במקור ↗',
+    imgHeading:'🩻 מעבדת דימות רפואי ופענוח תמונות',
+    imgHint:'העלו צילומי דימות (JPEG/PNG) לסקירה חזותית לימודית בשפה שנבחרה, או השוו דוח רדיולוג להערות קליניות.',
+    imgTypeLabel:'סוג הבדיקה', imgRegionLabel:'אזור בגוף / צד', imgRegionPh:'לדוגמה: ברכיים, חזה, מוח...',
+    imgFilesLabel:'צירוף תמונות דימות (JPEG / PNG — עד 4)', imgDeidHint:'הסירו כל שם או מספר זהות מהתמונה לפני ההעלאה.',
+    imgNoFiles:'טרם נבחרו תמונות.', imgCtxLabel:'הקשר קליני ושאלה',
+    imgCtxPh:'לדוגמה: כאב חוזר בברכיים, האם יש סימני שחיקת סחוס או פגיעה גרמית?',
+    imgConsentLabel:'אני מאשר/ת שליחת תמונות ללא פרטים מזהים למנוע ה-AI לצורך סקירה לימודית.',
+    analyzeImgBtn:'🩻 ניתוח תמונות מצורפות ב-AI', buildImgDraftBtn:'יצירת טיוטת השוואה טקסטואלית',
+    copyBtn:'העתקת תוצאה', downloadBtn:'הורדת TXT', printBtn:'הדפסה / PDF',
+    imgRepLabel:'דוח רדיולוג מקורי (אופציונלי להשוואה)', imgRepPh:'הדביקו כאן את טקסט הדוח הרדיולוגי...',
+    imgObsLabel:'הערות נוספות (אופציונלי)', imgObsPh:'הערות קליניות או בדיקות קודמות...',
+    imgOutInit:'כאן יופיעו פענוח התמונות או טיוטת ההשוואה בשפה שנבחרה.',
+    imgDisclaimer:'הבהרה רפואית: סקירה זו נועדה לעזר לימודי בלבד ואינה מהווה תחליף לפענוח רדיולוג מוסמך או לבדיקה רפואית דחופה.',
+    clinHeading:'🧠 חשיבה קלינית ומחקר טיפולי',
+    clinHint:'הזינו תסמינים והיסטוריה רפואית בכל שפה או ניב, ולחצו על כפתור הניתוח ב-AI.',
+    clinAgeLabel:'קבוצת גיל', ageAdult:'מבוגר', agePed:'ילד', ageEld:'קשיש', agePreg:'היריון או הנקה',
+    clinSetLabel:'מסגרת טיפול', setOut:'מרפאה אמבולטורית', setHosp:'בית חולים', setEmerg:'חדר מיון', setRes:'מקרה מחקרי',
+    clinCompLabel:'תלונה עיקרית', clinCompPh:'לדוגמה: עייפות מתמשכת, כאב ראש, סחרחורת...',
+    clinDurLabel:'משך התסמינים', durHrs:'שעות', durDays:'ימים', durWks:'שבועות', durMos:'חודשים או שנים', durRec:'התקפים חוזרים',
+    clinGoalLabel:'מטרת הניתוח', goalDiff:'הרחבת אבחנה מבדלת', goalRev:'סקירת אבחנה קיימת', goalTx:'בחינת אפשרויות טיפול', goalRef:'מקרה עמיד לטיפול', goalInt:'השוואה קלינית ומשלימה',
+    clinSympLabel:'תסמינים, מהלך ובדיקה גופנית', clinSympPh:'תארו את התסמינים במילים שלכם...',
+    clinHistLabel:'היסטוריה רפואית, תרופות, צמחי מרפא ואלרגיות', clinHistPh:'מחלות רקע, תרופות, תוספים וצמחים, אלרגיות...',
+    clinLabLabel:'תוצאות מעבדה (אם קיימות)', clinLabPh:'הזינו ערכים ויחידות...',
+    clinRedLabel:'דגלים אדומים המחייבים טיפול דחוף',
+    rfChest:'כאב חזה חריף', rfDysp:'קוצר נשימה חד', rfFocal:'חולשה פתאומית או הפרעת דיבור', rfSync:'הפרעה בהכרה או עילפון',
+    buildClinBtn:'הכנת סיכום', clinOutInit:'הזינו נתונים ולחצו על «הכנת סיכום» או על כפתור הניתוח ב-AI למטה.',
+    lecHeading:'▶ סקירת הרצאות רפואיות ותמלולים',
+    lecHint:'הדביקו טקסט או תמלול הרצאה בכל שפה לצורך סיכום ובדיקת טענות מדעיות.',
+    lecUrlLabel:'קישור להרצאה (אופציונלי)', lecOpenBtn:'פתיחת ההרצאה', lecEmbedBtn:'הצגת נגן',
+    lecEmbedHint:'הזינו קישור YouTube תקין להצגת הנגן.',
+    lecTransLabel:'טקסט ההרצאה / תמלול', lecTransPh:'הדביקו כאן את תמלול ההרצאה...',
+    lecTasksLabel:'משימות מבוקשות', taskSum:'סיכום מדעי', taskVer:'אימות טענות', taskRef:'מקורות', taskTop:'חלוקה לנושאים',
+    buildLecBtn:'הכנת טקסט בקשה', lecOutInit:'ניתוח ההרצאה יופיע כאן.',
+    buildHeading:'📋 מחולל מונוגרפיות ותוכנית מחקר', buildTempLabel:'תבניות מדעיות',
+    tplMono:'מונוגרפיה של צמח מרפא', tplMonoDesc:'זהות בוטנית, פיטוכימיה, שימושים ובטיחות.',
+    tplEv:'סקירת ראיות מדעיות', tplEvDesc:'מחקרים, חוזק הראיות, תוצאות ומגבלות.',
+    tplApp:'ניתוח מחקר מדעי', tplAppDesc:'מבנה המחקר, מתודולוגיה, תוצאות והטיות.',
+    tplSaf:'אינטראקציות ובטיחות', tplSafDesc:'תגובות בין-תרופתיות, התוויות נגד ואוכלוסיות מיוחדות.',
+    tplChem:'הרכב כימי ומנגנוני פעולה', tplChemDesc:'תרכובות פעילות, מנגנונים ורמת ההוכחה.',
+    tplTab:'טבלת השוואה', tplTabDesc:'השוואה מובנית בין מחקרים או תכשירים.',
+    buildDetLabel:'רמת פירוט', detCon:'תמציתי וישיר', detAc:'אקדמי מתקדם', detSp:'מחקרי מורחב ומעמיק',
+    buildCitLabel:'ציטוט ומקורות', citBas:'מקורות בסיסיים', citVer:'מאומת עם סטטוס ראיות',
+    buildTopLabel:'נושא הצמח או השאלה המדעית', buildTopPh:'לדוגמה: Salvia officinalis — מרווה רפואית',
+    buildQLabel:'הנחיות נוספות (אופציונלי)', buildQPh:'כתבו את השאלה הקלינית أو היקף הסקירה...',
+    buildSigLabel:'חתימת יוצר העבודה',
+    runResearchBtn:'✨ הפעלת מחקר ישירות ב-AI', showDraftBtn:'הצגת טיוטת בקשה', resetBtn:'איפוס',
+    buildOutHeading:'פלט המונוגרפיה / המחקר', stateReady:'מוכן להפעלה ב-6 שפות',
+    buildOutInit:'בחרו נושא ולחצו על «הפעלת מחקר ישירות ב-AI» לקבלת הדוח בשפה שנבחרה בראש הדף.',
+    bridgeClinBtn:'🧠 ניתוח המקרה ב-AI', bridgeImgBtn:'⚖️ השוואת דוח והערות ב-AI', bridgeLecBtn:'▶ ניתוח ההרצאה ב-AI',
+    bridgeHint:'שולח את הנתונים למנוע ומחזיר ניתוח בשפה שנבחרה בראש הדף.'
+  },
+  de: {
+    dir:'ltr',
+    heroEyebrow:'HAKIM • Intelligenter Medizinischer & Wissenschaftlicher Agent • 6 Sprachen',
+    globalLangLabel:'Sprache:',
+    heroTitle:'HAKIM — Medizinischer & Wissenschaftlicher KI-Agent',
+    heroDesc:'Integrierte medizinische Forschungsplattform mit Unterstützung für 6 Sprachen, direkter Europe PMC- & PubMed-Suche, Sofortübersetzung/-zusammenfassung, klinischem Brainstorming und bildgebender Analyse. Keine Patientendaten eingeben.',
+    heroCredit:'ANEMONE SLN.LTD • Entwickelt & Entworfen von SAID YOUNIS',
+    footCredit:'HAKIM Medical & Scientific Agent • ANEMONE SLN.LTD • SAID YOUNIS',
+    navLit:'🔎 Literatursuche', navImg:'🩻 Radiologie & Bildlabor', navClin:'🧠 Klinisches Brainstorming', navLec:'▶ Fachvorträge', navBuild:'📋 Monographie-Generator',
+    badgeConnected:'KI Verbunden', badgeVision:'Gemini Vision Aktiv',
+    litHeading:'🔎 Wissenschaftliche Literatursuche & Sofortübersetzung',
+    litHint:'Geben Sie Ihre Frage in einer beliebigen Sprache ein; die KI wandelt sie in präzise Suchbegriffe um und ermöglicht sofortige Übersetzung und Zusammenfassung.',
+    litQueryLabel:'Suchthema oder wissenschaftliche Frage',
+    litQueryPh:'Beispiel: Pflanzliche Behandlung bei Vitiligo oder Nigella sativa asthma',
+    litSourceLabel:'Datenbank', optEpmc:'Europe PMC (mit Abstracts)', litCountLabel:'Anzahl der Ergebnisse',
+    litOALabel:'Nur Open-Access-Artikel',
+    searchBtn:'🔎 Studien suchen', clearBtn:'Löschen',
+    litStatusInit:'Geben Sie ein Thema oder eine Frage ein und klicken Sie auf „Studien suchen“.',
+    translateBtn:'🌐 Abstract übersetzen', sumBtn:'📝 Übersetzen & Zusammenfassen', openSourceLink:'Artikel in der Originalquelle öffnen ↗',
+    imgHeading:'🩻 Medizinische Bildgebung & KI-Bildanalyse',
+    imgHint:'Laden Sie Röntgen-/MRT-Bilder (JPEG/PNG) zur lehrreichen Analyse in der gewählten Sprache hoch oder vergleichen Sie einen Befundbericht.',
+    imgTypeLabel:'Untersuchungsart', imgRegionLabel:'Körperregion / Seite', imgRegionPh:'Beispiel: Knie beidseits, Thorax, Gehirn...',
+    imgFilesLabel:'Bilder anhängen (JPEG / PNG — bis zu 4)', imgDeidHint:'Entfernen Sie vor dem Hochladen alle Namen oder IDs vom Bild.',
+    imgNoFiles:'Noch keine Bilder ausgewählt.', imgCtxLabel:'Klinischer Kontext & Fragestellung',
+    imgCtxPh:'Beispiel: Wiederkehrende Knieschmerzen, Anzeichen einer Arthrose?',
+    imgConsentLabel:'Ich stimme der Übermittlung anonymisierter Bilder zur lehrreichen KI-Analyse zu.',
+    analyzeImgBtn:'🩻 Angehängte Bilder mit KI analysieren', buildImgDraftBtn:'Textvergleichsentwurf erstellen',
+    copyBtn:'Ergebnis kopieren', downloadBtn:'TXT herunterladen', printBtn:'Drucken / PDF',
+    imgRepLabel:'Originaler Radiologiebericht (optional)', imgRepPh:'Fügen Sie hier den Radiologiebericht zum Vergleich ein...',
+    imgObsLabel:'Zusätzliche Notizen (optional)', imgObsPh:'Klinische Notizen oder Vorbefunde...',
+    imgOutInit:'Die Bildanalyse oder der Vergleichsentwurf erscheint hier in der gewählten Sprache.',
+    imgDisclaimer:'Medizinischer Hinweis: Diese Analyse dient nur zu Lehrzwecken und ersetzt keinen fachärztlichen Radiologiebefund.',
+    clinHeading:'🧠 Klinisches Brainstorming & Therapieforschung',
+    clinHint:'Geben Sie Symptome und Anamnese in einer beliebigen Sprache ein und starten Sie die KI-Analyse.',
+    clinAgeLabel:'Altersgruppe', ageAdult:'Erwachsene', agePed:'Pädiatrie', ageEld:'Senioren', agePreg:'Schwangerschaft / Stillzeit',
+    clinSetLabel:'Versorgungsort', setOut:'Ambulanz', setHosp:'Krankenhaus', setEmerg:'Notaufnahme', setRes:'Forschungsfall',
+    clinCompLabel:'Hauptbeschwerde', clinCompPh:'Beispiel: Anhaltende Müdigkeit, Kopfschmerzen, Schwindel...',
+    clinDurLabel:'Symptomdauer', durHrs:'Stunden', durDays:'Tage', durWks:'Wochen', durMos:'Monate oder Jahre', durRec:'Wiederkehrende Schübe',
+    clinGoalLabel:'Analyseziel', goalDiff:'Differenzialdiagnose erweitern', goalRev:'Bestehende Diagnose prüfen', goalTx:'Therapieoptionen prüfen', goalRef:'Therapierefraktärer Fall', goalInt:'Integrativer Vergleich (Klinisch & Phytotherapie)',
+    clinSympLabel:'Symptome, Verlauf & Untersuchungsbefund', clinSympPh:'Beschreiben Sie die Symptome...',
+    clinHistLabel:'Vorerkrankungen, Medikamente, Heilpflanzen & Allergien', clinHistPh:'Vorerkrankungen, Medikamente, Heilpflanzen, Allergien...',
+    clinLabLabel:'Laborwerte (falls vorhanden)', clinLabPh:'Werte und Einheiten eingeben...',
+    clinRedLabel:'Warnzeichen (Red Flags)',
+    rfChest:'Starke Brustschmerzen', rfDysp:'Akute Atemnot', rfFocal:'Plötzliche Schwäche oder Sprachstörung', rfSync:'Bewusstseinsstörung oder Synkope',
+    buildClinBtn:'Zusammenfassung erstellen', clinOutInit:'Geben Sie Daten ein und klicken Sie auf „Zusammenfassung erstellen“ oder unten auf die KI-Analyse.',
+    lecHeading:'▶ Analyse medizinischer Vorlesungen',
+    lecHint:'Fügen Sie ein Vorlesungstranskript ein, um es zusammenzufassen und wissenschaftliche Aussagen zu prüfen.',
+    lecUrlLabel:'Vorlesungs-URL (optional)', lecOpenBtn:'Vorlesung öffnen', lecEmbedBtn:'Player anzeigen',
+    lecEmbedHint:'Geben Sie einen gültigen YouTube-Link ein.',
+    lecTransLabel:'Vorlesungstext / Transkript', lecTransPh:'Fügen Sie hier das Transkript ein...',
+    lecTasksLabel:'Gewünschte Aufgaben', taskSum:'Wissenschaftliche Zusammenfassung', taskVer:'Aussagen überprüfen', taskRef:'Referenzen', taskTop:'Themenübersicht',
+    buildLecBtn:'Anfragetext erstellen', lecOutInit:'Die Vorlesungsanalyse erscheint hier.',
+    buildHeading:'📋 Monographie- & Forschungsplan-Generator', buildTempLabel:'Wissenschaftliche Vorlagen',
+    tplMono:'Heilpflanzen-Monographie', tplMonoDesc:'Botanik, Phytochemie, Anwendung und Sicherheit.',
+    tplEv:'Evidenz-Review', tplEvDesc:'Studienlage, Evidenzstärke, Ergebnisse und Limitationen.',
+    tplApp:'Studienbewertung', tplAppDesc:'Studiendesign, Methodik, Ergebnisse und Bias.',
+    tplSaf:'Interaktionen & Sicherheit', tplSafDesc:'Wechselwirkungen, Kontraindikationen und Risikogruppen.',
+    tplChem:'Phytochemie & Wirkmechanismen', tplChemDesc:'Inhaltsstoffe, Wirkmechanismen und Evidenzgrad.',
+    tplTab:'Vergleichstabelle', tplTabDesc:'Strukturierter Vergleich von Studien oder Präparaten.',
+    buildDetLabel:'Detailgrad', detCon:'Kurz & Direkt', detAc:'Akademisch Fortgeschritten', detSp:'Umfassend Spezialisiert',
+    buildCitLabel:'Zitierweise', citBas:'Basisreferenzen', citVer:'Geprüft mit Evidenzstatus',
+    buildTopLabel:'Pflanzenthema oder wissenschaftliche Frage', buildTopPh:'Beispiel: Salvia officinalis — Echter Salbei',
+    buildQLabel:'Zusätzliche Anweisungen (optional)', buildQPh:'Klinische Fragestellung oder Umfang eingeben...',
+    buildSigLabel:'Autorensignatur',
+    runResearchBtn:'✨ KI-Recherche direkt starten', showDraftBtn:'Anfrageentwurf anzeigen', resetBtn:'Zurücksetzen',
+    buildOutHeading:'Monographie- / Forschungsergebnis', stateReady:'Bereit in 6 Sprachen',
+    buildOutInit:'Wählen Sie ein Thema und klicken Sie auf „KI-Recherche direkt starten“.',
+    bridgeClinBtn:'🧠 Fall mit KI analysieren', bridgeImgBtn:'⚖️ Bericht & Notizen mit KI vergleichen', bridgeLecBtn:'▶ Vorlesung mit KI analysieren',
+    bridgeHint:'Sendet die Daten an die KI und gibt die Analyse in der oben gewählten Sprache zurück.'
+  },
+  fr: {
+    dir:'ltr',
+    heroEyebrow:'HAKIM • Agent Médical et Scientifique Intelligent • 6 Langues',
+    globalLangLabel:'Langue :',
+    heroTitle:'HAKIM — Agent Médical et Scientifique IA',
+    heroDesc:'Plateforme médicale et scientifique prenant en charge 6 langues et dialectes, recherche en direct sur Europe PMC et PubMed, traduction/résumé d’articles, réflexion clinique et analyse d’imagerie. N’entrez aucune donnée identifiant un patient.',
+    heroCredit:'ANEMONE SLN.LTD • Préparé et Conçu par SAID YOUNIS',
+    footCredit:'HAKIM Medical & Scientific Agent • ANEMONE SLN.LTD • SAID YOUNIS',
+    navLit:'🔎 Recherche Scientifique', navImg:'🩻 Laboratoire d’Imagerie', navClin:'🧠 Réflexion Clinique', navLec:'▶ Conférences Médicales', navBuild:'📋 Générateur de Monographie',
+    badgeConnected:'IA Connectée', badgeVision:'Gemini Vision Actif',
+    litHeading:'🔎 Recherche Scientifique & Traduction Instantanée',
+    litHint:'Posez votre question dans n’importe quelle langue ; l’IA la convertit en termes scientifiques précis et permet de traduire et résumer les résumés.',
+    litQueryLabel:'Sujet de recherche ou question scientifique',
+    litQueryPh:'Exemple : Traitement phytothérapique du vitiligo ou Nigella sativa asthma',
+    litSourceLabel:'Base de données', optEpmc:'Europe PMC (avec résumés)', litCountLabel:'Nombre de résultats',
+    litOALabel:'Articles en libre accès uniquement (Open Access)',
+    searchBtn:'🔎 Rechercher des études', clearBtn:'Effacer',
+    litStatusInit:'Saisissez un sujet ou une question, puis cliquez sur « Rechercher des études ».',
+    translateBtn:'🌐 Traduire le résumé', sumBtn:'📝 Traduire et résumer', openSourceLink:'Ouvrir l’article dans la source originale ↗',
+    imgHeading:'🩻 Laboratoire d’Imagerie Médicale & Vision IA',
+    imgHint:'Téléchargez des images radiologiques (JPEG/PNG) pour une analyse éducative dans la langue sélectionnée ou comparez un compte-rendu.',
+    imgTypeLabel:'Modalité d’examen', imgRegionLabel:'Région anatomique / Côté', imgRegionPh:'Exemple : Genoux bilatéraux, Thorax, Cerveau...',
+    imgFilesLabel:'Joindre des images (JPEG / PNG — max 4)', imgDeidHint:'Supprimez tout nom ou identifiant de l’image avant l’envoi.',
+    imgNoFiles:'Aucune image sélectionnée.', imgCtxLabel:'Contexte clinique et question',
+    imgCtxPh:'Exemple : Douleur récurrente aux genoux, signes d’arthrose ou de lésion osseuse ?',
+    imgConsentLabel:'J’accepte d’envoyer des images anonymisées au moteur d’IA pour une revue éducative.',
+    analyzeImgBtn:'🩻 Analyser les images avec l’IA', buildImgDraftBtn:'Créer un brouillon de comparaison',
+    copyBtn:'Copier le résultat', downloadBtn:'Télécharger TXT', printBtn:'Imprimer / PDF',
+    imgRepLabel:'Compte-rendu radiologique original (optionnel)', imgRepPh:'Collez ici le texte du compte-rendu radiologique...',
+    imgObsLabel:'Notes supplémentaires (optionnel)', imgObsPh:'Notes cliniques ou examens antérieurs...',
+    imgOutInit:'La lecture d’image ou le brouillon de comparaison apparaîtra ici dans la langue choisie.',
+    imgDisclaimer:'Avis médical : Cette analyse est à visée éducative uniquement et ne remplace pas un compte-rendu radiologique certifié.',
+    clinHeading:'🧠 Réflexion Clinique & Recherche Thérapeutique',
+    clinHint:'Saisissez les symptômes et les antécédents dans n’importe quelle langue, puis lancez l’analyse IA.',
+    clinAgeLabel:'Groupe d’âge', ageAdult:'Adulte', agePed:'Pédiatrie', ageEld:'Personne âgée', agePreg:'Grossesse / Allaitement',
+    clinSetLabel:'Lieu de soins', setOut:'Consultation externe', setHosp:'Hôpital', setEmerg:'Urgences', setRes:'Cas de recherche',
+    clinCompLabel:'Motif principal', clinCompPh:'Exemple : Fatigue persistante, céphalées, vertiges...',
+    clinDurLabel:'Durée des symptômes', durHrs:'Heures', durDays:'Jours', durWks:'Semaines', durMos:'Mois ou années', durRec:'Épisodes récurrents',
+    clinGoalLabel:'Objectif de l’analyse', goalDiff:'Élargir le diagnostic différentiel', goalRev:'Réviser un diagnostic existant', goalTx:'Explorer les options thérapeutiques', goalRef:'Cas réfractaire', goalInt:'Comparaison clinique et phytothérapique',
+    clinSympLabel:'Symptômes, évolution et examen clinique', clinSympPh:'Décrivez les symptômes...',
+    clinHistLabel:'Antécédents, médicaments, plantes et allergies', clinHistPh:'Antécédents, traitements, phytothérapie, allergies...',
+    clinLabLabel:'Résultats biologiques (si disponibles)', clinLabPh:'Entrez les valeurs et unités...',
+    clinRedLabel:'Signes d’alerte (Drapeaux rouges)',
+    rfChest:'Douleur thoracique intense', rfDysp:'Dyspnée aiguë', rfFocal:'Déficit moteur ou trouble de la parole soudain', rfSync:'Trouble de la conscience ou syncope',
+    buildClinBtn:'Préparer le résumé', clinOutInit:'Saisissez les informations puis cliquez sur « Préparer le résumé » ou sur l’analyse IA ci-dessous.',
+    lecHeading:'▶ Analyse de Conférences Médicales',
+    lecHint:'Collez le texte ou la transcription d’une conférence pour la résumer et vérifier les affirmations scientifiques.',
+    lecUrlLabel:'URL de la conférence (optionnel)', lecOpenBtn:'Ouvrir la conférence', lecEmbedBtn:'Afficher le lecteur',
+    lecEmbedHint:'Entrez un lien YouTube valide pour afficher le lecteur.',
+    lecTransLabel:'Texte / Transcription de la conférence', lecTransPh:'Collez la transcription ici...',
+    lecTasksLabel:'Tâches demandées', taskSum:'Résumé scientifique', taskVer:'Vérifier les affirmations', taskRef:'Références', taskTop:'Découpage thématique',
+    buildLecBtn:'Préparer la requête', lecOutInit:'L’analyse de la conférence apparaîtra ici.',
+    buildHeading:'📋 Générateur de Monographie & Plan de Recherche', buildTempLabel:'Modèles scientifiques',
+    tplMono:'Monographie de plante médicinale', tplMonoDesc:'Identité botanique, phytochimie, usages et sécurité.',
+    tplEv:'Revue des preuves scientifiques', tplEvDesc:'Études, niveau de preuve, résultats et limites.',
+    tplApp:'Analyse critique d’étude', tplAppDesc:'Protocole, méthodologie, résultats et biais.',
+    tplSaf:'Interactions & Sécurité', tplSafDesc:'Interactions, contre-indications et populations particulières.',
+    tplChem:'Phytochimie & Mécanismes', tplChemDesc:'Composés actifs, mécanismes d’action et niveau de preuve.',
+    tplTab:'Tableau comparatif', tplTabDesc:'Comparaison structurée entre études ou préparations.',
+    buildDetLabel:'Niveau de détail', detCon:'Concis et direct', detAc:'Académique avancé', detSp:'Spécialisé approfondi',
+    buildCitLabel:'Référencement', citBas:'Références de base', citVer:'Vérifié avec niveau de preuve',
+    buildTopLabel:'Plante ou question scientifique', buildTopPh:'Exemple : Salvia officinalis — Sauge officinale',
+    buildQLabel:'Instructions supplémentaires (optionnel)', buildQPh:'Précisez la question clinique ou le périmètre...',
+    buildSigLabel:'Signature de l’auteur',
+    runResearchBtn:'✨ Lancer la recherche IA directement', showDraftBtn:'Afficher le brouillon', resetBtn:'Réinitialiser',
+    buildOutHeading:'Résultat de la Monographie / Recherche', stateReady:'Prêt en 6 langues',
+    buildOutInit:'Choisissez un sujet et cliquez sur « Lancer la recherche IA directement ».',
+    bridgeClinBtn:'🧠 Analyser le cas avec l’IA', bridgeImgBtn:'⚖️ Comparer le compte-rendu avec l’IA', bridgeLecBtn:'▶ Analyser la conférence avec l’IA',
+    bridgeHint:'Envoie les données au moteur IA et renvoie l’analyse dans la langue choisie en haut.'
+  },
+  es: {
+    dir:'ltr',
+    heroEyebrow:'HAKIM • Agente Médico y Científico Inteligente • 6 Idiomas',
+    globalLangLabel:'Idioma:',
+    heroTitle:'HAKIM — Agente Médico y Científico con IA',
+    heroDesc:'Plataforma médica y científica con soporte para 6 idiomas y dialectos, búsqueda directa en Europe PMC y PubMed, traducción y resumen de estudios, razonamiento clínico e imagenología. No ingrese datos identificativos de pacientes.',
+    heroCredit:'ANEMONE SLN.LTD • Preparado y Diseñado por SAID YOUNIS',
+    footCredit:'HAKIM Medical & Scientific Agent • ANEMONE SLN.LTD • SAID YOUNIS',
+    navLit:'🔎 Búsqueda Científica', navImg:'🩻 Laboratorio de Imagen', navClin:'🧠 Razonamiento Clínico', navLec:'▶ Conferencias Médicas', navBuild:'📋 Generador de Monografías',
+    badgeConnected:'IA Conectada', badgeVision:'Gemini Vision Activo',
+    litHeading:'🔎 Búsqueda Científica y Traducción Instantánea',
+    litHint:'Escriba su pregunta en cualquier idioma; la IA la convertirá en términos científicos precisos y permitirá traducir y resumir los estudios.',
+    litQueryLabel:'Tema de búsqueda o pregunta científica',
+    litQueryPh:'Ejemplo: Tratamiento herbario para vitíligo o Nigella sativa asthma',
+    litSourceLabel:'Base de datos', optEpmc:'Europe PMC (con resúmenes)', litCountLabel:'Número de resultados',
+    litOALabel:'Solo artículos de acceso abierto (Open Access)',
+    searchBtn:'🔎 Buscar estudios', clearBtn:'Limpiar',
+    litStatusInit:'Escriba su pregunta o tema y presione «Buscar estudios».',
+    translateBtn:'🌐 Traducir resumen', sumBtn:'📝 Traducir y resumir', openSourceLink:'Abrir artículo en la fuente original ↗',
+    imgHeading:'🩻 Laboratorio de Imagen Médica y Visión IA',
+    imgHint:'Suba imágenes radiológicas (JPEG/PNG) para una revisión visual educativa en el idioma seleccionado o compare un informe.',
+    imgTypeLabel:'Tipo de estudio', imgRegionLabel:'Región anatómica / Lado', imgRegionPh:'Ejemplo: Rodillas bilaterales, Tórax, Cerebro...',
+    imgFilesLabel:'Adjuntar imágenes (JPEG / PNG — hasta 4)', imgDeidHint:'Elimine cualquier nombre o identificación de la imagen antes de subirla.',
+    imgNoFiles:'Aún no se han seleccionado imágenes.', imgCtxLabel:'Contexto clínico y pregunta',
+    imgCtxPh:'Ejemplo: Dolor recurrente de rodillas, ¿hay signos de artrosis o lesión ósea?',
+    imgConsentLabel:'Acepto enviar imágenes anonimizadas al motor de IA para revisión educativa.',
+    analyzeImgBtn:'🩻 Analizar imágenes con IA', buildImgDraftBtn:'Crear borrador de comparación',
+    copyBtn:'Copiar resultado', downloadBtn:'Descargar TXT', printBtn:'Imprimir / PDF',
+    imgRepLabel:'Informe radiológico original (opcional)', imgRepPh:'Pegue aquí el texto del informe radiológico para comparar...',
+    imgObsLabel:'Notas adicionales (opcional)', imgObsPh:'Notas clínicas o estudios previos...',
+    imgOutInit:'La lectura de imágenes o el borrador de comparación aparecerá aquí en el idioma seleccionado.',
+    imgDisclaimer:'Aviso médico: Esta lectura es solo de apoyo educativo y no sustituye un informe radiológico certificado.',
+    clinHeading:'🧠 Razonamiento Clínico e Investigación Terapéutica',
+    clinHint:'Ingrese síntomas y antecedentes en cualquier idioma y presione el botón de análisis con IA.',
+    clinAgeLabel:'Grupo de edad', ageAdult:'Adulto', agePed:'Pediátrico', ageEld:'Adulto mayor', agePreg:'Embarazo / Lactancia',
+    clinSetLabel:'Entorno de atención', setOut:'Consulta externa', setHosp:'Hospital', setEmerg:'Urgencias', setRes:'Caso de investigación',
+    clinCompLabel:'Motivo principal de consulta', clinCompPh:'Ejemplo: Fatiga persistente, cefalea, mareos...',
+    clinDurLabel:'Duración de los síntomas', durHrs:'Horas', durDays:'Días', durWks:'Semanas', durMos:'Meses o años', durRec:'Episodios recurrentes',
+    clinGoalLabel:'Objetivo del análisis', goalDiff:'Ampliar diagnóstico diferencial', goalRev:'Revisar diagnóstico existente', goalTx:'Explorar opciones terapéuticas', goalRef:'Caso refractario', goalInt:'Comparación clínica y fitoterapéutica',
+    clinSympLabel:'Síntomas, evolución y examen físico', clinSympPh:'Describa los síntomas...',
+    clinHistLabel:'Antecedentes, medicamentos, plantas medicinales y alergias', clinHistPh:'Antecedentes, fármacos, suplementos/hierbas, alergias...',
+    clinLabLabel:'Resultados de laboratorio (si existen)', clinLabPh:'Ingrese valores y unidades...',
+    clinRedLabel:'Signos de alarma (Banderas rojas)',
+    rfChest:'Dolor torácico intenso', rfDysp:'Disnea aguda', rfFocal:'Debilidad súbita o trastorno del habla', rfSync:'Alteración de conciencia o síncope',
+    buildClinBtn:'Preparar resumen', clinOutInit:'Ingrese los datos y presione «Preparar resumen» o el botón de análisis con IA abajo.',
+    lecHeading:'▶ Revisión de Conferencias Médicas',
+    lecHint:'Pegue el texto o transcripción de la conferencia para resumirla y verificar sus afirmaciones científicas.',
+    lecUrlLabel:'Enlace de la conferencia (opcional)', lecOpenBtn:'Abrir conferencia', lecEmbedBtn:'Mostrar reproductor',
+    lecEmbedHint:'Ingrese un enlace válido de YouTube para mostrar el reproductor.',
+    lecTransLabel:'Texto / Transcripción de la conferencia', lecTransPh:'Pegue aquí la transcripción...',
+    lecTasksLabel:'Tareas solicitadas', taskSum:'Resumen científico', taskVer:'Verificar afirmaciones', taskRef:'Referencias', taskTop:'Desglose temático',
+    buildLecBtn:'Preparar solicitud', lecOutInit:'El análisis de la conferencia aparecerá aquí.',
+    buildHeading:'📋 Generador de Monografías y Plan de Investigación', buildTempLabel:'Plantillas científicas',
+    tplMono:'Monografía de planta medicinal', tplMonoDesc:'Identidad botánica, fitoquímica, usos y seguridad.',
+    tplEv:'Revisión de evidencia científica', tplEvDesc:'Estudios, nivel de evidencia, resultados y limitaciones.',
+    tplApp:'Evaluación crítica de estudio', tplAppDesc:'Diseño, metodología, resultados y sesgos.',
+    tplSaf:'Interacciones y Seguridad', tplSafDesc:'Interacciones, contraindicaciones y poblaciones especiales.',
+    tplChem:'Fitoquímica y Mecanismos', tplChemDesc:'Compuestos activos, mecanismos de acción y evidencia.',
+    tplTab:'Tabla comparativa', tplTabDesc:'Comparación estructurada entre estudios o preparados.',
+    buildDetLabel:'Nivel de detalle', detCon:'Conciso y directo', detAc:'Académico avanzado', detSp:'Especializado exhaustivo',
+    buildCitLabel:'Citas y referencias', citBas:'Referencias básicas', citVer:'Verificado con estado de evidencia',
+    buildTopLabel:'Planta o pregunta científica', buildTopPh:'Ejemplo: Salvia officinalis — Salvia',
+    buildQLabel:'Instrucciones adicionales (opcional)', buildQPh:'Escriba la pregunta clínica o alcance...',
+    buildSigLabel:'Firma del autor',
+    runResearchBtn:'✨ Ejecutar investigación IA directamente', showDraftBtn:'Mostrar borrador', resetBtn:'Restablecer',
+    buildOutHeading:'Resultado de Monografía / Investigación', stateReady:'Listo en 6 idiomas',
+    buildOutInit:'Seleccione un tema y presione «Ejecutar investigación IA directamente».',
+    bridgeClinBtn:'🧠 Analizar caso con IA', bridgeImgBtn:'⚖️ Comparer rapport et notes avec l’IA', bridgeLecBtn:'▶ Analizar conferencia con IA',
+    bridgeHint:'Envía los datos al motor de IA y devuelve el análisis en el idioma seleccionado arriba.'
+  }
+};
+
+function currentLang(){ return $('#globalLang').value || 'ar'; }
+function t(key){ const lang=currentLang(); return (I18N[lang]&&I18N[lang][key]) || I18N.ar[key] || key; }
+
+function applyUILanguage(){
+  const lang = currentLang();
+  const s = I18N[lang] || I18N.ar;
+  document.documentElement.lang = lang;
+  document.documentElement.dir = s.dir;
+  $$('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (s[key]) el.textContent = s[key];
+  });
+  $$('[data-i18n-ph]').forEach(el => {
+    const key = el.getAttribute('data-i18n-ph');
+    if (s[key]) el.setAttribute('placeholder', s[key]);
+  });
+  const bClin = $('#bridge-clinical-lab'); if(bClin) bClin.textContent = s.bridgeClinBtn;
+  const bImg = $('#bridge-imaging-lab'); if(bImg) bImg.textContent = s.bridgeImgBtn;
+  const bLec = $('#bridge-lecture-lab'); if(bLec) bLec.textContent = s.bridgeLecBtn;
+  $$('.bridge-hint-text').forEach(el => el.textContent = s.bridgeHint);
+}
+$('#globalLang').addEventListener('change', applyUILanguage);
+
+function selected(group){return $$(group+' input[type="checkbox"]:checked').map(x=>x.value)}
+function makeRequest(){
+ const templates=selected('#templates');
+ const topic=$('#topic').value.trim()||'Topic not specified';
+ const question=$('#question').value.trim()||'None';
+ const signature=$('#signature').value.trim();
+ const lines=[
+ 'Topic: '+topic,
+ 'Templates: '+(templates.join('; ')||'Comprehensive review'),
+ 'Target Language: '+$('#globalLang').selectedOptions[0].textContent,
+ 'Detail Level: '+$('#detail').value,
+ 'Citations: '+$('#citation').value,
+ 'Instructions: '+question,
+ signature ? 'Signature: '+signature : ''
+ ].filter(Boolean);
+ return lines.join('\n');
+}
+$('#build').addEventListener('click',()=>{$('#preview').textContent=makeRequest()});
+$('#runResearchAI').addEventListener('click',async()=>{
+  const topic=$('#topic').value.trim();
+  if(topic.length<2){$('#topic').focus();return;}
+  const btn=$('#runResearchAI'); btn.disabled=true;
+  $('#state').textContent='AI Processing...';
+  try{
+    const res=await fetch('/api/research',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({topic,instructions:makeRequest(),language:currentLang()})});
+    const data=await res.json();
+    if(!res.ok)throw new Error(data.detail||'Error');
+    $('#preview').textContent=data.result;
+    $('#state').textContent='Completed ('+data.model+')';
+  }catch(e){$('#state').textContent='Error: '+e.message;}
+  finally{btn.disabled=false;}
+});
+
+function copyText(text){if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).catch(()=>fallbackCopy(text))}else fallbackCopy(text)}
+function fallbackCopy(text){const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove()}
+function downloadText(text,filename){const blob=new Blob(['\ufeff'+text],{type:'text/plain;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+
+$('#copy').addEventListener('click',()=>copyText($('#preview').textContent));
+$('#download').addEventListener('click',()=>downloadText($('#preview').textContent,'hakim_monograph.txt'));
+$('#print').addEventListener('click',()=>window.print());
+$('#reset').addEventListener('click',()=>{$('#topic').value='';$('#question').value='';$('#preview').textContent=t('buildOutInit');});
+
+let selectedImageDataUrls = [];
+$('#imagingFiles').addEventListener('change', async (e) => {
+  const files = Array.from(e.target.files || []).slice(0, 4);
+  selectedImageDataUrls = [];
+  const listEl = $('#imagingFileList');
+  const thumbsEl = $('#imagingThumbs');
+  thumbsEl.replaceChildren();
+  if (!files.length) { listEl.textContent = t('imgNoFiles'); return; }
+  listEl.textContent = files.map(f => `• ${f.name} — ${(f.size/1024).toFixed(1)} KB`).join('\n');
+  for (const file of files) {
+    const dataUrl = await new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.readAsDataURL(file);
+    });
+    if (typeof dataUrl === 'string' && dataUrl.startsWith('data:image/')) {
+      selectedImageDataUrls.push(dataUrl);
+      const img = document.createElement('img');
+      img.src = dataUrl;
+      img.alt = file.name;
+      thumbsEl.appendChild(img);
+    }
+  }
+});
+
+$('#analyzeImagesBtn').addEventListener('click', async () => {
+  const statusEl = $('#imagingVisionStatus');
+  if (!selectedImageDataUrls.length) { statusEl.textContent = t('imgNoFiles'); return; }
+  if (!$('#imagingConsent').checked) return;
+  const btn = $('#analyzeImagesBtn');
+  btn.disabled = true;
+  statusEl.textContent = 'Gemini Vision...';
+  const context = [
+    'Modality: ' + $('#imagingType').value,
+    'Region: ' + ($('#imagingRegion').value.trim() || 'Unspecified'),
+    'Clinical Context: ' + ($('#clinicalContextImaging').value.trim() || 'Unspecified')
+  ].join(' | ');
+  try {
+    const res = await fetch('/api/imaging-analyze', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ images: selectedImageDataUrls, context, language: currentLang() })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || 'Error');
+    $('#imagingOutput').textContent = data.result;
+    statusEl.textContent = 'Completed (' + data.model + ').';
+  } catch (err) {
+    statusEl.textContent = 'Error: ' + err.message;
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+function makeImagingText(){
+  return ['Modality: '+$('#imagingType').value,'Region: '+($('#imagingRegion').value.trim()||'Unspecified'),'Context: '+($('#clinicalContextImaging').value.trim()||'None'),'Radiologist Report:\n'+($('#radiologistReport').value.trim()||'None'),'Notes:\n'+($('#aiObservations').value.trim()||'None')].join('\n');
+}
+$('#buildImaging').addEventListener('click',()=>{$('#imagingOutput').textContent=makeImagingText()});
+$('#copyImaging').addEventListener('click',()=>copyText($('#imagingOutput').textContent));
+$('#downloadImaging').addEventListener('click',()=>downloadText($('#imagingOutput').textContent,'imaging_review.txt'));
+
+function makeClinicalText(){
+  const flags=Array.from(document.querySelectorAll('.redflag:checked')).map(x=>x.value);
+  return ['Age Group: '+$('#clinicalAge').value,'Setting: '+$('#clinicalSetting').value,'Chief Complaint: '+($('#chiefComplaint').value.trim()||'Unspecified'),'Duration: '+$('#symptomDuration').value,'Goal: '+$('#clinicalGoal').value,'Symptoms: '+($('#symptoms').value.trim()||'None'),'History & Meds: '+($('#historyMeds').value.trim()||'None'),'Labs: '+($('#labValues').value.trim()||'None'),'Red Flags: '+(flags.join('; ')||'None')].join('\n');
+}
+$('#buildClinical').addEventListener('click',()=>{$('#clinicalOutput').textContent=makeClinicalText()});
+$('#copyClinical').addEventListener('click',()=>copyText($('#clinicalOutput').textContent));
+$('#downloadClinical').addEventListener('click',()=>downloadText($('#clinicalOutput').textContent,'clinical_summary.txt'));
+$('#clearClinical').addEventListener('click',()=>{['chiefComplaint','symptoms','historyMeds','labValues'].forEach(id=>$('#'+id).value='');$$('.redflag').forEach(x=>x.checked=false);$('#clinicalOutput').textContent=t('clinOutInit');});
+
+function youtubeId(raw){try{const u=new URL(raw);if(u.hostname==='youtu.be')return u.pathname.slice(1).split('/')[0];if(u.hostname.endsWith('youtube.com')){if(u.pathname==='/watch')return u.searchParams.get('v');const m=u.pathname.match(/^\/(embed|shorts|live)\/([^/?]+)/);return m?m[2]:null}}catch(e){}return null}
+$('#openLecture').addEventListener('click',()=>{const id=youtubeId($('#lectureUrl').value.trim());if(!id)return;window.open('https://www.youtube.com/watch?v='+encodeURIComponent(id),'_blank','noopener')});
+$('#embedLecture').addEventListener('click',()=>{const id=youtubeId($('#lectureUrl').value.trim());const box=$('#lectureEmbed');if(!id){box.textContent=t('lecEmbedHint');return}box.textContent='';const iframe=document.createElement('iframe');iframe.src='https://www.youtube-nocookie.com/embed/'+encodeURIComponent(id);iframe.allowFullscreen=true;box.appendChild(iframe)});
+function makeLectureText(){const tasks=Array.from(document.querySelectorAll('.lectureTask:checked')).map(x=>x.value);return ['URL: '+($('#lectureUrl').value.trim()||'None'),'Tasks: '+tasks.join('; '),'Transcript:\n'+($('#lectureTranscript').value.trim()||'None')].join('\n');}
+$('#buildLecture').addEventListener('click',()=>{$('#lectureOutput').textContent=makeLectureText()});
+$('#copyLecture').addEventListener('click',()=>copyText($('#lectureOutput').textContent));
+$('#downloadLecture').addEventListener('click',()=>downloadText($('#lectureOutput').textContent,'lecture_notes.txt'));
+
+(function(){
+ const configs = [
+  {id:'clinical-lab', btnId:'bridge-clinical-lab', btnKey:'bridgeClinBtn', out:'clinicalOutput', endpoint:'/api/clinical', builder:makeClinicalText},
+  {id:'imaging-lab', btnId:'bridge-imaging-lab', btnKey:'bridgeImgBtn', out:'imagingOutput', endpoint:'/api/imaging-compare', builder:makeImagingText},
+  {id:'lecture-lab', btnId:'bridge-lecture-lab', btnKey:'bridgeLecBtn', out:'lectureOutput', endpoint:'/api/lecture', builder:makeLectureText}
+ ];
+ configs.forEach(c => {
+  const section=document.getElementById(c.id), output=document.getElementById(c.out); if(!section||!output)return;
+  const bar=document.createElement('div');bar.className='engine-bar';
+  const btn=document.createElement('button');btn.type='button';btn.id=c.btnId;btn.className='btn primary';btn.textContent=t(c.btnKey);
+  const status=document.createElement('span');status.className='engine-status bridge-hint-text';status.textContent=t('bridgeHint');
+  bar.append(btn,status);output.parentNode.insertBefore(bar,output);
+  btn.addEventListener('click',async()=>{
+   const text=c.builder();
+   output.textContent=text;
+   btn.disabled=true;status.textContent='Gemini AI...';
+   try{
+    const res=await fetch(c.endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text, language: currentLang()})});
+    const data=await res.json();
+    if(!res.ok)throw new Error(data.detail||'Error');
+    output.textContent=data.result||'';
+    status.textContent='Completed ('+data.model+').';
+   }catch(e){status.textContent='Error: '+e.message;}
+   finally{btn.disabled=false;}
+  });
+ });
+})();
+
+(function(){
+ const q=$('#literatureQuery'), src=$('#literatureSource'), count=$('#literatureCount'), oa=$('#literatureOA');
+ const status=$('#literatureStatus'), results=$('#literatureResults'), button=$('#searchLiterature');
+ function el(tag, cls, text){const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;}
+
+ async function translateCard(text, summarize, btn, outBox){
+   btn.disabled = true;
+   outBox.style.display = 'block';
+   outBox.textContent = 'Gemini AI...';
+   try {
+     const res = await fetch('/api/translate', {
+       method: 'POST',
+       headers: {'Content-Type': 'application/json'},
+       body: JSON.stringify({ text, target_language: currentLang(), summarize })
+     });
+     const data = await res.json();
+     if (!res.ok) throw new Error(data.detail || 'Error');
+     outBox.textContent = data.result;
+   } catch (err) {
+     outBox.textContent = 'Error: ' + err.message;
+   } finally {
+     btn.disabled = false;
+   }
+ }
+
+ function showItem(item,index){
+  const card=el('article','literature-card');
+  card.appendChild(el('h3',null,(index+1)+'. '+item.title));
+  if(item.authors) card.appendChild(el('p','literature-meta',item.authors));
+  if(item.journal || item.year) card.appendChild(el('p','literature-meta',[item.journal, item.year, item.pmid?'PMID: '+item.pmid:'', item.doi?'DOI: '+item.doi:''].filter(Boolean).join(' | ')));
+  const contentToTranslate = item.abstract ? (item.title + '\n\n' + item.abstract) : item.title;
+  if(item.abstract) card.appendChild(el('p',null,item.abstract));
+
+  const actionRow = el('div','btns');
+  const tBtn = el('button','btn secondary', t('translateBtn'));
+  const sBtn = el('button','btn gold', t('sumBtn'));
+  const outBox = el('div','translated-box');
+  outBox.style.display = 'none';
+
+  tBtn.addEventListener('click', () => translateCard(contentToTranslate, false, tBtn, outBox));
+  sBtn.addEventListener('click', () => translateCard(contentToTranslate, true, sBtn, outBox));
+  actionRow.append(tBtn, sBtn);
+  card.appendChild(actionRow);
+  card.appendChild(outBox);
+
+  const link=el('a',null,t('openSourceLink'));
+  link.href=item.url;link.target='_blank';link.rel='noopener noreferrer';
+  link.style.display='inline-block';link.style.marginTop='10px';
+  card.appendChild(link);
+  return card;
+ }
+
+ async function run(){
+  const query=q.value.trim();if(query.length<2){q.focus();return;}
+  button.disabled=true;results.replaceChildren();status.textContent='Searching...';
+  try{
+   const endpoint = src.value === 'pubmed' ? '/api/pubmed-search' : '/api/literature-search';
+   const params=new URLSearchParams({q:query,page_size:count.value,open_access_only:String(oa.checked)});
+   const response=await fetch(endpoint+'?'+params.toString(),{headers:{'Accept':'application/json'}});
+   const data=await response.json();if(!response.ok)throw new Error(data.detail||'Error');
+   if(!data.results||!data.results.length){status.textContent='0 results | Query: '+(data.effective_query||query);return;}
+   status.textContent=data.hit_count+' hits ('+data.returned+' shown) | Query: '+(data.effective_query||query);
+   data.results.forEach((item,i)=>results.appendChild(showItem(item,i)));
+  }catch(error){status.textContent='Error: '+error.message;}
+  finally{button.disabled=false;}
+ }
+ button.addEventListener('click',run);q.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();run();}});
+ $('#clearLiterature').addEventListener('click',()=>{q.value='';results.replaceChildren();status.textContent=t('litStatusInit');oa.checked=false;});
+})();
+</script>
+</body>
+</html>
