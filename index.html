@@ -75,7 +75,7 @@ textarea{min-height:94px;resize:vertical}.row{display:grid;grid-template-columns
 <section class="module panel" id="literature-lab">
   <div class="module-title">
     <div>
-      <div class="eyebrow dark">Europe PMC & PubMed • Gemini Query Optimizer</div>
+      <div class="eyebrow dark" data-i18n="litSubTag">Europe PMC & PubMed • Gemini Query Optimizer</div>
       <h2 data-i18n="litHeading">🔎 البحث في الدراسات العلمية والترجمة الفورية</h2>
       <p class="hint" data-i18n="litHint">اكتب سؤالك بأي لغة أو لهجة، وسيحوله الذكاء الاصطناعي تلقائياً إلى مصطلحات بحث علمية دقيقة ويجلب الدراسات مع إمكانية ترجمتها وتلخيصها.</p>
     </div>
@@ -90,7 +90,7 @@ textarea{min-height:94px;resize:vertical}.row{display:grid;grid-template-columns
       <label for="literatureSource" data-i18n="litSourceLabel">قاعدة البيانات</label>
       <select id="literatureSource">
         <option value="europe_pmc" selected data-i18n="optEpmc">Europe PMC (مع الملخصات)</option>
-        <option value="pubmed">PubMed / NCBI</option>
+        <option value="pubmed" data-i18n="optPubmed">PubMed / NCBI</option>
       </select>
     </div>
     <div class="field">
@@ -113,7 +113,7 @@ textarea{min-height:94px;resize:vertical}.row{display:grid;grid-template-columns
 <section class="module panel" id="imaging-lab">
   <div class="module-title">
     <div>
-      <div class="eyebrow dark">Gemini Vision • 6 Languages</div>
+      <div class="eyebrow dark" data-i18n="imgSubTag">Gemini Vision • 6 Languages</div>
       <h2 data-i18n="imgHeading">🩻 مختبر التصوير الطبي وقراءة صور الأشعة</h2>
       <p class="hint" data-i18n="imgHint">ارفع لقطات صور الأشعة (JPEG/PNG) لتحليلها بصرياً وتعليمياً باللغة المختارة، أو قارن تقرير اختصاصي الأشعة بالملاحظات السريرية.</p>
     </div>
@@ -166,7 +166,7 @@ textarea{min-height:94px;resize:vertical}.row{display:grid;grid-template-columns
 <section class="module panel" id="clinical-lab">
   <div class="module-title">
     <div>
-      <div class="eyebrow dark">Clinical Brainstorming • 6 Languages</div>
+      <div class="eyebrow dark" data-i18n="clinSubTag">Clinical Brainstorming • 6 Languages</div>
       <h2 data-i18n="clinHeading">🧠 العصف الذهني الطبي والبحث العلاجي</h2>
       <p class="hint" data-i18n="clinHint">أدخل الأعراض والتاريخ المرضي بأي لغة أو لهجة، ثم اضغط زر التحليل بالذكاء الاصطناعي.</p>
     </div>
@@ -251,7 +251,7 @@ textarea{min-height:94px;resize:vertical}.row{display:grid;grid-template-columns
 <section class="module panel" id="lecture-lab">
   <div class="module-title">
     <div>
-      <div class="eyebrow dark">Lecture & Transcript Analysis</div>
+      <div class="eyebrow dark" data-i18n="lecSubTag">Lecture & Transcript Analysis</div>
       <h2 data-i18n="lecHeading">▶ مراجعة وتلخيص المحاضرات الطبية</h2>
       <p class="hint" data-i18n="lecHint">ألصق نص المحاضرة أو التفريغ بأي لغة ليتم تلخيصه والتحقق من ادعاءاته العلمية.</p>
     </div>
@@ -259,7 +259,7 @@ textarea{min-height:94px;resize:vertical}.row{display:grid;grid-template-columns
   </div>
   <div class="field">
     <label for="lectureUrl" data-i18n="lecUrlLabel">رابط المحاضرة (اختياري)</label>
-    <input id="lectureUrl" type="text" placeholder="https://www.youtube.com/watch?v=..." />
+    <input id="lectureUrl" type="text" data-i18n-ph="lecUrlPh" placeholder="https://www.youtube.com/watch?v=..." />
   </div>
   <div class="btns">
     <button class="btn secondary" id="openLecture" data-i18n="lecOpenBtn">فتح المحاضرة</button>
@@ -328,7 +328,7 @@ textarea{min-height:94px;resize:vertical}.row{display:grid;grid-template-columns
   </div>
   <div class="field">
     <label for="signature" data-i18n="buildSigLabel">التوقيع على العمل الأصلي</label>
-    <input id="signature" type="text" value="ANEMONE SLN.LTD • سعيد يونس">
+    <input id="signature" type="text">
   </div>
   <div class="btns">
     <button class="btn primary" id="runResearchAI" data-i18n="runResearchBtn">✨ تنفيذ البحث مباشرة بالذكاء الاصطناعي</button>
@@ -348,7 +348,7 @@ textarea{min-height:94px;resize:vertical}.row{display:grid;grid-template-columns
 </section>
 </div>
 
-<div class="foot" data-i18n="footCredit">HAKIM Medical & Scientific Agent • ANEMONE SLN.LTD • سعيد يونس</div>
+<div class="foot" data-i18n="footCredit">HAKIM Medical & Scientific Agent • ANEMONE SLN.LTD • إعداد وتصميم سعيد يونس</div>
 </div>
 
 <script>
@@ -362,18 +362,20 @@ const I18N = {
     heroTitle:'HAKIM — الوكيل الطبي والعلمي',
     heroDesc:'منصة بحثية وطبية متكاملة تدعم 6 لغات واللهجات المحكية، وتتيح البحث المباشر في Europe PMC وPubMed، وترجمة وتلخيص الأبحاث، والعصف الذهني السريري، وتحليل صور الأشعة بالذكاء الاصطناعي. لا تُدخل بيانات تعريفية للمرضى.',
     heroCredit:'ANEMONE SLN.LTD • إعداد وتصميم سعيد يونس',
-    footCredit:'HAKIM Medical & Scientific Agent • ANEMONE SLN.LTD • سعيد يونس',
+    footCredit:'HAKIM Medical & Scientific Agent • ANEMONE SLN.LTD • إعداد وتصميم سعيد يونس',
     navLit:'🔎 البحث العلمي', navImg:'🩻 مختبر الأشعة والصور', navClin:'🧠 العصف الذهني الطبي', navLec:'▶ المحاضرات الطبية', navBuild:'📋 منشئ المونوغراف والبحث',
     badgeConnected:'متصل بالذكاء الاصطناعي', badgeVision:'Gemini Vision مفعّل',
+    litSubTag:'Europe PMC & PubMed • Gemini Query Optimizer',
     litHeading:'🔎 البحث في الدراسات العلمية والترجمة الفورية',
     litHint:'اكتب سؤالك بأي لغة أو لهجة، وسيحوله الذكاء الاصطناعي تلقائياً إلى مصطلحات بحث علمية دقيقة ويجلب الدراسات مع إمكانية ترجمتها وتلخيصها.',
     litQueryLabel:'موضوع البحث أو السؤال العلمي (بأي لغة أو لهجة)',
     litQueryPh:'مثال: هل يوجد علاج بالأعشاب للبهاق؟ أو Nigella sativa asthma',
-    litSourceLabel:'قاعدة البيانات', optEpmc:'Europe PMC (مع الملخصات)', litCountLabel:'عدد النتائج',
+    litSourceLabel:'قاعدة البيانات', optEpmc:'Europe PMC (مع الملخصات)', optPubmed:'PubMed / NCBI', litCountLabel:'عدد النتائج',
     litOALabel:'المقالات مفتوحة الوصول فقط (Open Access)',
     searchBtn:'🔎 البحث في الدراسات', clearBtn:'مسح',
     litStatusInit:'أدخل سؤالك أو موضوع البحث ثم اضغط «البحث في الدراسات».',
     translateBtn:'🌐 ترجمة الملخص', sumBtn:'📝 ترجمة وتلخيص', openSourceLink:'فتح المقال في المصدر الأصلي ↗',
+    imgSubTag:'Gemini Vision • 6 Languages',
     imgHeading:'🩻 مختبر التصوير الطبي وقراءة صور الأشعة',
     imgHint:'ارفع لقطات صور الأشعة (JPEG/PNG) لتحليلها بصرياً وتعليمياً باللغة المختارة، أو قارن تقرير اختصاصي الأشعة بالملاحظات السريرية.',
     imgTypeLabel:'نوع الفحص', imgRegionLabel:'منطقة الجسم / الجهة', imgRegionPh:'مثال: الركبتين، الصدر، الدماغ...',
@@ -387,6 +389,7 @@ const I18N = {
     imgObsLabel:'ملاحظات إضافية (اختياري)', imgObsPh:'أي ملاحظات سريرية أو فحوصات سابقة...',
     imgOutInit:'ستظهر هنا قراءة صور الأشعة أو مسودة المقارنة باللغة المختارة.',
     imgDisclaimer:'تنبيه طبي: هذه القراءة تعليمية مساعدة وليست بديلاً عن تقرير اختصاصي الأشعة المعتمد أو الفحص السريري العاجل.',
+    clinSubTag:'Clinical Brainstorming • 6 Languages',
     clinHeading:'🧠 العصف الذهني الطبي والبحث العلاجي',
     clinHint:'أدخل الأعراض والتاريخ المرضي بأي لغة أو لهجة، ثم اضغط زر التحليل بالذكاء الاصطناعي.',
     clinAgeLabel:'الفئة العمرية', ageAdult:'بالغ', agePed:'طفل', ageEld:'كبير السن', agePreg:'حمل أو رضاعة',
@@ -400,10 +403,12 @@ const I18N = {
     clinRedLabel:'علامات إنذار تستوجب الرعاية العاجلة',
     rfChest:'ألم صدر شديد', rfDysp:'صعوبة تنفس حادة', rfFocal:'ضعف مفاجئ أو اضطراب كلام', rfSync:'اضطراب وعي أو إغماء',
     buildClinBtn:'تجهيز الملخص', clinOutInit:'أدخل المعلومات ثم اضغط «تجهيز الملخص» أو زر التحليل بالمحرك أدناه.',
+    lecSubTag:'Lecture & Transcript Analysis',
     lecHeading:'▶ مراجعة وتلخيص المحاضرات الطبية',
     lecHint:'ألصق نص المحاضرة أو التفريغ بأي لغة ليتم تلخيصه والتحقق من ادعاءاته العلمية.',
     lecUrlLabel:'رابط المحاضرة (اختياري)', lecOpenBtn:'فتح المحاضرة', lecEmbedBtn:'عرض المشغل',
     lecEmbedHint:'أدخل رابط YouTube صالحًا لعرض المشغل.',
+    lecUrlPh:'https://www.youtube.com/watch?v=...',
     lecTransLabel:'نص المحاضرة / التفريغ النصي', lecTransPh:'ألصق نص المحاضرة هنا...',
     lecTasksLabel:'المهام المطلوبة', taskSum:'تلخيص علمي', taskVer:'التحقق من الادعاءات', taskRef:'المراجع', taskTop:'الموضوعات',
     buildLecBtn:'تجهيز نص الطلب', lecOutInit:'سيظهر تحليل المحاضرة هنا.',
@@ -423,7 +428,8 @@ const I18N = {
     buildOutHeading:'مخرجات المونوغراف / البحث', stateReady:'جاهز للتنفيذ باللغات الست',
     buildOutInit:'اختر الموضوع واضغط «تنفيذ البحث مباشرة بالذكاء الاصطناعي» للحصول على التقرير باللغة المختارة في أعلى الصفحة.',
     bridgeClinBtn:'🧠 تحليل الحالة بالذكاء الاصطناعي', bridgeImgBtn:'⚖️ مقارنة التقرير والملاحظات بالمحرك', bridgeLecBtn:'▶ تحليل المحاضرة بالذكاء الاصطناعي',
-    bridgeHint:'يُرسل البيانات إلى المحرك ويعيد التحليل باللغة المختارة في أعلى الصفحة.'
+    bridgeHint:'يُرسل البيانات إلى المحرك ويعيد التحليل باللغة المختارة في أعلى الصفحة.',
+    authorSigText:'ANEMONE SLN.LTD • إعداد وتصميم سعيد يونس'
   },
   en: {
     dir:'ltr',
@@ -432,18 +438,20 @@ const I18N = {
     heroTitle:'HAKIM — Medical & Scientific AI Agent',
     heroDesc:'Integrated medical and scientific platform supporting 6 languages and dialects, live Europe PMC & PubMed search, instant abstract translation/summarization, clinical brainstorming, and educational radiology vision review. Do not enter patient-identifying data.',
     heroCredit:'ANEMONE SLN.LTD • Prepared & Designed by SAID YOUNIS',
-    footCredit:'HAKIM Medical & Scientific Agent • ANEMONE SLN.LTD • SAID YOUNIS',
+    footCredit:'HAKIM Medical & Scientific Agent • ANEMONE SLN.LTD • Prepared & Designed by SAID YOUNIS',
     navLit:'🔎 Literature Search', navImg:'🩻 Radiology & Vision Lab', navClin:'🧠 Clinical Brainstorming', navLec:'▶ Medical Lectures', navBuild:'📋 Monograph & Research Builder',
     badgeConnected:'AI Connected', badgeVision:'Gemini Vision Active',
+    litSubTag:'Europe PMC & PubMed • Gemini Query Optimizer',
     litHeading:'🔎 Scientific Literature Search & Instant Translation',
     litHint:'Enter your question in any language or dialect; AI automatically translates it into precise scientific search terms and retrieves studies with instant translation and summarization.',
     litQueryLabel:'Search Topic or Scientific Question (any language/dialect)',
     litQueryPh:'Example: Herbal treatment for vitiligo or Nigella sativa asthma',
-    litSourceLabel:'Database', optEpmc:'Europe PMC (with abstracts)', litCountLabel:'Results Count',
+    litSourceLabel:'Database', optEpmc:'Europe PMC (with abstracts)', optPubmed:'PubMed / NCBI', litCountLabel:'Results Count',
     litOALabel:'Open Access articles only',
     searchBtn:'🔎 Search Studies', clearBtn:'Clear',
     litStatusInit:'Enter your topic or question, then click "Search Studies".',
     translateBtn:'🌐 Translate Abstract', sumBtn:'📝 Translate & Summarize', openSourceLink:'Open article in original source ↗',
+    imgSubTag:'Gemini Vision • 6 Languages',
     imgHeading:'🩻 Medical Imaging & Radiology Vision Lab',
     imgHint:'Upload radiology snapshots (JPEG/PNG) for educational visual review in your selected language, or compare a radiologist report with clinical notes.',
     imgTypeLabel:'Modality', imgRegionLabel:'Body Region / Side', imgRegionPh:'Example: Bilateral knees, Chest, Brain...',
@@ -457,6 +465,7 @@ const I18N = {
     imgObsLabel:'Additional Notes (optional)', imgObsPh:'Any clinical notes or prior imaging...',
     imgOutInit:'Radiology image reading or comparison draft will appear here in your selected language.',
     imgDisclaimer:'Medical Notice: This reading is for educational assistance only and does not replace a certified radiologist report or urgent clinical evaluation.',
+    clinSubTag:'Clinical Brainstorming • 6 Languages',
     clinHeading:'🧠 Clinical Brainstorming & Therapeutic Research',
     clinHint:'Enter symptoms and medical history in any language or dialect, then click the AI analysis button.',
     clinAgeLabel:'Age Group', ageAdult:'Adult', agePed:'Pediatric', ageEld:'Elderly', agePreg:'Pregnancy / Lactation',
@@ -470,10 +479,12 @@ const I18N = {
     clinRedLabel:'Red Flags Requiring Urgent Care',
     rfChest:'Severe chest pain', rfDysp:'Acute shortness of breath', rfFocal:'Sudden weakness or speech deficit', rfSync:'Altered consciousness or syncope',
     buildClinBtn:'Prepare Summary', clinOutInit:'Enter case details, then click "Prepare Summary" or the AI analysis button below.',
+    lecSubTag:'Lecture & Transcript Analysis',
     lecHeading:'▶ Medical Lecture & Transcript Review',
     lecHint:'Paste the lecture text or transcript in any language to summarize and verify its scientific claims.',
     lecUrlLabel:'Lecture URL (optional)', lecOpenBtn:'Open Lecture', lecEmbedBtn:'Show Player',
     lecEmbedHint:'Enter a valid YouTube link to display the player.',
+    lecUrlPh:'https://www.youtube.com/watch?v=...',
     lecTransLabel:'Lecture Text / Transcript', lecTransPh:'Paste the lecture transcript here...',
     lecTasksLabel:'Requested Tasks', taskSum:'Scientific Summary', taskVer:'Verify Claims', taskRef:'References', taskTop:'Topic Breakdown',
     buildLecBtn:'Prepare Prompt Text', lecOutInit:'Lecture analysis will appear here.',
@@ -493,7 +504,8 @@ const I18N = {
     buildOutHeading:'Monograph / Research Output', stateReady:'Ready in 6 Languages',
     buildOutInit:'Select a topic and click "Run AI Research Directly" to generate the report in your selected language.',
     bridgeClinBtn:'🧠 Analyze Case with AI', bridgeImgBtn:'⚖️ Compare Report & Notes with AI', bridgeLecBtn:'▶ Analyze Lecture with AI',
-    bridgeHint:'Sends data to the AI engine and returns the analysis in the language selected at the top.'
+    bridgeHint:'Sends data to the AI engine and returns the analysis in the language selected at the top.',
+    authorSigText:'ANEMONE SLN.LTD • Prepared & Designed by SAID YOUNIS'
   },
   he: {
     dir:'rtl',
@@ -501,19 +513,21 @@ const I18N = {
     globalLangLabel:'שפה / Language:',
     heroTitle:'HAKIM — הסוכן הרפואי והמדעי',
     heroDesc:'פלטפורמה רפואית ומדעית התומכת ב-6 שפות וניבים, חיפוש ישיר ב-Europe PMC ו-PubMed, תרגום וסיכום מחקרים, סיעור מוחות קליני וניתוח הדמיות רפואיות. אין להזין פרטים מזהים של מטופלים.',
-    heroCredit:'ANEMONE SLN.LTD • פותח ועוצב ע"י סעיד יونس',
-    footCredit:'HAKIM Medical & Scientific Agent • ANEMONE SLN.LTD • סעיד יونس',
+    heroCredit:'ANEMONE SLN.LTD • פותח ועוצב ע"י סעיד יונס',
+    footCredit:'HAKIM Medical & Scientific Agent • ANEMONE SLN.LTD • פותח ועוצב ע"י סעיד יונס',
     navLit:'🔎 חיפוש מחקרים', navImg:'🩻 מעבדת הדמיה ורנטגן', navClin:'🧠 חשיבה קלינית', navLec:'▶ הרצאות רפואיות', navBuild:'📋 מחולל מונוגרפיות',
     badgeConnected:'מחובר ל-AI', badgeVision:'Gemini Vision פעיל',
+    litSubTag:'Europe PMC & PubMed • Gemini Query Optimizer',
     litHeading:'🔎 חיפוש מחקרים מדעיים ותרגום מיידי',
     litHint:'הזינו שאלה בכל שפה או ניב; הבינה המלאכותית תתרגם אותה למונחי חיפוש מדעיים ותאפשר תרגום וסיכום מיידי של התקצירים.',
     litQueryLabel:'נושא החיפוש או השאלה המדעית (בכל שפה או ניב)',
     litQueryPh:'לדוגמה: טיפול צמחי בוויטיליגו או Nigella sativa asthma',
-    litSourceLabel:'מאגר מידע', optEpmc:'Europe PMC (כולל תקצירים)', litCountLabel:'מספר תוצאות',
+    litSourceLabel:'מאגר מידע', optEpmc:'Europe PMC (כולל תקצירים)', optPubmed:'PubMed / NCBI', litCountLabel:'מספר תוצאות',
     litOALabel:'מאמרים בגישה פתוחה בלבד (Open Access)',
     searchBtn:'🔎 חיפוש מחקרים', clearBtn:'ניקוי',
     litStatusInit:'הזינו שאלה או נושא חיפוש ולחצו על «חיפוש מחקרים».',
     translateBtn:'🌐 תרגום תקציר', sumBtn:'📝 תרגום וסיכום', openSourceLink:'פתיחת המאמר במקור ↗',
+    imgSubTag:'Gemini Vision • 6 Languages',
     imgHeading:'🩻 מעבדת דימות רפואי ופענוח תמונות',
     imgHint:'העלו צילומי דימות (JPEG/PNG) לסקירה חזותית לימודית בשפה שנבחרה, או השוו דוח רדיולוג להערות קליניות.',
     imgTypeLabel:'סוג הבדיקה', imgRegionLabel:'אזור בגוף / צד', imgRegionPh:'לדוגמה: ברכיים, חזה, מוח...',
@@ -527,6 +541,7 @@ const I18N = {
     imgObsLabel:'הערות נוספות (אופציונלי)', imgObsPh:'הערות קליניות או בדיקות קודמות...',
     imgOutInit:'כאן יופיעו פענוח התמונות או טיוטת ההשוואה בשפה שנבחרה.',
     imgDisclaimer:'הבהרה רפואית: סקירה זו נועדה לעזר לימודי בלבד ואינה מהווה תחליף לפענוח רדיולוג מוסמך או לבדיקה רפואית דחופה.',
+    clinSubTag:'Clinical Brainstorming • 6 Languages',
     clinHeading:'🧠 חשיבה קלינית ומחקר טיפולי',
     clinHint:'הזינו תסמינים והיסטוריה רפואית בכל שפה או ניב, ולחצו על כפתור הניתוח ב-AI.',
     clinAgeLabel:'קבוצת גיל', ageAdult:'מבוגר', agePed:'ילד', ageEld:'קשיש', agePreg:'היריון או הנקה',
@@ -540,10 +555,12 @@ const I18N = {
     clinRedLabel:'דגלים אדומים המחייבים טיפול דחוף',
     rfChest:'כאב חזה חריף', rfDysp:'קוצר נשימה חד', rfFocal:'חולשה פתאומית או הפרעת דיבור', rfSync:'הפרעה בהכרה או עילפון',
     buildClinBtn:'הכנת סיכום', clinOutInit:'הזינו נתונים ולחצו על «הכנת סיכום» או על כפתור הניתוח ב-AI למטה.',
+    lecSubTag:'Lecture & Transcript Analysis',
     lecHeading:'▶ סקירת הרצאות רפואיות ותמלולים',
     lecHint:'הדביקו טקסט או תמלול הרצאה בכל שפה לצורך סיכום ובדיקת טענות מדעיות.',
     lecUrlLabel:'קישור להרצאה (אופציונלי)', lecOpenBtn:'פתיחת ההרצאה', lecEmbedBtn:'הצגת נגן',
     lecEmbedHint:'הזינו קישור YouTube תקין להצגת הנגן.',
+    lecUrlPh:'https://www.youtube.com/watch?v=...',
     lecTransLabel:'טקסט ההרצאה / תמלול', lecTransPh:'הדביקו כאן את תמלול ההרצאה...',
     lecTasksLabel:'משימות מבוקשות', taskSum:'סיכום מדעי', taskVer:'אימות טענות', taskRef:'מקורות', taskTop:'חלוקה לנושאים',
     buildLecBtn:'הכנת טקסט בקשה', lecOutInit:'ניתוח ההרצאה יופיע כאן.',
@@ -557,13 +574,14 @@ const I18N = {
     buildDetLabel:'רמת פירוט', detCon:'תמציתי וישיר', detAc:'אקדמי מתקדם', detSp:'מחקרי מורחב ומעמיק',
     buildCitLabel:'ציטוט ומקורות', citBas:'מקורות בסיסיים', citVer:'מאומת עם סטטוס ראיות',
     buildTopLabel:'נושא הצמח או השאלה המדעית', buildTopPh:'לדוגמה: Salvia officinalis — מרווה רפואית',
-    buildQLabel:'הנחיות נוספות (אופציונלי)', buildQPh:'כתבו את השאלה הקלינית أو היקף הסקירה...',
+    buildQLabel:'הנחיות נוספות (אופציונלי)', buildQPh:'כתבו את השאלה הקלינית או היקף הסקירה...',
     buildSigLabel:'חתימת יוצר העבודה',
     runResearchBtn:'✨ הפעלת מחקר ישירות ב-AI', showDraftBtn:'הצגת טיוטת בקשה', resetBtn:'איפוס',
     buildOutHeading:'פלט המונוגרפיה / המחקר', stateReady:'מוכן להפעלה ב-6 שפות',
     buildOutInit:'בחרו נושא ולחצו על «הפעלת מחקר ישירות ב-AI» לקבלת הדוח בשפה שנבחרה בראש הדף.',
     bridgeClinBtn:'🧠 ניתוח המקרה ב-AI', bridgeImgBtn:'⚖️ השוואת דוח והערות ב-AI', bridgeLecBtn:'▶ ניתוח ההרצאה ב-AI',
-    bridgeHint:'שולח את הנתונים למנוע ומחזיר ניתוח בשפה שנבחרה בראש הדף.'
+    bridgeHint:'שולח את הנתונים למנוע ומחזיר ניתוח בשפה שנבחרה בראש הדף.',
+    authorSigText:'ANEMONE SLN.LTD • פותח ועוצב ע"י סעיד יונס'
   },
   de: {
     dir:'ltr',
@@ -571,19 +589,21 @@ const I18N = {
     globalLangLabel:'Sprache:',
     heroTitle:'HAKIM — Medizinischer & Wissenschaftlicher KI-Agent',
     heroDesc:'Integrierte medizinische Forschungsplattform mit Unterstützung für 6 Sprachen, direkter Europe PMC- & PubMed-Suche, Sofortübersetzung/-zusammenfassung, klinischem Brainstorming und bildgebender Analyse. Keine Patientendaten eingeben.',
-    heroCredit:'ANEMONE SLN.LTD • Entwickelt & Entworfen von SAID YOUNIS',
-    footCredit:'HAKIM Medical & Scientific Agent • ANEMONE SLN.LTD • SAID YOUNIS',
+    heroCredit:'ANEMONE SLN.LTD • Prepared & Designed by SAID YOUNIS',
+    footCredit:'HAKIM Medical & Scientific Agent • ANEMONE SLN.LTD • Prepared & Designed by SAID YOUNIS',
     navLit:'🔎 Literatursuche', navImg:'🩻 Radiologie & Bildlabor', navClin:'🧠 Klinisches Brainstorming', navLec:'▶ Fachvorträge', navBuild:'📋 Monographie-Generator',
     badgeConnected:'KI Verbunden', badgeVision:'Gemini Vision Aktiv',
+    litSubTag:'Europe PMC & PubMed • Gemini Query Optimizer',
     litHeading:'🔎 Wissenschaftliche Literatursuche & Sofortübersetzung',
     litHint:'Geben Sie Ihre Frage in einer beliebigen Sprache ein; die KI wandelt sie in präzise Suchbegriffe um und ermöglicht sofortige Übersetzung und Zusammenfassung.',
     litQueryLabel:'Suchthema oder wissenschaftliche Frage',
     litQueryPh:'Beispiel: Pflanzliche Behandlung bei Vitiligo oder Nigella sativa asthma',
-    litSourceLabel:'Datenbank', optEpmc:'Europe PMC (mit Abstracts)', litCountLabel:'Anzahl der Ergebnisse',
+    litSourceLabel:'Datenbank', optEpmc:'Europe PMC (mit Abstracts)', optPubmed:'PubMed / NCBI', litCountLabel:'Anzahl der Ergebnisse',
     litOALabel:'Nur Open-Access-Artikel',
     searchBtn:'🔎 Studien suchen', clearBtn:'Löschen',
     litStatusInit:'Geben Sie ein Thema oder eine Frage ein und klicken Sie auf „Studien suchen“.',
     translateBtn:'🌐 Abstract übersetzen', sumBtn:'📝 Übersetzen & Zusammenfassen', openSourceLink:'Artikel in der Originalquelle öffnen ↗',
+    imgSubTag:'Gemini Vision • 6 Languages',
     imgHeading:'🩻 Medizinische Bildgebung & KI-Bildanalyse',
     imgHint:'Laden Sie Röntgen-/MRT-Bilder (JPEG/PNG) zur lehrreichen Analyse in der gewählten Sprache hoch oder vergleichen Sie einen Befundbericht.',
     imgTypeLabel:'Untersuchungsart', imgRegionLabel:'Körperregion / Seite', imgRegionPh:'Beispiel: Knie beidseits, Thorax, Gehirn...',
@@ -597,6 +617,7 @@ const I18N = {
     imgObsLabel:'Zusätzliche Notizen (optional)', imgObsPh:'Klinische Notizen oder Vorbefunde...',
     imgOutInit:'Die Bildanalyse oder der Vergleichsentwurf erscheint hier in der gewählten Sprache.',
     imgDisclaimer:'Medizinischer Hinweis: Diese Analyse dient nur zu Lehrzwecken und ersetzt keinen fachärztlichen Radiologiebefund.',
+    clinSubTag:'Clinical Brainstorming • 6 Languages',
     clinHeading:'🧠 Klinisches Brainstorming & Therapieforschung',
     clinHint:'Geben Sie Symptome und Anamnese in einer beliebigen Sprache ein und starten Sie die KI-Analyse.',
     clinAgeLabel:'Altersgruppe', ageAdult:'Erwachsene', agePed:'Pädiatrie', ageEld:'Senioren', agePreg:'Schwangerschaft / Stillzeit',
@@ -610,10 +631,12 @@ const I18N = {
     clinRedLabel:'Warnzeichen (Red Flags)',
     rfChest:'Starke Brustschmerzen', rfDysp:'Akute Atemnot', rfFocal:'Plötzliche Schwäche oder Sprachstörung', rfSync:'Bewusstseinsstörung oder Synkope',
     buildClinBtn:'Zusammenfassung erstellen', clinOutInit:'Geben Sie Daten ein und klicken Sie auf „Zusammenfassung erstellen“ oder unten auf die KI-Analyse.',
+    lecSubTag:'Lecture & Transcript Analysis',
     lecHeading:'▶ Analyse medizinischer Vorlesungen',
     lecHint:'Fügen Sie ein Vorlesungstranskript ein, um es zusammenzufassen und wissenschaftliche Aussagen zu prüfen.',
     lecUrlLabel:'Vorlesungs-URL (optional)', lecOpenBtn:'Vorlesung öffnen', lecEmbedBtn:'Player anzeigen',
     lecEmbedHint:'Geben Sie einen gültigen YouTube-Link ein.',
+    lecUrlPh:'https://www.youtube.com/watch?v=...',
     lecTransLabel:'Vorlesungstext / Transkript', lecTransPh:'Fügen Sie hier das Transkript ein...',
     lecTasksLabel:'Gewünschte Aufgaben', taskSum:'Wissenschaftliche Zusammenfassung', taskVer:'Aussagen überprüfen', taskRef:'Referenzen', taskTop:'Themenübersicht',
     buildLecBtn:'Anfragetext erstellen', lecOutInit:'Die Vorlesungsanalyse erscheint hier.',
@@ -633,7 +656,8 @@ const I18N = {
     buildOutHeading:'Monographie- / Forschungsergebnis', stateReady:'Bereit in 6 Sprachen',
     buildOutInit:'Wählen Sie ein Thema und klicken Sie auf „KI-Recherche direkt starten“.',
     bridgeClinBtn:'🧠 Fall mit KI analysieren', bridgeImgBtn:'⚖️ Bericht & Notizen mit KI vergleichen', bridgeLecBtn:'▶ Vorlesung mit KI analysieren',
-    bridgeHint:'Sendet die Daten an die KI und gibt die Analyse in der oben gewählten Sprache zurück.'
+    bridgeHint:'Sendet die Daten an die KI und gibt die Analyse in der oben gewählten Sprache zurück.',
+    authorSigText:'ANEMONE SLN.LTD • Prepared & Designed by SAID YOUNIS'
   },
   fr: {
     dir:'ltr',
@@ -641,19 +665,21 @@ const I18N = {
     globalLangLabel:'Langue :',
     heroTitle:'HAKIM — Agent Médical et Scientifique IA',
     heroDesc:'Plateforme médicale et scientifique prenant en charge 6 langues et dialectes, recherche en direct sur Europe PMC et PubMed, traduction/résumé d’articles, réflexion clinique et analyse d’imagerie. N’entrez aucune donnée identifiant un patient.',
-    heroCredit:'ANEMONE SLN.LTD • Préparé et Conçu par SAID YOUNIS',
-    footCredit:'HAKIM Medical & Scientific Agent • ANEMONE SLN.LTD • SAID YOUNIS',
+    heroCredit:'ANEMONE SLN.LTD • Prepared & Designed by SAID YOUNIS',
+    footCredit:'HAKIM Medical & Scientific Agent • ANEMONE SLN.LTD • Prepared & Designed by SAID YOUNIS',
     navLit:'🔎 Recherche Scientifique', navImg:'🩻 Laboratoire d’Imagerie', navClin:'🧠 Réflexion Clinique', navLec:'▶ Conférences Médicales', navBuild:'📋 Générateur de Monographie',
     badgeConnected:'IA Connectée', badgeVision:'Gemini Vision Actif',
+    litSubTag:'Europe PMC & PubMed • Gemini Query Optimizer',
     litHeading:'🔎 Recherche Scientifique & Traduction Instantanée',
     litHint:'Posez votre question dans n’importe quelle langue ; l’IA la convertit en termes scientifiques précis et permet de traduire et résumer les résumés.',
     litQueryLabel:'Sujet de recherche ou question scientifique',
     litQueryPh:'Exemple : Traitement phytothérapique du vitiligo ou Nigella sativa asthma',
-    litSourceLabel:'Base de données', optEpmc:'Europe PMC (avec résumés)', litCountLabel:'Nombre de résultats',
+    litSourceLabel:'Base de données', optEpmc:'Europe PMC (avec résumés)', optPubmed:'PubMed / NCBI', litCountLabel:'Nombre de résultats',
     litOALabel:'Articles en libre accès uniquement (Open Access)',
     searchBtn:'🔎 Rechercher des études', clearBtn:'Effacer',
     litStatusInit:'Saisissez un sujet ou une question, puis cliquez sur « Rechercher des études ».',
     translateBtn:'🌐 Traduire le résumé', sumBtn:'📝 Traduire et résumer', openSourceLink:'Ouvrir l’article dans la source originale ↗',
+    imgSubTag:'Gemini Vision • 6 Languages',
     imgHeading:'🩻 Laboratoire d’Imagerie Médicale & Vision IA',
     imgHint:'Téléchargez des images radiologiques (JPEG/PNG) pour une analyse éducative dans la langue sélectionnée ou comparez un compte-rendu.',
     imgTypeLabel:'Modalité d’examen', imgRegionLabel:'Région anatomique / Côté', imgRegionPh:'Exemple : Genoux bilatéraux, Thorax, Cerveau...',
@@ -667,6 +693,7 @@ const I18N = {
     imgObsLabel:'Notes supplémentaires (optionnel)', imgObsPh:'Notes cliniques ou examens antérieurs...',
     imgOutInit:'La lecture d’image ou le brouillon de comparaison apparaîtra ici dans la langue choisie.',
     imgDisclaimer:'Avis médical : Cette analyse est à visée éducative uniquement et ne remplace pas un compte-rendu radiologique certifié.',
+    clinSubTag:'Clinical Brainstorming • 6 Languages',
     clinHeading:'🧠 Réflexion Clinique & Recherche Thérapeutique',
     clinHint:'Saisissez les symptômes et les antécédents dans n’importe quelle langue, puis lancez l’analyse IA.',
     clinAgeLabel:'Groupe d’âge', ageAdult:'Adulte', agePed:'Pédiatrie', ageEld:'Personne âgée', agePreg:'Grossesse / Allaitement',
@@ -680,10 +707,12 @@ const I18N = {
     clinRedLabel:'Signes d’alerte (Drapeaux rouges)',
     rfChest:'Douleur thoracique intense', rfDysp:'Dyspnée aiguë', rfFocal:'Déficit moteur ou trouble de la parole soudain', rfSync:'Trouble de la conscience ou syncope',
     buildClinBtn:'Préparer le résumé', clinOutInit:'Saisissez les informations puis cliquez sur « Préparer le résumé » ou sur l’analyse IA ci-dessous.',
+    lecSubTag:'Lecture & Transcript Analysis',
     lecHeading:'▶ Analyse de Conférences Médicales',
     lecHint:'Collez le texte ou la transcription d’une conférence pour la résumer et vérifier les affirmations scientifiques.',
     lecUrlLabel:'URL de la conférence (optionnel)', lecOpenBtn:'Ouvrir la conférence', lecEmbedBtn:'Afficher le lecteur',
     lecEmbedHint:'Entrez un lien YouTube valide pour afficher le lecteur.',
+    lecUrlPh:'https://www.youtube.com/watch?v=...',
     lecTransLabel:'Texte / Transcription de la conférence', lecTransPh:'Collez la transcription ici...',
     lecTasksLabel:'Tâches demandées', taskSum:'Résumé scientifique', taskVer:'Vérifier les affirmations', taskRef:'Références', taskTop:'Découpage thématique',
     buildLecBtn:'Préparer la requête', lecOutInit:'L’analyse de la conférence apparaîtra ici.',
@@ -703,7 +732,8 @@ const I18N = {
     buildOutHeading:'Résultat de la Monographie / Recherche', stateReady:'Prêt en 6 langues',
     buildOutInit:'Choisissez un sujet et cliquez sur « Lancer la recherche IA directement ».',
     bridgeClinBtn:'🧠 Analyser le cas avec l’IA', bridgeImgBtn:'⚖️ Comparer le compte-rendu avec l’IA', bridgeLecBtn:'▶ Analyser la conférence avec l’IA',
-    bridgeHint:'Envoie les données au moteur IA et renvoie l’analyse dans la langue choisie en haut.'
+    bridgeHint:'Envoie les données au moteur IA et renvoie l’analyse dans la langue choisie en haut.',
+    authorSigText:'ANEMONE SLN.LTD • Prepared & Designed by SAID YOUNIS'
   },
   es: {
     dir:'ltr',
@@ -711,19 +741,21 @@ const I18N = {
     globalLangLabel:'Idioma:',
     heroTitle:'HAKIM — Agente Médico y Científico con IA',
     heroDesc:'Plataforma médica y científica con soporte para 6 idiomas y dialectos, búsqueda directa en Europe PMC y PubMed, traducción y resumen de estudios, razonamiento clínico e imagenología. No ingrese datos identificativos de pacientes.',
-    heroCredit:'ANEMONE SLN.LTD • Preparado y Diseñado por SAID YOUNIS',
-    footCredit:'HAKIM Medical & Scientific Agent • ANEMONE SLN.LTD • SAID YOUNIS',
+    heroCredit:'ANEMONE SLN.LTD • Prepared & Designed by SAID YOUNIS',
+    footCredit:'HAKIM Medical & Scientific Agent • ANEMONE SLN.LTD • Prepared & Designed by SAID YOUNIS',
     navLit:'🔎 Búsqueda Científica', navImg:'🩻 Laboratorio de Imagen', navClin:'🧠 Razonamiento Clínico', navLec:'▶ Conferencias Médicas', navBuild:'📋 Generador de Monografías',
     badgeConnected:'IA Conectada', badgeVision:'Gemini Vision Activo',
+    litSubTag:'Europe PMC & PubMed • Gemini Query Optimizer',
     litHeading:'🔎 Búsqueda Científica y Traducción Instantánea',
     litHint:'Escriba su pregunta en cualquier idioma; la IA la convertirá en términos científicos precisos y permitirá traducir y resumir los estudios.',
     litQueryLabel:'Tema de búsqueda o pregunta científica',
     litQueryPh:'Ejemplo: Tratamiento herbario para vitíligo o Nigella sativa asthma',
-    litSourceLabel:'Base de datos', optEpmc:'Europe PMC (con resúmenes)', litCountLabel:'Número de resultados',
+    litSourceLabel:'Base de datos', optEpmc:'Europe PMC (con resúmenes)', optPubmed:'PubMed / NCBI', litCountLabel:'Número de resultados',
     litOALabel:'Solo artículos de acceso abierto (Open Access)',
     searchBtn:'🔎 Buscar estudios', clearBtn:'Limpiar',
     litStatusInit:'Escriba su pregunta o tema y presione «Buscar estudios».',
     translateBtn:'🌐 Traducir resumen', sumBtn:'📝 Traducir y resumir', openSourceLink:'Abrir artículo en la fuente original ↗',
+    imgSubTag:'Gemini Vision • 6 Languages',
     imgHeading:'🩻 Laboratorio de Imagen Médica y Visión IA',
     imgHint:'Suba imágenes radiológicas (JPEG/PNG) para una revisión visual educativa en el idioma seleccionado o compare un informe.',
     imgTypeLabel:'Tipo de estudio', imgRegionLabel:'Región anatómica / Lado', imgRegionPh:'Ejemplo: Rodillas bilaterales, Tórax, Cerebro...',
@@ -737,6 +769,7 @@ const I18N = {
     imgObsLabel:'Notas adicionales (opcional)', imgObsPh:'Notas clínicas o estudios previos...',
     imgOutInit:'La lectura de imágenes o el borrador de comparación aparecerá aquí en el idioma seleccionado.',
     imgDisclaimer:'Aviso médico: Esta lectura es solo de apoyo educativo y no sustituye un informe radiológico certificado.',
+    clinSubTag:'Clinical Brainstorming • 6 Languages',
     clinHeading:'🧠 Razonamiento Clínico e Investigación Terapéutica',
     clinHint:'Ingrese síntomas y antecedentes en cualquier idioma y presione el botón de análisis con IA.',
     clinAgeLabel:'Grupo de edad', ageAdult:'Adulto', agePed:'Pediátrico', ageEld:'Adulto mayor', agePreg:'Embarazo / Lactancia',
@@ -750,10 +783,12 @@ const I18N = {
     clinRedLabel:'Signos de alarma (Banderas rojas)',
     rfChest:'Dolor torácico intenso', rfDysp:'Disnea aguda', rfFocal:'Debilidad súbita o trastorno del habla', rfSync:'Alteración de conciencia o síncope',
     buildClinBtn:'Preparar resumen', clinOutInit:'Ingrese los datos y presione «Preparar resumen» o el botón de análisis con IA abajo.',
+    lecSubTag:'Lecture & Transcript Analysis',
     lecHeading:'▶ Revisión de Conferencias Médicas',
     lecHint:'Pegue el texto o transcripción de la conferencia para resumirla y verificar sus afirmaciones científicas.',
     lecUrlLabel:'Enlace de la conferencia (opcional)', lecOpenBtn:'Abrir conferencia', lecEmbedBtn:'Mostrar reproductor',
     lecEmbedHint:'Ingrese un enlace válido de YouTube para mostrar el reproductor.',
+    lecUrlPh:'https://www.youtube.com/watch?v=...',
     lecTransLabel:'Texto / Transcripción de la conferencia', lecTransPh:'Pegue aquí la transcripción...',
     lecTasksLabel:'Tareas solicitadas', taskSum:'Resumen científico', taskVer:'Verificar afirmaciones', taskRef:'Referencias', taskTop:'Desglose temático',
     buildLecBtn:'Preparar solicitud', lecOutInit:'El análisis de la conferencia aparecerá aquí.',
@@ -761,7 +796,7 @@ const I18N = {
     tplMono:'Monografía de planta medicinal', tplMonoDesc:'Identidad botánica, fitoquímica, usos y seguridad.',
     tplEv:'Revisión de evidencia científica', tplEvDesc:'Estudios, nivel de evidencia, resultados y limitaciones.',
     tplApp:'Evaluación crítica de estudio', tplAppDesc:'Diseño, metodología, resultados y sesgos.',
-    tplSaf:'Interacciones y Seguridad', tplSafDesc:'Interacciones, contraindicaciones y poblaciones especiales.',
+    tplSaf:'Interactions & Seguridad', tplSafDesc:'Interacciones, contraindicaciones y poblaciones especiales.',
     tplChem:'Fitoquímica y Mecanismos', tplChemDesc:'Compuestos activos, mecanismos de acción y evidencia.',
     tplTab:'Tabla comparativa', tplTabDesc:'Comparación estructurada entre estudios o preparados.',
     buildDetLabel:'Nivel de detalle', detCon:'Conciso y directo', detAc:'Académico avanzado', detSp:'Especializado exhaustivo',
@@ -772,8 +807,9 @@ const I18N = {
     runResearchBtn:'✨ Ejecutar investigación IA directamente', showDraftBtn:'Mostrar borrador', resetBtn:'Restablecer',
     buildOutHeading:'Resultado de Monografía / Investigación', stateReady:'Listo en 6 idiomas',
     buildOutInit:'Seleccione un tema y presione «Ejecutar investigación IA directamente».',
-    bridgeClinBtn:'🧠 Analizar caso con IA', bridgeImgBtn:'⚖️ Comparer rapport et notes avec l’IA', bridgeLecBtn:'▶ Analizar conferencia con IA',
-    bridgeHint:'Envía los datos al motor de IA y devuelve el análisis en el idioma seleccionado arriba.'
+    bridgeClinBtn:'🧠 Analizar caso con IA', bridgeImgBtn:'⚖️ Comparar informe y notas con IA', bridgeLecBtn:'▶ Analizar conferencia con IA',
+    bridgeHint:'Envía los datos al motor de IA y devuelve el análisis en el idioma seleccionado arriba.',
+    authorSigText:'ANEMONE SLN.LTD • Prepared & Designed by SAID YOUNIS'
   }
 };
 
@@ -785,19 +821,31 @@ function applyUILanguage(){
   const s = I18N[lang] || I18N.ar;
   document.documentElement.lang = lang;
   document.documentElement.dir = s.dir;
+  
+  // Translate all data-i18n elements
   $$('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     if (s[key]) el.textContent = s[key];
   });
+  
+  // Translate all placeholders dynamically
   $$('[data-i18n-ph]').forEach(el => {
     const key = el.getAttribute('data-i18n-ph');
     if (s[key]) el.setAttribute('placeholder', s[key]);
   });
+
+  // Update signature field default value based on language
+  const sigInput = $('#signature');
+  if (sigInput && (!sigInput.value || sigInput.value.includes('سعيد يونس') || sigInput.value.includes('SAID YOUNIS') || sigInput.value.includes('סעיד יונס'))) {
+    sigInput.value = s.authorSigText;
+  }
+
   const bClin = $('#bridge-clinical-lab'); if(bClin) bClin.textContent = s.bridgeClinBtn;
   const bImg = $('#bridge-imaging-lab'); if(bImg) bImg.textContent = s.bridgeImgBtn;
   const bLec = $('#bridge-lecture-lab'); if(bLec) bLec.textContent = s.bridgeLecBtn;
   $$('.bridge-hint-text').forEach(el => el.textContent = s.bridgeHint);
 }
+
 $('#globalLang').addEventListener('change', applyUILanguage);
 
 function selected(group){return $$(group+' input[type="checkbox"]:checked').map(x=>x.value)}
@@ -1017,6 +1065,9 @@ $('#downloadLecture').addEventListener('click',()=>downloadText($('#lectureOutpu
  button.addEventListener('click',run);q.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();run();}});
  $('#clearLiterature').addEventListener('click',()=>{q.value='';results.replaceChildren();status.textContent=t('litStatusInit');oa.checked=false;});
 })();
+
+// Initialize default language and placeholders on load
+applyUILanguage();
 </script>
 </body>
 </html>
