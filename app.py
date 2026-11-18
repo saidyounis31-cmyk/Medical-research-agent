@@ -9,7 +9,7 @@ from urllib.parse import urlencode, quote
 from urllib.request import Request, urlopen
 
 from fastapi import FastAPI, HTTPException, Query
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from dotenv import load_dotenv
@@ -17,9 +17,10 @@ from google import genai
 from google.genai import types
 
 BASE_DIR = Path(__file__).resolve().parent
+INDEX_FILE = BASE_DIR / "index.html"
 load_dotenv(BASE_DIR / ".env")
 
-app = FastAPI(title="HAKIM Medical & Scientific Agent API", version="1.2.0-gemini-6lang-dialects")
+app = FastAPI(title="HAKIM Medical & Scientific Agent API", version="1.3.0-gemini-6lang-i18n")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -29,6 +30,14 @@ app.add_middleware(
 )
 
 logger = logging.getLogger("hakim.agent")
+
+# Never let the browser / Render edge cache the HTML shell: a stale index.html
+# is what made old (Arabic-only) labels reappear after a deploy.
+NO_CACHE_HEADERS = {
+    "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+    "Pragma": "no-cache",
+    "Expires": "0",
+}
 
 SUPPORTED_LANGUAGES = {
     "ar": "Arabic (clear, accessible Arabic — understand all regional dialects and colloquial speech, respond clearly)",
@@ -58,6 +67,7 @@ You are an evidence-aware medical and scientific assistant (HAKIM).
 Language & Dialect Understanding Rule:
 - You MUST accurately understand user inputs written in ANY dialect, regional vernacular, slang, or spoken/colloquial form across all 6 supported languages (Arabic dialects such as Levantine, Palestinian, Egyptian, Gulf, Maghrebi; as well as colloquial English, Hebrew, German, French, and Spanish).
 - Never reject or misunderstand colloquial symptom descriptions (e.g., "راسي بوجعني", "بطني بتغلي", "وجع بالمفاصل"); translate their clinical meaning internally and respond in clear, accessible, empathetic language matching the requested language (or the user's input language if unspecified).
+- Write the ENTIRE response, including every heading, label and closing section, in the requested Target Response Language. Do not mix in another language except for standard scientific names, drug names and abbreviations.
 Safety and evidence rules:
 - This is decision support and education, not a diagnosis or a substitute for a licensed clinician.
 - First screen for emergency features explicitly present in the provided text. If a possible emergency is described, say not to delay urgent in-person care.
@@ -167,6 +177,24 @@ def _optimize_scientific_query(raw_query: str) -> str:
         logger.warning("Query optimization fallback used: %s", type(exc).__name__)
         return raw_query.strip()
 
+def _index_info() -> dict:
+    """Diagnostic: which index.html this server is really serving."""
+    try:
+        stat = INDEX_FILE.stat()
+        text = INDEX_FILE.read_text(encoding="utf-8", errors="ignore")
+        return {
+            "path": str(INDEX_FILE),
+            "exists": True,
+            "size_bytes": stat.st_size,
+            "i18n_build": "pickImages" in text and "applyUILanguage" in text,
+        }
+    except OSError:
+        return {"path": str(INDEX_FILE), "exists": False, "size_bytes": 0, "i18n_build": False}
+
+@app.on_event("startup")
+def _log_startup():
+    logger.warning("HAKIM startup index_html=%s", _index_info())
+
 @app.get("/api/health")
 def health():
     return {
@@ -178,6 +206,7 @@ def health():
         "models": _candidate_models(),
         "europe_pmc_search_available": True,
         "pubmed_search_available": True,
+        "index_html": _index_info(),
     }
 
 @app.get("/api/free-sources")
@@ -206,15 +235,19 @@ def _free_json(url: str, source: str) -> dict:
 def pubmed_search(
     q: str = Query(..., min_length=2, max_length=1000),
     page_size: int = Query(10, ge=1, le=20),
+    open_access_only: bool = Query(False),
 ):
     """Smart PubMed search with automatic biomedical query translation."""
     base = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/"
     raw_query = q.strip()
     effective_query = _optimize_scientific_query(raw_query)
+    term = effective_query
+    if open_access_only:
+        term = f"({effective_query}) AND free full text[sb]"
 
     params = urlencode({
         "db": "pubmed",
-        "term": effective_query,
+        "term": term,
         "retmax": page_size,
         "retmode": "json",
         "sort": "relevance",
@@ -287,9 +320,22 @@ def doi_metadata(doi: str = Query(..., min_length=6, max_length=250)):
         "notice": "بيانات Crossref لا تثبت صحة النتائج الطبية، وقد تكون معلومات السحب والتصحيح غير مكتملة."
     }
 
-@app.get("/")
+def _serve_index():
+    if not INDEX_FILE.is_file():
+        return JSONResponse(
+            status_code=500,
+            content={"detail": "index.html غير موجود بجانب app.py. ارفعه إلى جذر المستودع نفسه الذي فيه app.py."},
+            headers=NO_CACHE_HEADERS,
+        )
+    return FileResponse(INDEX_FILE, media_type="text/html; charset=utf-8", headers=NO_CACHE_HEADERS)
+
+@app.get("/", include_in_schema=False)
 def home():
-    return FileResponse(BASE_DIR / "index.html")
+    return _serve_index()
+
+@app.get("/index.html", include_in_schema=False)
+def home_index():
+    return _serve_index()
 
 @app.get("/api/literature-search")
 def literature_search(
@@ -399,7 +445,7 @@ def lecture(req: AgentRequest):
 
 @app.post("/api/research")
 def research(req: ResearchRequest):
-    text = f"الموضوع: {req.topic}\nالتعليمات: {req.instructions or 'لا توجد تعليمات إضافية.'}"
+    text = f"Topic: {req.topic}\nInstructions: {req.instructions or 'No additional instructions.'}"
     return run_agent("research", text, req.language)
 
 @app.post("/api/translate")
@@ -467,7 +513,7 @@ def imaging_analyze(req: ImagingVisionRequest):
         config=types.GenerateContentConfig(
             system_instruction=MEDICAL_RULES,
             temperature=0.2,
-            max_output_tokens=1500,
+            max_output_tokens=2500,
         ),
         env_var="GEMINI_VISION_MODEL",
     )
