@@ -77,16 +77,22 @@ class _AbstractTextParser(HTMLParser):
     def __init__(self):
         super().__init__(convert_charrefs=True)
         self.parts = []
+        self.suppressed = 0
 
     def handle_data(self, data):
-        self.parts.append(data)
+        if not self.suppressed:
+            self.parts.append(data)
 
     def handle_starttag(self, tag, attrs):
-        if tag in ("p", "br", "div", "li"):
+        if tag in ("script", "style"):
+            self.suppressed += 1
+        elif not self.suppressed and tag in ("p", "br", "div", "li", "h1", "h2", "h3", "h4", "h5", "h6"):
             self.parts.append(" ")
 
     def handle_endtag(self, tag):
-        if tag in ("p", "div", "li"):
+        if tag in ("script", "style"):
+            self.suppressed = max(0, self.suppressed - 1)
+        elif not self.suppressed and tag in ("p", "div", "li", "h1", "h2", "h3", "h4", "h5", "h6"):
             self.parts.append(" ")
 
 
