@@ -39,8 +39,60 @@ textarea{min-height:94px;resize:vertical}.row{display:grid;grid-template-columns
 .translated-box{margin-top:10px;padding:11px;border-radius:10px;background:var(--teal2);border:1px solid #b9d9d3;white-space:pre-wrap;font-size:.9rem}
 .engine-bar{margin:12px 0;padding:12px;border:1px solid #b9d9d3;border-radius:12px;background:#eef8f5}.engine-bar .engine-status{display:block;margin-top:8px;font-size:.88rem;color:#425b60}
 @media(max-width:760px){.layout{grid-template-columns:1fr}.wrap{padding:14px 10px 30px}.hero{padding:22px}.panel{padding:17px}.choices,.checks,.row{grid-template-columns:1fr}.module-title{display:block}.module-title .status{margin:6px 0;display:inline-block}.module-nav a{flex:1;text-align:center;font-size:.88rem}}
-@media print{body{background:#fff}.wrap{max-width:none;padding:0}.hero{background:#fff;color:#000;box-shadow:none;border:1px solid #aaa}.hero p{color:#222}.layout{display:block}.panel{box-shadow:none;margin-top:12px;break-inside:avoid}.form-panel,.btns,.foot,.lang-box,.engine-bar{display:none!important}.preview{min-height:0}}
+
+input[type=number]{font:inherit;width:100%;padding:11px 12px;border:1px solid #bdcdd1;border-radius:10px;background:#fff;color:var(--ink)}
+.badges{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+.bdg{display:inline-block;background:#eef3f2;border:1px solid #d3e3df;border-radius:999px;padding:1px 9px;font-size:.74rem;color:#33585a}
+.bdg.src{background:#e8f5f2;color:#126b65}.bdg.oa{background:#fff3d4;border-color:#ead8a7;color:#7a5a12}
+.preview.md{white-space:normal}
+.md h2{font-size:1.08rem;color:var(--teal);margin:16px 0 6px;border-bottom:1px solid var(--line);padding-bottom:3px}
+.md h3{font-size:1rem;margin:12px 0 4px}.md h4{font-size:.95rem;margin:10px 0 4px}
+.md p{margin:6px 0}.md ul,.md ol{margin:6px 0;padding-inline-start:22px}.md li{margin:2px 0}
+.md table{border-collapse:collapse;width:100%;font-size:.85rem;margin:8px 0;display:block;overflow-x:auto}
+.md th,.md td{border:1px solid #c9d8d6;padding:5px 8px;text-align:start;vertical-align:top}.md th{background:#eef5f3}
+.md sup.cit{color:var(--teal);font-weight:700;font-size:.72em}
+.md .ref{font-size:.82rem;margin:5px 0;overflow-wrap:anywhere}.md .rn{color:var(--teal);font-weight:700;margin-inline-end:4px}
+.mono-meta{background:#f1f7f6;border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:.8rem;color:#44666a;margin-bottom:8px}
+.mono-disc{font-size:.78rem;color:#765313;background:var(--warn);border:1px solid #ead8a7;border-radius:10px;padding:8px 10px;margin-top:12px}
+.lh-settings{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:12px 0;background:#fbfdfc}
+.lh-settings summary{cursor:pointer;font-weight:700}
+#lhPreviewWrap{direction:ltr;overflow:hidden;margin:10px 0;border:1px dashed var(--line);border-radius:10px;padding:6px;background:#fff}
+.lh-box{margin:8px 0}.lh-thumb{max-height:54px;max-width:120px;vertical-align:middle;border:1px solid var(--line);border-radius:6px;background:#fff;margin:0 8px}
+/* letterhead (HAKIM) */
+.lh,.lh *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.lh{direction:ltr;box-sizing:border-box;width:100%;max-width:718px;height:108px;margin:0 auto 4mm;border:2px solid #d9ae57;border-radius:20px;background:linear-gradient(135deg,#02242a,#04333a);display:flex;align-items:center;color:#fff;overflow:hidden;font-family:Tahoma,Arial,sans-serif}
+.lh-logo{flex:0 0 108px;display:flex;justify-content:center;align-items:center}.lh-logo img{height:94px;width:auto}
+.lh-sep{width:2px;align-self:stretch;margin:12px 0;background:linear-gradient(rgba(217,174,87,0),#d9ae57,rgba(217,174,87,0))}
+.lh-mid{flex:1;text-align:center;padding:0 8px;min-width:0;line-height:1.28;overflow-wrap:anywhere}
+.lh-mid .ar{font-size:25px;font-weight:700;color:#f3cd7a;direction:rtl}.lh-mid .la{font-size:15px;font-style:italic;color:#fff}.lh-mid .en{font-size:14px;color:#d4f1ea}
+.lh-right{flex:0 0 150px;text-align:center}.lh-right .hk{font-size:21px;font-weight:800;letter-spacing:.5px;color:#fff;line-height:1.1}.lh-right img{height:76px;width:auto;display:block;margin:0 auto}
+/* letterhead (custom) */
+.lh2{display:flex;align-items:center;gap:14px;padding:6px 4px 8px;border-bottom:2px solid #b88a3b;margin-bottom:5mm;color:#17313a;font-family:Tahoma,Arial,sans-serif}
+.lh2-logo{max-height:64px;max-width:150px;object-fit:contain}.lh2-text{flex:1;min-width:0}
+.lh2-org{font-size:18px;font-weight:700;color:#0d4f49}.lh2-det{font-size:12px;color:#44666a;line-height:1.5}
+.lh2-names{text-align:center;border-inline-start:2px solid #b88a3b;padding-inline-start:14px;line-height:1.35}
+.lh2-names .ar{font-size:20px;font-weight:700;color:#8a6420}.lh2-names .la{font-style:italic;font-size:13px}.lh2-names .en{font-size:12px;color:#44666a}
+#printDoc{display:none}
+@media print{
+ html,body{background:#fff!important}
+ body>*:not(#printDoc){display:none!important}
+ #printDoc{display:block!important;color:#111;font-family:Tahoma,Arial,sans-serif}
+ table.pd{width:100%;border-collapse:collapse}
+ table.pd>thead{display:table-header-group}table.pd>tfoot{display:table-footer-group}
+ table.pd>thead>tr>td,table.pd>tbody>tr>td,table.pd>tfoot>tr>td{padding:0;border:0}
+ .lh,.lh2{break-inside:avoid;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ .pd-body{font-size:11.5pt;line-height:1.65}
+ .pd-body h2{font-size:13.5pt;color:#0d655c;margin:14px 0 5px;border-bottom:1px solid #cfdcda;padding-bottom:2px;break-after:avoid}
+ .pd-body h3{font-size:12pt;margin:10px 0 4px;break-after:avoid}.pd-body p{margin:5px 0;orphans:3;widows:3}
+ .pd-body table{display:table;border-collapse:collapse;width:100%;font-size:9.5pt;margin:8px 0}
+ .pd-body th,.pd-body td{border:1px solid #999;padding:3px 5px;text-align:start;vertical-align:top}.pd-body th{background:#e9f1ef}
+ .pd-body tr{break-inside:avoid}.pd-body .ref{font-size:9pt;margin:3px 0;break-inside:avoid}
+ .pd-body sup.cit{color:#0d655c}.pd-body a{color:#111;text-decoration:none}
+ .pd-body .mono-meta{font-size:8.5pt;color:#444;background:#f3f6f5}.pd-body .mono-disc{font-size:8.5pt;break-inside:avoid}
+ .pd-foot{font-size:9pt;color:#555;text-align:center;border-top:1px solid #cfdcda;padding-top:3px;margin-top:6px}
+}
 </style>
+<style id="dynPage"></style>
 </head>
 <body>
 <div class="wrap">
@@ -89,8 +141,11 @@ textarea{min-height:94px;resize:vertical}.row{display:grid;grid-template-columns
     <div class="field">
       <label for="literatureSource" data-i18n="litSourceLabel">قاعدة البيانات</label>
       <select id="literatureSource">
-        <option value="europe_pmc" selected data-i18n="optEpmc">Europe PMC (مع الملخصات)</option>
+        <option value="all" selected data-i18n="srcAll">كل المصادر المجانية الموثوقة (مدمج)</option>
+        <option value="europe_pmc" data-i18n="optEpmc">Europe PMC (مع الملخصات)</option>
         <option value="pubmed" data-i18n="optPubmed">PubMed / NCBI</option>
+        <option value="openalex" data-i18n="srcOpenAlex">OpenAlex</option>
+        <option value="trials" data-i18n="srcTrials">ClinicalTrials.gov (التجارب المسجلة)</option>
       </select>
     </div>
     <div class="field">
@@ -240,6 +295,7 @@ textarea{min-height:94px;resize:vertical}.row{display:grid;grid-template-columns
       <label class="choice"><input type="checkbox" class="redflag" value="Syncope"><span data-i18n="rfSync">اضطراب وعي أو إغماء</span></label>
     </div>
   </div>
+  <label class="choice" style="margin-top:6px"><input type="checkbox" id="clinGround" checked><span data-i18n="clinGroundLabel">ربط التحليل بالدراسات المنشورة (Europe PMC وPubMed وOpenAlex)</span></label>
   <div class="btns">
     <button class="btn primary" id="buildClinical" data-i18n="buildClinBtn">تجهيز الملخص</button>
     <button class="btn secondary" id="clearClinical" data-i18n="clearBtn">مسح الحقول</button>
@@ -324,6 +380,20 @@ textarea{min-height:94px;resize:vertical}.row{display:grid;grid-template-columns
     <input id="topic" type="text" dir="auto" data-i18n-ph="buildTopPh" placeholder="مثال: Salvia officinalis — الميرمية">
   </div>
   <div class="field">
+    <span class="label" data-i18n="namesLabel">أسماء المادة في الترويسة (تُعبّأ تلقائياً ويمكن تعديلها)</span>
+    <div class="row">
+      <input id="nameAr" type="text" dir="auto" data-i18n-ph="nameArPh" placeholder="الاسم العربي">
+      <input id="nameEn" type="text" dir="ltr" data-i18n-ph="nameEnPh" placeholder="English name">
+    </div>
+    <input id="nameLatin" type="text" dir="ltr" style="margin-top:8px" data-i18n-ph="nameLatinPh" placeholder="Nigella sativa L.">
+    <div class="btns"><button type="button" class="btn secondary" id="identifyBtn" data-i18n="identifyBtn">🔎 تحديد الأسماء تلقائياً</button></div>
+    <p id="identifyStatus" class="hint" aria-live="polite"></p>
+  </div>
+  <div class="field" style="display:flex;align-items:center;gap:9px">
+    <input id="monoOA" type="checkbox" style="width:auto">
+    <label for="monoOA" data-i18n="monoOALabel" style="margin:0">المصادر مفتوحة الوصول فقط</label>
+  </div>
+  <div class="field">
     <label for="question" data-i18n="buildQLabel">التعليمات الإضافية (اختياري)</label>
     <textarea id="question" dir="auto" data-i18n-ph="buildQPh" placeholder="اكتب السؤال السريري أو نطاق المراجعة..."></textarea>
   </div>
@@ -340,6 +410,42 @@ textarea{min-height:94px;resize:vertical}.row{display:grid;grid-template-columns
 <section class="panel">
   <h2 data-i18n="buildOutHeading">مخرجات المونوغراف / البحث</h2>
   <span class="status ok" id="state" data-i18n="stateReady">جاهز للتنفيذ باللغات الست</span>
+  <details class="lh-settings" id="lhSettings">
+    <summary data-i18n="lhSummary">⚙️ الترويسة والطباعة</summary>
+    <div class="field">
+      <span class="label" data-i18n="lhModeLabel">نوع الترويسة</span>
+      <label class="choice"><input type="radio" name="hdrMode" value="hakim"><span data-i18n="lhHakim">ترويسة حكيم (ANEMONE SLN)</span></label>
+      <label class="choice" style="margin-top:6px"><input type="radio" name="hdrMode" value="custom"><span data-i18n="lhCustom">ترويستي الخاصة: شعاري واسمي وتفاصيلي</span></label>
+      <label class="choice" style="margin-top:6px"><input type="radio" name="hdrMode" value="blank"><span data-i18n="lhBlank">ورقي المروّس جاهز: اترك مساحة فارغة للترويسة</span></label>
+    </div>
+    <div class="lh-box" id="lhCustomBox" hidden>
+      <div class="btns" style="margin-top:0">
+        <button type="button" class="btn secondary" id="lhLogoBtn" data-i18n="lhLogoBtn">اختيار الشعار</button>
+        <img id="lhLogoThumb" class="lh-thumb" alt="" hidden>
+        <button type="button" class="btn secondary" id="lhLogoClear" data-i18n="lhLogoClear" hidden>إزالة الشعار</button>
+        <input type="file" id="lhLogoFile" accept="image/*" hidden>
+      </div>
+      <div class="field"><input id="lhOrg" type="text" dir="auto" data-i18n-ph="lhOrgPh" placeholder="اسم الجهة أو العيادة"></div>
+      <div class="field"><textarea id="lhDetails" dir="auto" data-i18n-ph="lhDetPh" placeholder="تفاصيل تحت الاسم، كل سطر على حدة"></textarea></div>
+      <label class="choice"><input type="checkbox" id="lhShowNames"><span data-i18n="lhShowNames">إظهار أسماء المادة في الترويسة</span></label>
+    </div>
+    <div class="lh-box" id="lhBlankBox" hidden>
+      <div class="row">
+        <div class="field"><label for="lhMTop" data-i18n="lhMTop">الهامش العلوي (سم)</label><input id="lhMTop" type="number" min="0" max="12" step="0.5" inputmode="decimal"></div>
+        <div class="field"><label for="lhMBottom" data-i18n="lhMBottom">الهامش السفلي (سم)</label><input id="lhMBottom" type="number" min="0" max="12" step="0.5" inputmode="decimal"></div>
+      </div>
+      <p class="hint" id="lhBlankHint"></p>
+    </div>
+    <div class="field">
+      <span class="label" data-i18n="lhPagesLabel">ظهور الترويسة</span>
+      <label class="choice"><input type="radio" name="hdrPages" value="every"><span data-i18n="lhEvery">كل صفحة</span></label>
+      <label class="choice" style="margin-top:6px"><input type="radio" name="hdrPages" value="first"><span data-i18n="lhFirst">الصفحة الأولى فقط</span></label>
+    </div>
+    <label class="choice"><input type="checkbox" id="lhSig"><span data-i18n="lhSig">إظهار التوقيع في أسفل كل صفحة</span></label>
+    <div class="field"><label for="lhPaper" data-i18n="lhPaper">حجم الورق</label><select id="lhPaper"><option value="A4">A4</option><option value="Letter">Letter</option></select></div>
+    <div id="lhPreviewWrap"><div id="lhPreview"></div></div>
+    <p class="hint" data-i18n="printTip">عند الطباعة اختر «حفظ بصيغة PDF»؛ وإن لم تظهر ألوان الترويسة فعّل «رسومات الخلفية».</p>
+  </details>
   <div id="preview" class="preview" dir="auto" data-i18n="buildOutInit" aria-live="polite">اختر الموضوع واضغط «تنفيذ البحث مباشرة بالذكاء الاصطناعي» للحصول على التقرير باللغة المختارة في أعلى الصفحة.</div>
   <div class="btns">
     <button class="btn primary" id="copy" data-i18n="copyBtn">نسخ النتيجة</button>
@@ -352,6 +458,7 @@ textarea{min-height:94px;resize:vertical}.row{display:grid;grid-template-columns
 <div class="foot" data-i18n="footCredit">HAKIM Medical & Scientific Agent • ANEMONE SLN.LTD • إعداد وتصميم سعيد يونس</div>
 </div>
 
+<div id="printDoc"></div>
 <script>
 const $=s=>document.querySelector(s); const $$=s=>Array.from(document.querySelectorAll(s));
 const LANGS=['ar','en','he','de','fr','es'];
@@ -833,290 +940,4 @@ const I18N = {
   }
 };
 
-/* ---------- Language helpers ---------- */
-function currentLang(){ const v=$('#globalLang').value; return LANGS.includes(v)?v:'ar'; }
-function t(key, vars){
-  let s=(I18N[currentLang()]||{})[key] ?? I18N.en[key] ?? I18N.ar[key] ?? key;
-  if(vars) for(const k in vars) s=s.replace('{'+k+'}',vars[k]);
-  return s;
-}
-/* Output boxes: mark as "dirty" once real content is written so a language switch never wipes it */
-function setOut(el,text){ el.textContent=text; el.dataset.dirty='1'; }
-function resetOut(el,key){ delete el.dataset.dirty; el.setAttribute('data-i18n',key); el.textContent=t(key); }
-function errText(e){ return t('stError')+': '+(e&&e.message?e.message:e); }
-
-function applyUILanguage(){
-  const lang=currentLang(), s=I18N[lang];
-  document.documentElement.lang=lang;
-  document.documentElement.dir=s.dir;
-  document.title='HAKIM | '+s.heroTitle.replace(/^HAKIM\s*—\s*/,'');
-  $$('[data-i18n]').forEach(el=>{
-    if(el.dataset.dirty) return;
-    el.textContent=t(el.getAttribute('data-i18n'));
-  });
-  $$('[data-i18n-ph]').forEach(el=>el.setAttribute('placeholder',t(el.getAttribute('data-i18n-ph'))));
-  const sig=$('#signature');
-  if(sig && (!sig.value.trim() || Object.values(I18N).some(x=>x.authorSigText===sig.value))) sig.value=s.authorSigText;
-  [['#bridge-clinical-lab','bridgeClinBtn'],['#bridge-imaging-lab','bridgeImgBtn'],['#bridge-lecture-lab','bridgeLecBtn']].forEach(([id,k])=>{const b=$(id); if(b) b.textContent=t(k);});
-  $$('.bridge-hint-text').forEach(el=>{ if(!el.dataset.dirty) el.textContent=t('bridgeHint'); });
-}
-function initLang(){
-  let l=null;
-  try{ const p=new URLSearchParams(location.search).get('hl'); if(p) l=p.toLowerCase().split('-')[0]; }catch(e){}
-  if(!LANGS.includes(l)){ try{ l=localStorage.getItem('hakimLang'); }catch(e){} }
-  $('#globalLang').value=LANGS.includes(l)?l:'ar';
-}
-$('#globalLang').addEventListener('change',()=>{ try{localStorage.setItem('hakimLang',currentLang());}catch(e){} applyUILanguage(); });
-
-/* Dev check: report keys missing from any language (see browser console) */
-(function(){ const base=Object.keys(I18N.ar); LANGS.forEach(l=>{ const miss=base.filter(k=>!(k in I18N[l])); if(miss.length) console.warn('[i18n] missing in '+l+':',miss); }); })();
-
-/* ---------- Network helper ---------- */
-function apiMessage(d,status){
-  const det=d&&d.detail;
-  if(det&&typeof det==='object'&&!Array.isArray(det)&&det.code){
-    const k='err_'+det.code, tr=t(k);
-    if(det.message) console.warn('[api]',det.code,det.message);
-    return tr!==k?tr:(det.message||('HTTP '+status));
-  }
-  if(Array.isArray(det)) return t('err_invalid');
-  if(typeof det==='string') return det;
-  return 'HTTP '+status;
-}
-async function api(url,opts){
-  let r; try{ r=await fetch(url,opts); }catch(e){ throw new Error(t('err_network')); }
-  let d={}; try{ d=await r.json(); }catch(e){}
-  if(!r.ok) throw new Error(apiMessage(d,r.status));
-  return d;
-}
-const post=(url,body)=>api(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-
-/* ---------- Monograph builder ---------- */
-function selected(group){return $$(group+' input[type="checkbox"]:checked').map(x=>x.value)}
-function makeRequest(){
- const templates=selected('#templates');
- const lines=[
- 'Topic: '+($('#topic').value.trim()||'Topic not specified'),
- 'Templates: '+(templates.join('; ')||'Comprehensive review'),
- 'Target Language: '+$('#globalLang').selectedOptions[0].textContent,
- 'Detail Level: '+$('#detail').value,
- 'Citations: '+$('#citation').value,
- 'Instructions: '+($('#question').value.trim()||'None'),
- $('#signature').value.trim()?'Signature: '+$('#signature').value.trim():''
- ].filter(Boolean);
- return lines.join('\n');
-}
-$('#build').addEventListener('click',()=>setOut($('#preview'),makeRequest()));
-$('#runResearchAI').addEventListener('click',async()=>{
-  const topic=$('#topic').value.trim();
-  if(topic.length<2){$('#topic').focus();return;}
-  const btn=$('#runResearchAI'), st=$('#state'); btn.disabled=true; setOut(st,t('stWorking'));
-  try{
-    const data=await post('/api/research',{topic,instructions:makeRequest(),language:currentLang()});
-    setOut($('#preview'),data.result);
-    setOut(st,t('stDone')+' ('+data.model+')');
-  }catch(e){ setOut(st,errText(e)); }
-  finally{btn.disabled=false;}
-});
-
-function copyText(text){if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).catch(()=>fallbackCopy(text))}else fallbackCopy(text)}
-function fallbackCopy(text){const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove()}
-function downloadText(text,filename){const blob=new Blob(['\ufeff'+text],{type:'text/plain;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
-
-$('#copy').addEventListener('click',()=>copyText($('#preview').textContent));
-$('#download').addEventListener('click',()=>downloadText($('#preview').textContent,'hakim_monograph.txt'));
-$('#print').addEventListener('click',()=>window.print());
-$('#reset').addEventListener('click',()=>{$('#topic').value='';$('#question').value='';resetOut($('#preview'),'buildOutInit');resetOut($('#state'),'stateReady');});
-
-/* ---------- Imaging ---------- */
-function shrinkImage(dataUrl,maxSide=1600,quality=0.88){
-  return new Promise(resolve=>{
-    const im=new Image();
-    im.onload=()=>{
-      try{
-        const sc=Math.min(1,maxSide/Math.max(im.width,im.height));
-        if(sc>=1 && dataUrl.length<1.5*1024*1024) return resolve(dataUrl);
-        const c=document.createElement('canvas'); c.width=Math.round(im.width*sc); c.height=Math.round(im.height*sc);
-        c.getContext('2d').drawImage(im,0,0,c.width,c.height);
-        resolve(c.toDataURL('image/jpeg',quality));
-      }catch(e){resolve(dataUrl);}
-    };
-    im.onerror=()=>resolve(dataUrl);
-    im.src=dataUrl;
-  });
-}
-let selectedImageDataUrls = [];
-$('#pickImages').addEventListener('click',()=>$('#imagingFiles').click());
-$('#imagingFiles').addEventListener('change', async (e) => {
-  const files = Array.from(e.target.files || []).slice(0, 4);
-  selectedImageDataUrls = [];
-  const listEl = $('#imagingFileList'), thumbsEl = $('#imagingThumbs');
-  thumbsEl.replaceChildren();
-  if (!files.length) { resetOut(listEl,'imgNoFiles'); return; }
-  setOut(listEl, files.map(f => `• ${f.name} — ${(f.size/1024).toFixed(1)} KB`).join('\n'));
-  for (const file of files) {
-    const dataUrl = await new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = () => resolve(null);
-      reader.readAsDataURL(file);
-    });
-    if (typeof dataUrl === 'string' && dataUrl.startsWith('data:image/')) {
-      const small = await shrinkImage(dataUrl);
-      selectedImageDataUrls.push(small);
-      const img = document.createElement('img');
-      img.src = small; img.alt = file.name;
-      thumbsEl.appendChild(img);
-    }
-  }
-});
-
-$('#analyzeImagesBtn').addEventListener('click', async () => {
-  const statusEl = $('#imagingVisionStatus');
-  if (!selectedImageDataUrls.length) { statusEl.textContent = t('imgNoFiles'); return; }
-  if (!$('#imagingConsent').checked) { statusEl.textContent = t('stConsent'); return; }
-  const btn = $('#analyzeImagesBtn');
-  btn.disabled = true;
-  statusEl.textContent = t('stWorking');
-  const context = [
-    'Modality: ' + $('#imagingType').value,
-    'Region: ' + ($('#imagingRegion').value.trim() || 'Unspecified'),
-    'Clinical Context: ' + ($('#clinicalContextImaging').value.trim() || 'Unspecified')
-  ].join(' | ');
-  try {
-    const data = await post('/api/imaging-analyze', { images: selectedImageDataUrls, context, language: currentLang() });
-    setOut($('#imagingOutput'), data.result);
-    statusEl.textContent = t('stDone') + ' (' + data.model + ').';
-  } catch (err) {
-    statusEl.textContent = errText(err);
-  } finally { btn.disabled = false; }
-});
-
-function makeImagingText(){
-  return ['Modality: '+$('#imagingType').value,'Region: '+($('#imagingRegion').value.trim()||'Unspecified'),'Context: '+($('#clinicalContextImaging').value.trim()||'None'),'Radiologist Report:\n'+($('#radiologistReport').value.trim()||'None'),'Notes:\n'+($('#aiObservations').value.trim()||'None')].join('\n');
-}
-$('#buildImaging').addEventListener('click',()=>setOut($('#imagingOutput'),makeImagingText()));
-$('#copyImaging').addEventListener('click',()=>copyText($('#imagingOutput').textContent));
-$('#downloadImaging').addEventListener('click',()=>downloadText($('#imagingOutput').textContent,'imaging_review.txt'));
-
-/* ---------- Clinical ---------- */
-function makeClinicalText(){
-  const flags=$$('.redflag:checked').map(x=>x.value);
-  return ['Age Group: '+$('#clinicalAge').value,'Setting: '+$('#clinicalSetting').value,'Chief Complaint: '+($('#chiefComplaint').value.trim()||'Unspecified'),'Duration: '+$('#symptomDuration').value,'Goal: '+$('#clinicalGoal').value,'Symptoms: '+($('#symptoms').value.trim()||'None'),'History & Meds: '+($('#historyMeds').value.trim()||'None'),'Labs: '+($('#labValues').value.trim()||'None'),'Red Flags: '+(flags.join('; ')||'None')].join('\n');
-}
-$('#buildClinical').addEventListener('click',()=>setOut($('#clinicalOutput'),makeClinicalText()));
-$('#copyClinical').addEventListener('click',()=>copyText($('#clinicalOutput').textContent));
-$('#downloadClinical').addEventListener('click',()=>downloadText($('#clinicalOutput').textContent,'clinical_summary.txt'));
-$('#clearClinical').addEventListener('click',()=>{['chiefComplaint','symptoms','historyMeds','labValues'].forEach(id=>$('#'+id).value='');$$('.redflag').forEach(x=>x.checked=false);resetOut($('#clinicalOutput'),'clinOutInit');});
-
-/* ---------- Lecture ---------- */
-function youtubeId(raw){try{const u=new URL(raw);if(u.hostname==='youtu.be')return u.pathname.slice(1).split('/')[0];if(u.hostname.endsWith('youtube.com')){if(u.pathname==='/watch')return u.searchParams.get('v');const m=u.pathname.match(/^\/(embed|shorts|live)\/([^/?]+)/);return m?m[2]:null}}catch(e){}return null}
-$('#openLecture').addEventListener('click',()=>{const id=youtubeId($('#lectureUrl').value.trim());if(!id)return;window.open('https://www.youtube.com/watch?v='+encodeURIComponent(id),'_blank','noopener')});
-$('#embedLecture').addEventListener('click',()=>{
-  const id=youtubeId($('#lectureUrl').value.trim()), box=$('#lectureEmbed');
-  if(!id){resetOut(box,'lecEmbedHint');return}
-  box.textContent='';box.dataset.dirty='1';
-  const iframe=document.createElement('iframe');iframe.src='https://www.youtube-nocookie.com/embed/'+encodeURIComponent(id);iframe.allowFullscreen=true;box.appendChild(iframe);
-});
-function makeLectureText(){const tasks=$$('.lectureTask:checked').map(x=>x.value);return ['URL: '+($('#lectureUrl').value.trim()||'None'),'Tasks: '+tasks.join('; '),'Transcript:\n'+($('#lectureTranscript').value.trim()||'None')].join('\n');}
-$('#buildLecture').addEventListener('click',()=>setOut($('#lectureOutput'),makeLectureText()));
-$('#copyLecture').addEventListener('click',()=>copyText($('#lectureOutput').textContent));
-$('#downloadLecture').addEventListener('click',()=>downloadText($('#lectureOutput').textContent,'lecture_notes.txt'));
-
-/* ---------- AI bridge buttons ---------- */
-(function(){
- const configs = [
-  {id:'clinical-lab', btnId:'bridge-clinical-lab', btnKey:'bridgeClinBtn', out:'clinicalOutput', endpoint:'/api/clinical', builder:makeClinicalText},
-  {id:'imaging-lab', btnId:'bridge-imaging-lab', btnKey:'bridgeImgBtn', out:'imagingOutput', endpoint:'/api/imaging-compare', builder:makeImagingText},
-  {id:'lecture-lab', btnId:'bridge-lecture-lab', btnKey:'bridgeLecBtn', out:'lectureOutput', endpoint:'/api/lecture', builder:makeLectureText}
- ];
- configs.forEach(c => {
-  const section=document.getElementById(c.id), output=document.getElementById(c.out); if(!section||!output)return;
-  const bar=document.createElement('div');bar.className='engine-bar';
-  const btn=document.createElement('button');btn.type='button';btn.id=c.btnId;btn.className='btn primary';btn.textContent=t(c.btnKey);
-  const status=document.createElement('span');status.className='engine-status bridge-hint-text';status.textContent=t('bridgeHint');
-  bar.append(btn,status);output.parentNode.insertBefore(bar,output);
-  btn.addEventListener('click',async()=>{
-   setOut(output,c.builder());
-   btn.disabled=true;setOut(status,t('stWorking'));
-   try{
-    const data=await post(c.endpoint,{text:output.textContent, language: currentLang()});
-    setOut(output,data.result||'');
-    setOut(status,t('stDone')+' ('+data.model+').');
-   }catch(e){setOut(status,errText(e));}
-   finally{btn.disabled=false;}
-  });
- });
-})();
-
-/* ---------- Literature search ---------- */
-(function(){
- const q=$('#literatureQuery'), src=$('#literatureSource'), count=$('#literatureCount'), oa=$('#literatureOA');
- const status=$('#literatureStatus'), results=$('#literatureResults'), button=$('#searchLiterature');
- function el(tag, cls, text, key){const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;if(key)n.setAttribute('data-i18n',key);return n;}
-
- async function translateCard(text, summarize, btn, outBox){
-   btn.disabled = true;
-   outBox.style.display = 'block';
-   outBox.textContent = t('stWorking');
-   try {
-     const data = await post('/api/translate', { text, target_language: currentLang(), summarize });
-     outBox.textContent = data.result;
-   } catch (err) {
-     outBox.textContent = errText(err);
-   } finally { btn.disabled = false; }
- }
-
- function showItem(item,index){
-  const card=el('article','literature-card');
-  card.appendChild(el('h3',null,(index+1)+'. '+item.title));
-  card.lastChild.dir='auto';
-  if(item.authors) card.appendChild(el('p','literature-meta',item.authors));
-  if(item.journal || item.year) card.appendChild(el('p','literature-meta',[item.journal, item.year, item.pmid?'PMID: '+item.pmid:'', item.doi?'DOI: '+item.doi:''].filter(Boolean).join(' | ')));
-  const contentToTranslate = item.abstract ? (item.title + '\n\n' + item.abstract) : item.title;
-  if(item.abstract){ const p=el('p',null,item.abstract); p.dir='auto'; card.appendChild(p); }
-
-  const actionRow = el('div','btns');
-  const tBtn = el('button','btn secondary', t('translateBtn'), 'translateBtn');
-  const sBtn = el('button','btn gold', t('sumBtn'), 'sumBtn');
-  const outBox = el('div','translated-box'); outBox.dir='auto';
-  outBox.style.display = 'none';
-  tBtn.addEventListener('click', () => translateCard(contentToTranslate, false, tBtn, outBox));
-  sBtn.addEventListener('click', () => translateCard(contentToTranslate, true, sBtn, outBox));
-  actionRow.append(tBtn, sBtn);
-  card.appendChild(actionRow);
-  card.appendChild(outBox);
-
-  if(item.url){
-   const link=el('a',null,t('openSourceLink'),'openSourceLink');
-   link.href=item.url;link.target='_blank';link.rel='noopener noreferrer';
-   link.style.display='inline-block';link.style.marginTop='10px';
-   card.appendChild(link);
-  }
-  return card;
- }
-
- async function run(){
-  const query=q.value.trim();if(query.length<2){q.focus();return;}
-  button.disabled=true;results.replaceChildren();setOut(status,t('stSearching'));
-  try{
-   const endpoint = src.value === 'pubmed' ? '/api/pubmed-search' : '/api/literature-search';
-   const params=new URLSearchParams({q:query,page_size:count.value,open_access_only:String(oa.checked)});
-   const data=await api(endpoint+'?'+params.toString(),{headers:{'Accept':'application/json'}});
-   const eq=t('stQuery')+': '+(data.effective_query||query);
-   if(!data.results||!data.results.length){setOut(status,t('stNoRes')+' | '+eq);return;}
-   setOut(status,t('stHitsFmt',{n:data.hit_count,m:data.returned})+' | '+eq);
-   data.results.forEach((item,i)=>results.appendChild(showItem(item,i)));
-  }catch(error){setOut(status,errText(error));}
-  finally{button.disabled=false;}
- }
- button.addEventListener('click',run);q.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();run();}});
- $('#clearLiterature').addEventListener('click',()=>{q.value='';results.replaceChildren();resetOut(status,'litStatusInit');oa.checked=false;});
-})();
-
-/* ---------- Init ---------- */
-initLang();
-applyUILanguage();
-</script>
-</body>
-</html>
+const I18N_EXTRA={"ar": {"namesLabel": "أسماء المادة في الترويسة (تُعبّأ تلقائياً ويمكن تعديلها)", "nameArPh": "الاسم العربي، مثل: حبة البركة", "nameEnPh": "الاسم الإنجليزي، مثل: Black Seed", "nameLatinPh": "الاسم العلمي، مثل: Nigella sativa L.", "identifyBtn": "🔎 تحديد الأسماء تلقائياً", "identifyOk": "تم التحقق من الاسم العلمي عبر GBIF — الفصيلة: {family}", "identifyUnverified": "لم يتمكن GBIF من تأكيد الاسم العلمي؛ راجعه وعدّله يدوياً عند الحاجة.", "monoOALabel": "المصادر مفتوحة الوصول فقط", "srcAll": "كل المصادر المجانية الموثوقة (مدمج)", "srcOpenAlex": "OpenAlex", "srcTrials": "ClinicalTrials.gov (التجارب المسجلة)", "lhSummary": "⚙️ الترويسة والطباعة", "lhModeLabel": "نوع الترويسة", "lhHakim": "ترويسة حكيم (ANEMONE SLN)", "lhCustom": "ترويستي الخاصة: شعاري واسمي وتفاصيلي", "lhBlank": "ورقي المروّس جاهز: اترك مساحة فارغة للترويسة", "lhLogoBtn": "اختيار الشعار", "lhLogoClear": "إزالة الشعار", "lhOrgPh": "اسم الجهة أو العيادة أو المعشبة", "lhDetPh": "تفاصيل تحت الاسم (عنوان، هاتف، بريد، ترخيص…) كل سطر على حدة", "lhShowNames": "إظهار أسماء المادة (عربي/علمي/إنجليزي) في الترويسة", "lhMTop": "الهامش العلوي (سم)", "lhMBottom": "الهامش السفلي (سم)", "lhBlankHint": "لن تُطبع ترويسة؛ سيُترك {top} سم من الأعلى و{bottom} سم من الأسفل لتناسب ورقك المروّس.", "lhPagesLabel": "ظهور الترويسة", "lhEvery": "كل صفحة", "lhFirst": "الصفحة الأولى فقط", "lhSig": "إظهار التوقيع في أسفل كل صفحة", "lhPaper": "حجم الورق", "printTip": "عند الطباعة اختر «حفظ بصيغة PDF»؛ وإن لم تظهر ألوان الترويسة فعّل «رسومات الخلفية».", "printNeedDoc": "أنشئ المونوغراف أولاً ثم اضغط طباعة.", "metaRetrieved": "تاريخ جمع الأدلة", "metaSources": "المصادر", "metaRetracted": "مقالات مسحوبة مستبعدة", "refsHeading": "المراجع (المسترجعة فعلاً من المصادر)", "printDisclaimer": "للأغراض التعليمية والبحثية فقط، ولا يغني عن استشارة مختص مرخّص. صيغ المحتوى بمساعدة الذكاء الاصطناعي من سجلات مسترجعة؛ راجع المصادر الأصلية قبل الاعتماد عليه.", "clinGroundLabel": "ربط التحليل بالدراسات المنشورة (Europe PMC وPubMed وOpenAlex)", "stRetrieving": "جارٍ جمع الأدلة من المصادر ثم كتابة المونوغراف… قد يستغرق ذلك دقيقة.", "stMonoDone": "اكتمل ({model}) — {n} مرجعاً من {m} مصادر", "citedBy": "استشهادات: {n}"}, "en": {"namesLabel": "Names shown in the letterhead (auto-filled, editable)", "nameArPh": "Arabic name, e.g. حبة البركة", "nameEnPh": "English name, e.g. Black Seed", "nameLatinPh": "Scientific name, e.g. Nigella sativa L.", "identifyBtn": "🔎 Identify names automatically", "identifyOk": "Scientific name verified with GBIF — family: {family}", "identifyUnverified": "GBIF could not confirm the scientific name; please review and edit it if needed.", "monoOALabel": "Open Access sources only", "srcAll": "All free trusted sources (merged)", "srcOpenAlex": "OpenAlex", "srcTrials": "ClinicalTrials.gov (registered trials)", "lhSummary": "⚙️ Letterhead & printing", "lhModeLabel": "Letterhead type", "lhHakim": "HAKIM letterhead (ANEMONE SLN)", "lhCustom": "My own letterhead: my logo, name and details", "lhBlank": "I print on my pre-printed letterhead paper: leave blank space", "lhLogoBtn": "Choose logo", "lhLogoClear": "Remove logo", "lhOrgPh": "Organization / clinic / herbarium name", "lhDetPh": "Details under the name (address, phone, email, license…) one per line", "lhShowNames": "Show the substance names (Arabic/scientific/English) in the letterhead", "lhMTop": "Top margin (cm)", "lhMBottom": "Bottom margin (cm)", "lhBlankHint": "No letterhead will be printed; {top} cm at the top and {bottom} cm at the bottom are left empty for your own paper.", "lhPagesLabel": "Letterhead appears on", "lhEvery": "every page", "lhFirst": "first page only", "lhSig": "Show the signature at the bottom of every page", "lhPaper": "Paper size", "printTip": "When printing choose “Save as PDF”; if the letterhead colours are missing, enable “Background graphics”.", "printNeedDoc": "Generate the monograph first, then print.", "metaRetrieved": "Evidence retrieved", "metaSources": "Sources", "metaRetracted": "Retracted papers excluded", "refsHeading": "References (actually retrieved from the sources)", "printDisclaimer": "For educational and research use only; not a substitute for a licensed professional. Content was drafted by AI from retrieved records; check the original sources before relying on it.", "clinGroundLabel": "Ground the analysis in published studies (Europe PMC, PubMed, OpenAlex)", "stRetrieving": "Collecting evidence from the sources, then writing the monograph… this may take a minute.", "stMonoDone": "Completed ({model}) — {n} references from {m} sources", "citedBy": "Cited by: {n}"}, "he": {"namesLabel": "שמות החומר בכותרת המסמך (ממולאים אוטומטית וניתנים לעריכה)", "nameArPh": "שם בערבית, למשל: حبة البركة", "nameEnPh": "שם באנגלית, למשל: Black Seed", "nameLatinPh": "שם מדעי, למשל: Nigella sativa L.", "identifyBtn": "🔎 זיהוי שמות אוטומטי", "identifyOk": "השם המדעי אומת מול GBIF — משפחה: {family}", "identifyUnverified": "GBIF לא הצליח לאשר את השם המדעי; בדקו ותקנו לפי הצורך.", "monoOALabel": "מקורות בגישה פתוחה בלבד", "srcAll": "כל המקורות החינמיים והאמינים (משולב)", "srcOpenAlex": "OpenAlex", "srcTrials": "ClinicalTrials.gov (ניסויים רשומים)", "lhSummary": "⚙️ כותרת מסמך והדפסה", "lhModeLabel": "סוג הכותרת", "lhHakim": "כותרת HAKIM (ANEMONE SLN)", "lhCustom": "הכותרת שלי: לוגו, שם ופרטים", "lhBlank": "אני מדפיס/ה על נייר לוגו מוכן: השאירו מקום ריק", "lhLogoBtn": "בחירת לוגו", "lhLogoClear": "הסרת הלוגו", "lhOrgPh": "שם הארגון / המרפאה", "lhDetPh": "פרטים מתחת לשם (כתובת, טלפון, דוא״ל, רישיון…) כל שורה בנפרד", "lhShowNames": "הצגת שמות החומר (ערבית/מדעי/אנגלית) בכותרת", "lhMTop": "שוליים עליונים (ס״מ)", "lhMBottom": "שוליים תחתונים (ס״מ)", "lhBlankHint": "לא תודפס כותרת; יושארו {top} ס״מ למעלה ו-{bottom} ס״מ למטה לנייר שלכם.", "lhPagesLabel": "הצגת הכותרת", "lhEvery": "כל עמוד", "lhFirst": "העמוד הראשון בלבד", "lhSig": "הצגת החתימה בתחתית כל עמוד", "lhPaper": "גודל נייר", "printTip": "בהדפסה בחרו «שמירה כ-PDF»; אם צבעי הכותרת חסרים, הפעילו «גרפיקת רקע».", "printNeedDoc": "צרו תחילה את המונוגרפיה ואז הדפיסו.", "metaRetrieved": "מועד איסוף הראיות", "metaSources": "מקורות", "metaRetracted": "מאמרים שנסוגו הוצאו", "refsHeading": "מקורות (שאוחזרו בפועל)", "printDisclaimer": "למטרות לימוד ומחקר בלבד; אינו תחליף לייעוץ של איש מקצוע מוסמך. התוכן נכתב בסיוע בינה מלאכותית מתוך רשומות שאוחזרו; בדקו את המקורות המקוריים.", "clinGroundLabel": "ביסוס הניתוח על מחקרים שפורסמו (Europe PMC, PubMed, OpenAlex)", "stRetrieving": "אוספים ראיות מהמקורות ואז כותבים את המונוגרפיה… ייתכן שייקח דקה.", "stMonoDone": "הושלם ({model}) — {n} מקורות מתוך {m} מאגרים", "citedBy": "ציטוטים: {n}"}, "de": {"namesLabel": "Namen im Briefkopf (automatisch ausgefüllt, bearbeitbar)", "nameArPh": "Arabischer Name, z. B. حبة البركة", "nameEnPh": "Englischer Name, z. B. Black Seed", "nameLatinPh": "Wissenschaftlicher Name, z. B. Nigella sativa L.", "identifyBtn": "🔎 Namen automatisch bestimmen", "identifyOk": "Wissenschaftlicher Name mit GBIF bestätigt — Familie: {family}", "identifyUnverified": "GBIF konnte den wissenschaftlichen Namen nicht bestätigen; bitte prüfen und ggf. anpassen.", "monoOALabel": "Nur Open-Access-Quellen", "srcAll": "Alle kostenlosen, verlässlichen Quellen (zusammengeführt)", "srcOpenAlex": "OpenAlex", "srcTrials": "ClinicalTrials.gov (registrierte Studien)", "lhSummary": "⚙️ Briefkopf & Druck", "lhModeLabel": "Art des Briefkopfs", "lhHakim": "HAKIM-Briefkopf (ANEMONE SLN)", "lhCustom": "Eigener Briefkopf: Logo, Name und Angaben", "lhBlank": "Ich drucke auf vorgedrucktes Briefpapier: Platz freilassen", "lhLogoBtn": "Logo wählen", "lhLogoClear": "Logo entfernen", "lhOrgPh": "Name der Organisation / Praxis", "lhDetPh": "Angaben unter dem Namen (Adresse, Telefon, E-Mail, Lizenz …), je Zeile eine", "lhShowNames": "Namen der Substanz (Arabisch/wissenschaftlich/Englisch) im Briefkopf zeigen", "lhMTop": "Oberer Rand (cm)", "lhMBottom": "Unterer Rand (cm)", "lhBlankHint": "Es wird kein Briefkopf gedruckt; oben {top} cm und unten {bottom} cm bleiben für Ihr Papier frei.", "lhPagesLabel": "Briefkopf erscheint auf", "lhEvery": "jeder Seite", "lhFirst": "nur der ersten Seite", "lhSig": "Signatur am Ende jeder Seite zeigen", "lhPaper": "Papierformat", "printTip": "Beim Drucken „Als PDF speichern“ wählen; fehlen die Farben, „Hintergrundgrafiken“ aktivieren.", "printNeedDoc": "Erstellen Sie zuerst die Monographie und drucken Sie dann.", "metaRetrieved": "Evidenz abgerufen am", "metaSources": "Quellen", "metaRetracted": "Zurückgezogene Arbeiten ausgeschlossen", "refsHeading": "Quellen (tatsächlich abgerufen)", "printDisclaimer": "Nur für Lehr- und Forschungszwecke; kein Ersatz für fachliche Beratung. Der Inhalt wurde von KI aus abgerufenen Datensätzen entworfen; prüfen Sie die Originalquellen.", "clinGroundLabel": "Analyse mit veröffentlichten Studien belegen (Europe PMC, PubMed, OpenAlex)", "stRetrieving": "Evidenz wird gesammelt und die Monographie geschrieben … das kann eine Minute dauern.", "stMonoDone": "Abgeschlossen ({model}) — {n} Quellen aus {m} Datenbanken", "citedBy": "Zitiert: {n}"}, "fr": {"namesLabel": "Noms affichés dans l’en-tête (remplis automatiquement, modifiables)", "nameArPh": "Nom arabe, ex. حبة البركة", "nameEnPh": "Nom anglais, ex. Black Seed", "nameLatinPh": "Nom scientifique, ex. Nigella sativa L.", "identifyBtn": "🔎 Identifier les noms automatiquement", "identifyOk": "Nom scientifique vérifié avec GBIF — famille : {family}", "identifyUnverified": "GBIF n’a pas pu confirmer le nom scientifique ; vérifiez-le et corrigez-le si besoin.", "monoOALabel": "Sources en libre accès uniquement", "srcAll": "Toutes les sources gratuites fiables (fusionnées)", "srcOpenAlex": "OpenAlex", "srcTrials": "ClinicalTrials.gov (essais enregistrés)", "lhSummary": "⚙️ En-tête et impression", "lhModeLabel": "Type d’en-tête", "lhHakim": "En-tête HAKIM (ANEMONE SLN)", "lhCustom": "Mon propre en-tête : logo, nom et coordonnées", "lhBlank": "J’imprime sur papier à en-tête : laisser un espace vide", "lhLogoBtn": "Choisir le logo", "lhLogoClear": "Retirer le logo", "lhOrgPh": "Nom de l’organisme / du cabinet", "lhDetPh": "Détails sous le nom (adresse, téléphone, e-mail, licence…), un par ligne", "lhShowNames": "Afficher les noms de la substance (arabe/scientifique/anglais) dans l’en-tête", "lhMTop": "Marge haute (cm)", "lhMBottom": "Marge basse (cm)", "lhBlankHint": "Aucun en-tête ne sera imprimé ; {top} cm en haut et {bottom} cm en bas restent libres pour votre papier.", "lhPagesLabel": "L’en-tête apparaît sur", "lhEvery": "chaque page", "lhFirst": "la première page seulement", "lhSig": "Afficher la signature en bas de chaque page", "lhPaper": "Format du papier", "printTip": "À l’impression, choisissez « Enregistrer en PDF » ; si les couleurs manquent, activez « Graphiques d’arrière-plan ».", "printNeedDoc": "Générez d’abord la monographie, puis imprimez.", "metaRetrieved": "Preuves récupérées le", "metaSources": "Sources", "metaRetracted": "Articles rétractés exclus", "refsHeading": "Références (réellement récupérées)", "printDisclaimer": "À usage pédagogique et de recherche uniquement ; ne remplace pas un professionnel agréé. Contenu rédigé par IA à partir de notices récupérées ; vérifiez les sources originales.", "clinGroundLabel": "Appuyer l’analyse sur les études publiées (Europe PMC, PubMed, OpenAlex)", "stRetrieving": "Collecte des preuves puis rédaction de la monographie… cela peut prendre une minute.", "stMonoDone": "Terminé ({model}) — {n} références issues de {m} sources", "citedBy": "Cité : {n}"}, "es": {"namesLabel": "Nombres en el membrete (se rellenan solos, editables)", "nameArPh": "Nombre en árabe, p. ej. حبة البركة", "nameEnPh": "Nombre en inglés, p. ej. Black Seed", "nameLatinPh": "Nombre científico, p. ej. Nigella sativa L.", "identifyBtn": "🔎 Identificar nombres automáticamente", "identifyOk": "Nombre científico verificado con GBIF — familia: {family}", "identifyUnverified": "GBIF no pudo confirmar el nombre científico; revíselo y edítelo si es necesario.", "monoOALabel": "Solo fuentes de acceso abierto", "srcAll": "Todas las fuentes gratuitas fiables (combinadas)", "srcOpenAlex": "OpenAlex", "srcTrials": "ClinicalTrials.gov (ensayos registrados)", "lhSummary": "⚙️ Membrete e impresión", "lhModeLabel": "Tipo de membrete", "lhHakim": "Membrete HAKIM (ANEMONE SLN)", "lhCustom": "Mi propio membrete: logotipo, nombre y datos", "lhBlank": "Imprimo en papel con membrete: dejar espacio en blanco", "lhLogoBtn": "Elegir logotipo", "lhLogoClear": "Quitar logotipo", "lhOrgPh": "Nombre de la organización / clínica", "lhDetPh": "Datos bajo el nombre (dirección, teléfono, correo, licencia…), uno por línea", "lhShowNames": "Mostrar los nombres de la sustancia (árabe/científico/inglés) en el membrete", "lhMTop": "Margen superior (cm)", "lhMBottom": "Margen inferior (cm)", "lhBlankHint": "No se imprimirá membrete; se dejan {top} cm arriba y {bottom} cm abajo para su papel.", "lhPagesLabel": "El membrete aparece en", "lhEvery": "cada página", "lhFirst": "solo la primera página", "lhSig": "Mostrar la firma al pie de cada página", "lhPaper": "Tamaño del papel", "printTip": "Al imprimir elija «Guardar como PDF»; si faltan los colores, active «Gráficos de fondo».", "printNeedDoc": "Genere primero la monografía y luego imprima.", "metaRetrieved": "Evidencia recuperada el", "metaSources": "Fuentes", "metaRetracted": "Artículos retractados excluidos", "refsHeading": "Referencias (realmente recuperadas)", "printDisclaimer": "Solo para uso educativo y de investigación; no sustituye a un profesional titulado. Contenido redactado por IA a parti
