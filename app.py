@@ -1,3 +1,4 @@
+# HAKIM server 1.5.2 — serves hakim-ui.html (falls back to index.html)
 from __future__ import annotations
 import base64
 import json
@@ -19,10 +20,19 @@ from google import genai
 from google.genai import types
 
 BASE_DIR = Path(__file__).resolve().parent
-INDEX_FILE = BASE_DIR / "index.html"
+
+
+def _ui_file() -> Path:
+    """The web page to serve: hakim-ui.html (unique name, preferred) or the old index.html."""
+    for name in ("hakim-ui.html", "index.html"):
+        p = BASE_DIR / name
+        if p.is_file():
+            return p
+    return BASE_DIR / "index.html"
+
 load_dotenv(BASE_DIR / ".env")
 
-app = FastAPI(title="HAKIM Medical & Scientific Agent API", version="1.5.0-gemini-6lang-evidence")
+app = FastAPI(title="HAKIM Medical & Scientific Agent API", version="1.5.2-gemini-6lang-evidence")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -266,16 +276,19 @@ def _pubmed_term(groups: list[list[str]], open_access_only: bool) -> str:
 
 def _index_info() -> dict:
     try:
-        stat = INDEX_FILE.stat()
-        text = INDEX_FILE.read_text(encoding="utf-8", errors="ignore")
+        f = _ui_file()
+        stat = f.stat()
+        text = f.read_text(encoding="utf-8", errors="ignore")
         return {
-            "path": str(INDEX_FILE),
+            "path": str(f),
+            "file": f.name,
             "exists": True,
             "size_bytes": stat.st_size,
             "i18n_build": "pickImages" in text and "applyUILanguage" in text,
+            "ui_version": (re.search(r'hakim-ui-version" content="([^"]+)"', text) or [None, ""])[1],
         }
     except OSError:
-        return {"path": str(INDEX_FILE), "exists": False, "size_bytes": 0, "i18n_build": False}
+        return {"path": str(_ui_file()), "file": _ui_file().name, "exists": False, "size_bytes": 0, "i18n_build": False}
 
 @app.on_event("startup")
 def _log_startup():
@@ -409,13 +422,14 @@ def doi_metadata(doi: str = Query(..., min_length=6, max_length=250)):
     }
 
 def _serve_index():
-    if not INDEX_FILE.is_file():
+    f = _ui_file()
+    if not f.is_file():
         return JSONResponse(
             status_code=500,
-            content={"detail": "index.html not found next to app.py."},
+            content={"detail": "hakim-ui.html / index.html not found next to app.py."},
             headers=NO_CACHE_HEADERS,
         )
-    return FileResponse(INDEX_FILE, media_type="text/html; charset=utf-8", headers=NO_CACHE_HEADERS)
+    return FileResponse(f, media_type="text/html; charset=utf-8", headers=NO_CACHE_HEADERS)
 
 @app.api_route("/", methods=["GET", "HEAD"], include_in_schema=False)
 def home():
