@@ -7,6 +7,9 @@ import os
 import re
 import time
 from pathlib import Path
+from html import unescape
+from html.parser import HTMLParser
+from typing import Literal
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode, quote
 from urllib.request import Request, urlopen
@@ -439,6 +442,37 @@ def home():
 def home_index():
     return _serve_index()
 
+class _AbstractTextParser(HTMLParser):
+    """Convert Europe PMC abstract markup into readable plain text."""
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.parts = []
+        self.suppressed = 0
+
+    def handle_data(self, data):
+        if not self.suppressed:
+            self.parts.append(data)
+
+    def handle_starttag(self, tag, attrs):
+        if tag in ("script", "style"):
+            self.suppressed += 1
+        elif not self.suppressed and tag in ("p", "br", "div", "li", "h1", "h2", "h3", "h4", "h5", "h6"):
+            self.parts.append(" ")
+
+    def handle_endtag(self, tag):
+        if tag in ("script", "style"):
+            self.suppressed = max(0, self.suppressed - 1)
+        elif not self.suppressed and tag in ("p", "div", "li", "h1", "h2", "h3", "h4", "h5", "h6"):
+            self.parts.append(" ")
+
+
+def clean_abstract(value: str) -> str:
+    parser = _AbstractTextParser()
+    parser.feed(value or "")
+    parser.close()
+    return " ".join(unescape("".join(parser.parts)).split())
+
+
 @app.get("/api/literature-search")
 def literature_search(
     q: str = Query(..., min_length=2, max_length=1000),
@@ -485,6 +519,13 @@ def literature_search(
         elif doi:
             article_url = f"https://doi.org/{doi}"
         else:
+            article_url = "https://europepmc.org/search?query=" + quote(query)
+        abstract = clean_abstract(item.get("abstractText") or "")
+        results.append({
+            "title": item.get("title") or "عنوان غير متاح",
+            "authors": item.get("authorString") or "المؤلفون غير متاحين في سجل الفهرسة",
+            "journal": item.get("journalTitle") or ((item.get("journalInfo") or {}).get("journal") or {}).get("title") or "المجلة غير محددة",
+            "year": item.get("pubYear") or "السنة غير محددة",
             article_url = "https://europepmc.org/search?query=" + quote(effective_query)
         abstract = " ".join((item.get("abstractText") or "").split())
         results.append({
